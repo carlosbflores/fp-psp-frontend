@@ -72,7 +72,7 @@ export default Mn.View.extend({
         FlashesService.request('add', {
           timeout: 3000,
           type: 'info',
-          title: "Hub created successfully"
+          title: t('hub.form.add-success')
         });
       })
       .catch(response => {
@@ -80,7 +80,7 @@ export default Mn.View.extend({
           FlashesService.request('add', {
             timeout: 3000,
             type: 'danger',
-            title: response.responseJSON.message
+            title: t('hub.form.add-failed')
           });
         }
         button.reset();

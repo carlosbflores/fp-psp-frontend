@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card-title">
-              <h4> Add a Hub
+              <h4> {{$t 'hub.form.add-title'}}
                 <img class="pull-right" src="/static/images/icon_more.png">
               </h4>
             </div>
@@ -16,7 +16,7 @@
           <div class="col-md-12">
             <div class="margin-tb-35px" id="img-cam">
               <img id="image-logo" class="card-img-top img-responsive center-block select-file" src="/static/images/icon_camara.png" alt="" />
-              <p id="image-logo-text" class="text-center select-file">Click to upload a logo</p>
+              <p id="image-logo-text" class="text-center select-file">{{$t 'hub.form.logo-upload'}}</p>
               <div class="form-group">
                 <input value="{{application.image}}" id="input-image-file" type="file" class="form-control" name="image" style="display: none;">
               </div>
@@ -31,28 +31,32 @@
                   <strong>Attention! All the fields with * are mandatory</strong>
                 </div>
                 <div class="form-group">
-                  <input value="{{application.name}}" type="text" class="input-bg-gray form-control" name="name" value="" placeholder="Hub name" required>
+                  <input value="{{application.name}}" type="text" name="name" value="" placeholder="{{$t 'hub.form.name'}}"
+                         class="input-bg-gray form-control" required>
                 </div>
                 <div class="form-group">
-                  <input value="{{application.code}}" type="text" class="input-bg-gray form-control" name="code" placeholder="Code" required>
+                  <input value="{{application.code}}" type="text" name="code" placeholder="{{$t 'hub.form.code'}}"
+                         class="input-bg-gray form-control" required>
                 </div>
                 <div class="form-group">
-                  <input value="{{application.description}}" type="text" class="input-bg-gray form-control" name="description" placeholder="Description" required>
+                  <input value="{{application.description}}" type="text" name="description" placeholder="{{$t 'hub.form.description'}}"
+                         class="input-bg-gray form-control" required>
                 </div>
                 <div class="form-group">
-                  <input value="{{application.information}}" type="text" class="input-bg-gray form-control" name="information" placeholder="information" required>
+                  <input value="{{application.information}}" type="text" name="information" placeholder="{{$t 'hub.form.information'}}"
+                         class="input-bg-gray form-control" required>
                 </div>
 
                 <div class="form-group">
                   <div class="row">
                     <div class="col-sm-12">
-                      <button type="submit" name="register-submit" id="submit" class="btn" value="Save">ADD HUB</button>
+                      <button type="submit" name="register-submit" id="submit" class="btn" value="Save">{{$t 'hub.form.buttons.add'}}</button>
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="text-center">
-                    <a href="#applications" id="cancel" tabindex="5" class="">Cancel</a>
+                    <a href="#applications" id="cancel" tabindex="5" class="">{{$t 'hub.form.buttons.cancel'}}</a>
                   </div>
                 </div>
               </form>

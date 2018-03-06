@@ -181,6 +181,25 @@
   "hub": {
     "search": {
       "title": "Find a Hub"
+    },
+    "form": {
+      "add-title": "Add a Hub",
+      "edit-title": "Edit Hub",
+      "logo-upload": "Click to upload a logo",
+
+      "name": "Hub name",
+      "name-required": "Hub name is required",
+      "code": "Code",
+      "code-required": "Code is required",
+      "description": "Description",
+      "description-required": "Description is required",
+      "information": "Information",
+      "buttons": {
+        "add": "ADD HUB",
+        "cancel": "Cancel"
+      },
+      "add-success": "Hub created successfully",
+      "add-failed": "Hub already exist"
     }
   },
   "user": {

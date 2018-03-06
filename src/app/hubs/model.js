@@ -7,17 +7,17 @@ export default Bn.Model.extend({
     const errors = [];
 
     if (this.attributes.name === '') {
-      errors.push('Missing "Hubs name" field');
+      errors.push(t('hub.form.name-required'));
       return errors;
     }
 
     if (this.attributes.code === '') {
-      errors.push('Missing "Code" field');
+      errors.push(t('hub.form.code-required'));
       return errors;
     }
 
     if (this.attributes.description === '') {
-      errors.push('Missing "Description" field');
+      errors.push(t('hub.form.description-required'));
       return errors;
     }
 

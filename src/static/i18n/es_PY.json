@@ -181,6 +181,25 @@
   "hub": {
     "search": {
       "title": "Buscar un Hub"
+    },
+    "form": {
+      "add-title": "Agregar un Hub",
+      "edit-title": "Editar Hub",
+      "logo-upload": "Click para subir un logo",
+
+      "name": "Nombre hub",
+      "name-required": "Nombre del hub es requerido",
+      "code": "Código",
+      "code-required": "Código es requerido",
+      "description": "Descripción",
+      "description-required": "Descripción es requerida",
+      "information": "Información",
+      "buttons": {
+        "add": "AGREGAR HUB",
+        "cancel": "Cancelar"
+      },
+      "add-success": "Hub creado exitosamente",
+      "add-failed": "El Hub ya existe"
     }
   },
   "user": {
@@ -216,7 +235,7 @@
         "add": "AGREGAR USUARIO",
         "cancel": "Cancelar"
       },
-      "add-success": "Usuario agregado exitosamente",
+      "add-success": "Usuario creado exitosamente",
       "add-failed": "El usuario ya existe"
     }
   }
