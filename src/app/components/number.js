@@ -27,7 +27,7 @@ class NumberFormat extends React.Component {
         );
     }
 
-    parseNumber(value, locale = session.get('locale')?session.get('locale'):'es' ) {
+    parseNumber(value, locale = session.get('locale') ? session.get('locale').split("_",1) : 'es' ) {
 
         const example = Intl.NumberFormat(locale).format('1.1');      
         const cleanPattern = new RegExp(`[^-+0-9${ example.charAt( 1 ) }]`, 'g');
@@ -37,7 +37,7 @@ class NumberFormat extends React.Component {
         return parseFloat(normalized);
     }
 
-    prettyNumber(original, number, locale = session.get('locale')?session.get('locale'):'es') {
+    prettyNumber(original, number, locale = session.get('locale') ? session.get('locale').split("_",1) : 'es') {
 
         const example = Intl.NumberFormat(locale).format('1.1');
         const decimalSepartor = example.charAt(1);

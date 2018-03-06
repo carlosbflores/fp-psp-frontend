@@ -28,8 +28,7 @@ export default Mn.View.extend({
     this.model = this.props.model || new Model();
     this.app = this.props.app;
         
-    this.app.getSession().userHasRole('ROLE_ROOT') ? this.getApplications() : this.getOrganizations();     
-    console.log(this.model.attributes)
+    this.app.getSession().userHasRole('ROLE_ROOT') ? this.getApplications() : this.getOrganizations();
   },
   getApplications(){
     let self = this;
@@ -91,7 +90,7 @@ export default Mn.View.extend({
     this.startCodeMirror();
      setTimeout(() => {
        this.$el.find('#organization').select2({
-         placeholder: "Assign survey",
+         placeholder: t('survey.add.assign-survey-placeholder')
        });
        
        if(!$.isEmptyObject(this.model.attributes)){
@@ -163,7 +162,6 @@ export default Mn.View.extend({
       let organizationArray = [];
       let applicationArray = [];
 
-      console.log(this.app.getSession())
       if(!this.app.getSession().userHasRole('ROLE_ROOT')){
         $("#organization").val().forEach(element => {
           organizationArray.push(

@@ -212,7 +212,7 @@ export default Mn.View.extend({
     FlashesService.request('add', {
       timeout: 4000,
       type: 'info',
-      title: `Your snapshot was completed successfully. The family's code is ${this.props.model.attributes.family.code}`
+      title: t('survey.summary.messages.finish', {code: `${this.props.model.attributes.family.code}`} )
     });
   },
 

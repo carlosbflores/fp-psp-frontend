@@ -37,7 +37,7 @@ export default Marionette.View.extend({
     let html = Template();
     this.$el.html(html);
     let title = (this.options && this.options.indicatorName) || '';
-    this.$el.find('.title-blue').append(this.options.isAttainment ? `I'm proud of: ${title}` : title);
+    this.$el.find('.title-blue').append(this.options.isAttainment ? t('survey.priority.attainment', {title: `${title}`}) : title);
     this.$el.find('#modal-content').attr('data-id', this.options.dataId);
     let $fecha = this.$el.find('#datetimepicker');
     $fecha.datetimepicker({
@@ -47,7 +47,7 @@ export default Marionette.View.extend({
     });
     if (this.options.isAttainment) {
       this.$el.find('.forPriority').hide();
-      this.$el.find('#reasonTitle').text('Comments');
+      this.$el.find('#reasonTitle').text(t('survey.priority.add.comments'));
     }
     return this;
   },

@@ -125,9 +125,8 @@ export default Mn.View.extend({
   deleteFamily(model) {
     let self = this;
     ModalService.request('confirm', {
-      title: 'Confirm Deletion',
-      text: `Are sure you want to delete all the information about your family?
-      Once you have deleted you will not able to go back.`
+      title: t('family.manage.messages.delete-confirm-title'),
+      text: t('family.manage.messages.delete-confirm')
     }).then(confirmed => {
       if (!confirmed) {
         return;
@@ -146,7 +145,7 @@ export default Mn.View.extend({
     return FlashesService.request('add', {
       timeout: 2000,
       type: 'info',
-      body: 'The family has been deleted!'
+      body: t('family.manage.messages.delete-done')
     });
   },
 
