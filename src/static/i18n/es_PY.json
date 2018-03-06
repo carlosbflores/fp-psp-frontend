@@ -2,6 +2,24 @@
   "organization": {
     "search": {
       "title": "Buscar una organización"
+    },
+    "form": {
+      "add-title": "Agregar una Organización",
+      "edit-title": "Editar Organización",
+      "logo-upload": "Click para subir un logo",
+      "name": "Nombre organización",
+      "name-required": "Nombre de organización es requerido",
+      "code": "Código",
+      "code-required": "Código es requerido",
+      "description": "Descripción",
+      "description-required": "Descripción es requerida",
+      "information": "Información",
+      "buttons": {
+        "add": "AGREGAR ORGANIZACION",
+        "cancel": "Cancelar"
+      },
+      "add-success": "Organización creada exitosamente",
+      "add-failed": "La Organización ya existe"
     }
   },
   "general": {
@@ -186,7 +204,6 @@
       "add-title": "Agregar un Hub",
       "edit-title": "Editar Hub",
       "logo-upload": "Click para subir un logo",
-
       "name": "Nombre hub",
       "name-required": "Nombre del hub es requerido",
       "code": "Código",

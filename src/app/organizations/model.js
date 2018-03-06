@@ -7,22 +7,17 @@ export default Bn.Model.extend({
     const errors = [];
 
     if (this.attributes.name === '') {
-      errors.push('Missing "Organisation name" field');
+      errors.push(t('organization.form.name-required'));
       return errors;
     }
 
     if (this.attributes.code === '') {
-      errors.push('Missing "Code" field');
+      errors.push(t('organization.form.code-required'));
       return errors;
     }
 
     if (this.attributes.description === '') {
-      errors.push('Missing "Description" field');
-      return errors;
-    }
-
-    if (this.attributes.application === undefined) {
-      errors.push('Missing "Organisation\'s Application"');
+      errors.push(t('organization.form.description-required'));
       return errors;
     }
 
