@@ -6,6 +6,7 @@ import Template from './template.hbs';
 import PriorityModel from './model';
 import PriorityCollection from './collection';
 import FlashesService from '../../../../flashes/service';
+import utils from '../../../../utils';
 
 export default Marionette.View.extend({
   initialize(options) {
@@ -37,7 +38,7 @@ export default Marionette.View.extend({
     let html = Template();
     this.$el.html(html);
     let title = (this.options && this.options.indicatorName) || '';
-    this.$el.find('.title-blue').append(this.options.isAttainment ? `I'm proud of: ${title}` : title);
+    this.$el.find('.title-blue').append(this.options.isAttainment ? t('survey.priority.attainment', {title: `${title}`}) : title);
     this.$el.find('#modal-content').attr('data-id', this.options.dataId);
     let $fecha = this.$el.find('#datetimepicker');
     $fecha.datetimepicker({
@@ -47,7 +48,7 @@ export default Marionette.View.extend({
     });
     if (this.options.isAttainment) {
       this.$el.find('.forPriority').hide();
-      this.$el.find('#reasonTitle').text('Comments');
+      this.$el.find('#reasonTitle').text(t('survey.priority.add.comments'));
     }
     return this;
   },
@@ -68,6 +69,8 @@ export default Marionette.View.extend({
 
   addPriority(e) {
     e.preventDefault();
+    const button = utils.getLoadingButton(this.$el.find('#add-priority'));
+
     this.$el
       .find('#form')
       .serializeArray()
@@ -90,8 +93,10 @@ export default Marionette.View.extend({
         });
       });
     } else {
+      button.loading();
       this.model.save(this.indicatorPriority).then(
         model => {
+          button.reset();
           this.trigger('change', model);
           FlashesService.request('add', {
             timeout: 2000,
@@ -100,6 +105,7 @@ export default Marionette.View.extend({
           });
         },
         error => {
+          button.reset();
           FlashesService.request('add', {
             timeout: 2000,
             type: 'warning',

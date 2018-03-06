@@ -79,7 +79,12 @@ gulp.task('static', () => {
     .pipe($.size({ title: 'static/i18n' }))
     .pipe(gulp.dest(`${dist}static/i18n/`));
 
-  return merge(fonts, images, locales);
+  let favicon = gulp
+    .src(`${src}favicon.ico`)
+    .pipe($.size({ title: 'favicon' }))
+    .pipe(gulp.dest(`${dist}`));
+
+  return merge(fonts, images, locales, favicon);
 });
 
 gulp.task('clean', cb => {

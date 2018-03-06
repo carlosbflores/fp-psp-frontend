@@ -70,9 +70,9 @@
     "surveys": "Surveys",
     "faqs": "FAQs",
     "collaborators": "Collaborators",
-    "families": "Families",
+    "families": "Households",
     "users": "Users",
-    "manage-families": "Manage families",
+    "manage-families": "Manage households",
     "logout": "Logout",
     "organizations": "Organizations",
     "hubs": "Hubs",
@@ -91,13 +91,13 @@
     "interventions": "Interventions",
     "snapshots": "Snapshots",
     "hubs": "Hubs",
-    "families": "Families",
+    "families": "Households",
     "users": "Users",
     "indicators": "Indicators"
   },
   "home": {
     "activity": "Activity Feed",
-    "number-families": "Number of Families",
+    "number-families": "Number of Households",
     "snapshots-taken": "Snapshots taken",
     "map-results": "Map results",
     "total": "in total",
@@ -121,11 +121,13 @@
       "not-share": "I'd prefer not to share my family's situation",
       "print-header": "Survey Results",
       "messages": {
-        "not-save": "Your personal information has not been saved in the platform"
+        "not-save": "Your personal information has not been saved in the platform",
+        "finish": "Your snapshot was completed successfully. The family's code is \"%{code}\" "
       }
     },
     "priority": {
       "title": "My priorities",
+      "attainment": "I'm proud of: \"%{title}\"",
       "messages": {
         "select": "Set priority for this indicator",
         "previous-selected": "The \"%{indicator}\" indicator was previously selected",
@@ -135,13 +137,31 @@
         "delete-confirm": "Are you sure you want to delete this information?",
         "delete-confirm-title": "Confirm Deletion",
         "indicator-not-answered": "You have chosen not to answer the question",
-        "select-delete": "Remove this priority"
+        "select-delete": "Remove this priority",
+        "mising-field": "Missing '\"%{field}\"' field"
       },
       "add": {
         "indicator": "Indicator",
         "reason": "Why I don't have it?",
         "action": "What do I do to attain it?",
-        "estimated-date": "When will I have it?"
+        "estimated-date": "When will I have it?",
+        "comments": "Comments"
+      }
+    },
+    "attainment": {
+      "title": "My Indicators Achieved"
+    },
+
+    "add": {
+      "main-title": "Survey",
+      "title-placeholder": "Surveys´s title",
+      "short-desc-placeholder": "Short description",
+      "assign-survey-placeholder": "Assign survey",
+      "json-schema": "JSON Schema *",
+      "json-ui-schema": "JSON UI Schema *",
+      "buttons": {
+        "save": "SAVE",
+        "cancel": "Cancel"
       }
     }
   },
@@ -179,11 +199,16 @@
       "place": "Place"
     },
     "manage": {
-      "manage-families": "Manage families",
+      "manage-families": "Manage households",
       "contact": "Contact",
       "id": "ID",
       "place": "Place",
-      "select-delete": "Delete this family"
+      "select-delete": "Delete this family",
+      "messages": {
+        "delete-confirm": "¿Are sure you want to delete all the information about your family? Once you have deleted you will not able to go back.",
+        "delete-confirm-title": "Confirm Deletion",
+        "delete-done": "The family has been deleted!"
+      }
     }
   },
   "login": {
@@ -254,6 +279,12 @@
       },
       "add-success": "User created successfully",
       "add-failed": "User already exist"
+    }
+  },
+  "footer": {
+    "version": {
+      "title": "WEB VERSION",
+      "name": "POVERTY STOPLIGHT"
     }
   }
 }

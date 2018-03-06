@@ -121,11 +121,13 @@
       "not-share": "Prefiero no compartir la situación de mi familia",
       "print-header": "Resultados de la Encuesta",
       "messages": {
-        "not-save": "Su información personal no será guardada en la plataforma"
+        "not-save": "Su información personal no será guardada en la plataforma",
+        "finish": "Has completado tu semaforo satisfactoriamente. El codigo de tu familia es \"%{code}\" "
       }
     },
     "priority": {
       "title": "Mis prioridades",
+      "attainment": "Estoy orgulloso de: \"%{title}\"",
       "messages": {
         "select": "Agregar prioridad para este indicador",
         "previous-selected": "El indicador \"%{indicator}\" ya fue previamente seleccionado",
@@ -135,13 +137,32 @@
         "delete-confirm": "¿Está seguro de que desea eliminar esta información?",
         "delete-confirm-title": "Confirmación de eliminación",
         "indicator-not-answered": "Durante la encuesta, has elegido no responder la pregunta",
-        "select-delete": "Eliminar esta prioridad"
+        "select-delete": "Eliminar esta prioridad",
+        "mising-field": "Campo '\"%{field}\"' faltante"
       },
       "add": {
         "indicator": "Indicador",
         "reason": "¿Por qué no lo tengo?",
         "action": "¿Qué debo hacer para lograrlo?",
-        "estimated-date": "¿Cuándo lo tendré?"
+        "estimated-date": "¿Cuándo lo tendré?",
+        "comments": "Comentarios"
+      }
+    },
+
+    "attainment": {
+      "title": "Mis logros"
+    },
+
+    "add": {
+      "main-title": "Encuesta",
+      "title-placeholder": "Título de la encuesta",
+      "short-desc-placeholder": "Descripción corta",
+      "assign-survey-placeholder": "Asignar encuesta",
+      "json-schema": "JSON Esquema *",
+      "json-ui-schema": "JSON Esquema Visual *",
+      "buttons": {
+        "save": "GRABAR",
+        "cancel": "Cancelar"
       }
     }
   },
@@ -183,7 +204,12 @@
       "contact": "Contacto",
       "id": "Identificador",
       "place": "Lugar",
-      "select-delete": "Eliminar esta familia"
+      "select-delete": "Eliminar esta familia",
+      "messages": {
+        "delete-confirm": "¿Seguro que quieres eliminar toda la información sobre tu familia?  Una vez que haya eliminado, no podrá volver atras.",
+        "delete-confirm-title": "Confirmación de Eliminación",
+        "delete-done": "La familia ha sido eliminada"
+      }
     }
   },
   "login": {
@@ -254,6 +280,12 @@
       },
       "add-success": "Usuario creado exitosamente",
       "add-failed": "El usuario ya existe"
+    }
+  },
+  "footer": {
+    "version": {
+      "title": "VERSION WEB",
+      "name": "SEMAFORO DE ELIMINACIÓN DE POBREZA"
     }
   }
 }

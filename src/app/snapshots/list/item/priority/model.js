@@ -9,17 +9,19 @@ export default Bn.Model.extend({
     const errors = [];
     if(!attrs.is_attainment){
       if (attrs.action === '') {
-        errors.push('Missing "action" field');
+        errors.push(t('survey.priority.messages.mising-field', {field: t('survey.priority.add.action')}));
       }
 
       if (attrs.estimated_date === null) {
-        errors.push('Missing "estimated date" field');
+        errors.push(t('survey.priority.messages.mising-field', {field: t('survey.priority.add.estimated-date')}));
       }
 
     }
 
     if (attrs.reason === '') {
-      attrs.is_attainment ? errors.push('Missing "comments" field') : errors.push('Missing "reason" field');
+      attrs.is_attainment ?
+        errors.push(t('survey.priority.messages.mising-field', {field: t('survey.priority.add.comments')})) :
+            errors.push(t('survey.priority.messages.mising-field', {field: t('survey.priority.add.reason')}))
     }
 
 
