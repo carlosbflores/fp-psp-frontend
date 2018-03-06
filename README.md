@@ -93,7 +93,7 @@ The language selection is made within the application, but for the pages that ar
 
 All messages supported by internationalization are stored in the `/src/static/i18n` directory, separated according to language.
 
-Files for each locale must be of type json and be named `XX_YY.json`, where `XX` is the country code and `YY` is the region code. For example, `es_PY.json` for Paraguay.
+Files for each locale must be of type json and be named `XX_YY.json`, where `XX` is the language code and `YY` is the country code. For example, `es_PY.json` for Paraguay.
 
 The keys for the values that will be localized have to be the same in every file, with values appropriate to the language they correspond to. 
 
