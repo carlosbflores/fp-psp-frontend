@@ -187,18 +187,37 @@
     "search": {
       "title": "Buscar un usuario"
     },
-    "email": "Correo electrónico",
-    "add": {
-      "title": "Agregar un usuario",
-      "user": "Usuario",
-      "username": "Nombre de usuario",
+    "card": {
       "email": "Correo electrónico",
+      "organization": "Organización",
+      "hub": "Hub"
+    },
+    "form": {
+      "add-title": "Agregar un usuario",
+      "edit-title": "Editar usuario",
+      "user-label": "Usuario",
+      "username": "Nombre de usuario",
+      "username-required": "Nombre de usuario es requerido",
+      "email": "Correo electrónico",
+      "email-required": "Correo electrónico es requerido",
+      "email-not-valid": "El correo electrónico no es válido",
       "password": "Contraseña",
-      "confirm-pass": "Confirmar contraseña",
+      "password-required": "Contraseña es requerida",
+      "password-confirm": "Confirmar contraseña",
+      "password-confirm-required": "Confirmación de contraseña es requerida",
+      "password-confirm-failed": "La confirmación de contraseña ha fallado",
+      "select-hub": "Seleccciona el Hub",
+      "select-hub-required": "Hub es requerido",
+      "select-organization": "Selecciona la Organización",
+      "select-organization-required": "Organización es requerida",
+      "select-role": "Selecciona el Rol",
+      "select-role-required": "Rol es requerido",
       "buttons": {
         "add": "AGREGAR USUARIO",
         "cancel": "Cancelar"
-      }
+      },
+      "add-success": "Usuario agregado exitosamente",
+      "add-failed": "El usuario ya existe"
     }
   }
 }

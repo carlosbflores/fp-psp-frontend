@@ -36,7 +36,7 @@ export default Mn.View.extend({
       this.genericFetch(
         '/applications/hubsandpartners',
         '#select-app',
-        'Select Application',
+        t('user.form.select-hub'),
         'application',
         'name'
       );
@@ -46,7 +46,7 @@ export default Mn.View.extend({
       this.genericFetch(
         `/applications/${hubId}/organizations`,
         '#select-org',
-        'Select Organization',
+        t('user.form.select-organization'),
         'organization',
         'name'
       );
@@ -76,7 +76,7 @@ export default Mn.View.extend({
     this.loadSelect(
       roles,
       '#select-role',
-      'Select Role',
+      t('user.form.select-role'),
       'role',
       'role'
     );
@@ -159,7 +159,7 @@ export default Mn.View.extend({
         FlashesService.request('add', {
           timeout: 3000,
           type: 'info',
-          title: "User created successfully"
+          title: t('user.form.add-success')
         });
       })
       .catch(response => {
@@ -167,7 +167,7 @@ export default Mn.View.extend({
           FlashesService.request('add', {
             timeout: 3000,
             type: 'danger',
-            title: response.responseJSON.message
+            title: t('user.form.add-failed')
           });
         }
         button.reset();

@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card-title">
-              <h4> {{$t 'user.add.title'}}
+              <h4> {{$t 'user.form.add-title'}}
                 <img class="pull-right" src="/static/images/icon_more.png">
               </h4>
             </div>
@@ -17,7 +17,7 @@
             <div class="margin-tb-35px" id="img-cam">
               <img id="image-logo" class="card-img-top img-responsive center-block select-file"
                    src="/static/images/icon_user_grey.png" alt=""/>
-              <p id="image-logo-text" class="text-center select-file">{{$t 'user.add.user'}}</p>
+              <p id="image-logo-text" class="text-center select-file">{{$t 'user.form.user-label'}}</p>
             </div>
           </div>
         </div>
@@ -30,19 +30,19 @@
                   <strong>Attention! All the fields with * are mandatory</strong>
                 </div>
                 <div class="form-group">
-                  <input type="text" name="username" value="{{user.username}}" placeholder="{{$t 'user.add.username'}}"
+                  <input type="text" name="username" value="{{user.username}}" placeholder="{{$t 'user.form.username'}}"
                          class="input-bg-gray form-control" required>
                 </div>
                 <div class="form-group">
-                  <input type="email" name="email" value="{{user.email}}" placeholder="{{$t 'user.add.email'}}"
+                  <input type="email" name="email" value="{{user.email}}" placeholder="{{$t 'user.form.email'}}"
                          class="input-bg-gray form-control" required>
                 </div>
                 <div class="form-group">
-                  <input type="password" name="pass" value="{{user.pass}}" placeholder="{{$t 'user.add.password'}}"
+                  <input type="password" name="pass" value="{{user.pass}}" placeholder="{{$t 'user.form.password'}}"
                          class="input-bg-gray form-control" required>
                 </div>
                 <div class="form-group">
-                  <input type="password" name="password-confirm" value="" placeholder="{{$t 'user.add.confirm-pass'}}"
+                  <input type="password" name="password-confirm" value="" placeholder="{{$t 'user.form.password-confirm'}}"
                          class="input-bg-gray form-control" required>
                 </div>
                 <div class="form-group">
@@ -62,14 +62,14 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-sm-12">
-                      <button type="submit" name="register-submit" id="submit" class="btn" value="Save">{{$t 'user.add.buttons.add'}}</button>
+                      <button type="submit" name="register-submit" id="submit" class="btn" value="Save">{{$t 'user.form.buttons.add'}}</button>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="text-center">
-                    <a href="#users" id="cancel" tabindex="5" class="">{{$t 'user.add.buttons.cancel'}}</a>
+                    <a href="#users" id="cancel" tabindex="5" class="">{{$t 'user.form.buttons.cancel'}}</a>
                   </div>
                 </div>
 

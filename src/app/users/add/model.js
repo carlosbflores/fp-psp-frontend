@@ -7,45 +7,45 @@ export default Bn.Model.extend({
     const errors = [];
 
     if (this.attributes.username === '') {
-      errors.push('Missing "Username" field');
+      errors.push(t('user.form.username-required'));
       return errors;
     }
 
     if (this.attributes.email === '') {
-      errors.push('Missing "Email" field');
+      errors.push(t('user.form.email-required'));
       return errors;
     }
 
     const emailRegExp = /^[a-zA-Z0-9._-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
 
     if (!emailRegExp.test(this.attributes.email)) {
-      errors.push('Email is not valid');
+      errors.push(t('user.form.email-not-valid'));
       return errors;
     }
 
     if (this.attributes.pass === '') {
-      errors.push('Missing "Password" field');
+      errors.push(t('user.form.password-required'));
       return errors;
     }
 
     if (this.attributes['password-confirm'] === '') {
-      errors.push('Missing "Password Confirmation" field');
+      errors.push(t('user.form.password-confirm-required'));
       return errors;
     }
 
     if (this.attributes.pass !== '' && this.attributes['password-confirm'] !== '' &&
       this.attributes.pass !== this.attributes['password-confirm']) {
-      errors.push('Password confirmation failed');
+      errors.push(t('user.form.password-confirm-failed'));
       return errors;
     }
 
     if (!this.attributes.application && !this.attributes.organization) {
-      errors.push('Missing "Organization" field');
+      errors.push(t('user.form.select-organization-required'));
       return errors;
     }
 
     if (!this.attributes.role) {
-      errors.push('Missing "Role" field');
+      errors.push(t('user.form.select-role-required'));
       return errors;
     }
 

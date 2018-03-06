@@ -6,7 +6,7 @@ export default Mn.View.extend({
   serializeData() {
     return {
       user: this.model.attributes,
-      organizationLabel: this.model.get('organization') ? 'Organisation' : 'Hub',
+      organizationLabel: this.model.get('organization') ? t('user.card.organization') : t('user.card.hub'),
       organization: this.model.get('organization') || this.model.get('application')
     };
   }

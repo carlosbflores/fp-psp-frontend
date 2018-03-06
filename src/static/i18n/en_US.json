@@ -187,18 +187,37 @@
     "search": {
       "title": "Find a user"
     },
-    "email": "Email",
-    "add": {
-      "title": "Add a user",
-      "username": "Username",
-      "user": "User",
+    "card": {
       "email": "Email",
+      "organization": "Organization",
+      "hub": "Hub"
+    },
+    "form": {
+      "add-title": "Add a user",
+      "edit-title": "Edit user",
+      "user-label": "User",
+      "username": "Username",
+      "username-required": "Username is required",
+      "email": "Email",
+      "email-required": "Email is required",
+      "email-not-valid": "The email is not valid",
       "password": "Password",
-      "confirm-pass": "Confirm password",
+      "password-required": "Password is required",
+      "password-confirm": "Confirm password",
+      "password-confirm-required": "Password confirmation is required",
+      "password-confirm-failed": "Password confirmation failed",
+      "select-hub": "Select Hub",
+      "select-hub-required": "Hub is required",
+      "select-organization": "Select Organization",
+      "select-organization-required": "Organization is required",
+      "select-role": "Select Role",
+      "select-role-required": "Role is required",
       "buttons": {
         "add": "ADD USER",
         "cancel": "Cancel"
-      }
+      },
+      "add-success": "User created successfully",
+      "add-failed": "User already exist"
     }
   }
 }
