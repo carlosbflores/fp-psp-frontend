@@ -1250,6 +1250,19 @@ div.fp-form-container {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.form-alert {
+  padding: 2px;
+  padding-left: 8px;
+  margin-bottom: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.form-alert-warning {
+  color: #c5a978;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
 
 /* ########## */
 
