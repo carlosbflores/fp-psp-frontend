@@ -6,11 +6,13 @@ import _ from 'lodash';
 import moment from 'moment';
 import Template from './template.hbs';
 import session from '../../common/session';
+import storage from '../hubs/storage';
 
 export default Mn.View.extend({
   template: Template,
 
-  initialize() {
+  initialize(options) {
+    this.app = options.app;
     if (this.model) {
       this.organization = this.model.attributes;
       setTimeout(() => {
@@ -23,6 +25,9 @@ export default Mn.View.extend({
   },
 
   onRender() {
+    if (this.model.get('id')) {
+      this.app.updateSubHeader(storage.getSubHeaderItems(this.model));
+    }
     this.months = ["","January", "February", "March", "April", "May", "June","July",
      "August","September","October","November","December"]
   },

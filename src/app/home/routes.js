@@ -15,7 +15,7 @@ const home = props => {
         } else {
           const applicationModel = new ApplicationModel();
           applicationModel.fetch().then(() => {
-            app.showHomeForUser(new HomeView({ model: applicationModel }));
+            app.showHomeForUser(new HomeView({model: applicationModel, app}));
           });
         }
       }

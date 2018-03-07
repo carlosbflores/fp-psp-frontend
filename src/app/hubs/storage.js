@@ -4,7 +4,13 @@ import Collection from './collection';
 
 var ApplicationsStorage = Storage.extend({
   model: Model,
-  collection: Collection
+  collection: Collection,
+  getSubHeaderItems(model) {
+    return {
+      mainItem: {name: `${model.get('name')} :: ${model.get('description')}`},
+      link: `/#applications/${model.get('id')}`
+    };
+  }
 });
 
 export default new ApplicationsStorage();
