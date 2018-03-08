@@ -87,7 +87,7 @@
       "list-drafts": "Drafts",
       "priority": "Select your priorities"
     },
-    "family": "Family",
+    "family": "Household",
     "interventions": "Interventions",
     "snapshots": "Snapshots",
     "hubs": "Hubs",
@@ -116,13 +116,13 @@
         "finish": "Finish this survey",
         "print": "Print"
       },
-      "family": "Family",
+      "family": "Household",
       "snapshot": "Snapshot",
-      "not-share": "I'd prefer not to share my family's situation",
+      "not-share": "I'd prefer not to share my household's situation",
       "print-header": "Survey Results",
       "messages": {
         "not-save": "Your personal information has not been saved in the platform",
-        "finish": "Your snapshot was completed successfully. The family's code is \"%{code}\" "
+        "finish": "Your snapshot was completed successfully. The household's code is \"%{code}\" "
       }
     },
     "priority": {
@@ -186,7 +186,7 @@
       "name-code-parameter": "Last name or code",
       "choose": "Choose"
     },
-    "family": "Family",
+    "family": "Household",
     "code": "Cod",
     "map": {
       "snapshot": "Snapshot",
@@ -204,11 +204,11 @@
       "contact": "Contact",
       "id": "ID",
       "place": "Place",
-      "select-delete": "Delete this family",
+      "select-delete": "Delete this household",
       "messages": {
-        "delete-confirm": "¿Are sure you want to delete all the information about your family? Once you have deleted you will not able to go back.",
+        "delete-confirm": "¿Are sure you want to delete all the information about your household? Once you have deleted you will not able to go back.",
         "delete-confirm-title": "Confirm Deletion",
-        "delete-done": "The family has been deleted!"
+        "delete-done": "The household has been deleted!"
       }
     }
   },
