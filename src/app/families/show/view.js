@@ -62,7 +62,11 @@ export default Mn.View.extend({
   },
 
   isPrioritized(){
-    return this.model.attributes.snapshot_indicators.indicators_priorities.length > 0 ? 'hidden' : '' ;
+    const isPrioritized = this.model.attributes.snapshot_indicators.indicators_priorities;
+    if (!isPrioritized) {
+      return null;
+    }
+    return isPrioritized.length > 0 ? 'hidden' : '' ;
   },
 
   getJsonData(){
