@@ -1,13 +1,12 @@
 import Mn from 'backbone.marionette';
-import Bn from 'backbone';
 import $ from 'jquery';
-
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
+import env from "../../env";
 import Template from './layout-template.hbs';
 import CollectionView from './collection-view';
 import utils from '../../utils';
-import OrganizationsModel from '../model';
-import OrganizationsCollection from '../collection';
+import Model from '../model';
+import Collection from '../collection';
 
 export default Mn.View.extend({
   template: Template,
@@ -16,25 +15,27 @@ export default Mn.View.extend({
     list: '#organization-list'
   },
   events: {
-    'keyup #search': 'handleSearch'
+    'input #search': 'onSearchInput'
   },
   initialize(options) {
     this.app = options.app;
+    this.applicationId = options.applicationId;
     // eslint-disable-next-line no-undef
     _.bindAll(this, 'loadMore');
     // bind scroll event to window
     $(window).scroll(this.loadMore);
 
-    this.collection = new Bn.Collection(this.model.get('list'));
-    this.collection.on('remove', this.render);
-    this.search = debounce(this.search, 300);
-  },
-  onRender() {
+    this.collection = new Collection();
+    this.collection.on('update', this.showList());
 
-    setTimeout(() => {
-      this.$el.find('#search').focus();
-    }, 0);
-    this.showList();
+    this.params = {};
+    if (this.applicationId) {
+      this.collection.url = `${env.API}/organizations/application`;
+      this.params.applicationId = this.applicationId;
+    }
+    this.serverFetch();
+
+    this.debounceServerFetch = debounce(this.serverFetch, 500, {leading: false, trailing: true});
   },
   onAttach() {
     if (this.app.getSession().userHasRole('ROLE_HUB_ADMIN')) {
@@ -46,55 +47,31 @@ export default Mn.View.extend({
   },
   showList() {
     this.getRegion('list').show(
-      new CollectionView({ collection: this.collection })
+      new CollectionView({collection: this.collection})
     );
   },
-  handleSearch() {
-    var name = this.$el.find('#search').val();
-    this.collection = new Bn.Collection(this.model.get('list'));
-    if(!name){
-      this.showList();
-      return;
-    }
-
+  onSearchInput() {
+    let searchTerm = this.$el.find('#search').val();
+    this.debounceServerFetch(searchTerm);
+  },
+  serverFetch(searchTerm) {
     const container = this.$el.find('.list-container').eq(0);
     const section = utils.getLoadingSection(container);
     section.loading();
-    this.getRegion('list').empty();
-    let self = this;
-    setTimeout(() => {
 
-      let params = {};
-      if(self.app.getSession().get('user').application !== null){
-        params.applicationId = self.app.getSession().get('user').application.id;
+    this.params.filter = searchTerm;
+    this.params.page = 1;
+
+    this.collection.reset();
+    this.collection.fetch({
+      data: this.params,
+      success(collection, response) {
+        collection.reset(response.list);
+        collection.currentPage = response.currentPage;
+        collection.totalPages = response.totalPages;
+        section.reset();
       }
-      if(self.app.getSession().get('user').organization !== null){
-        params.organizationId = self.app.getSession().get('user').organization.id
-      }
-
-
-      let moreElements = new OrganizationsCollection();
-      moreElements.fetch({
-        data: params,
-        success(response) {
-          self.collection.set(response.get('list'));
-          self.showList();
-          section.reset();
-        }
-      });
-    }, 500);
-  },
-  search(term) {
-    if (!term) {
-      return null;
-    }
-    const filtered = this.collection.filterByValue(term);
-
-    if (filtered && filtered.length > 0) {
-      return filtered;
-    }
-
-    return null;
+    });
   },
   loadMore(e) {
     e.preventDefault();
@@ -110,23 +87,19 @@ export default Mn.View.extend({
   },
   searchMore() {
     var self = this;
+    if (this.collection.currentPage < this.collection.totalPages) {
+      this.params.page = this.collection.currentPage + 1;
 
-    // if not all organizations have been loaded
-    if (self.model.get('currentPage') < self.model.get('totalPages')) {
+      let moreElements = new Model();
+      if (this.applicationId) {
+        moreElements.urlRoot = `${env.API}/organizations/application`;
+      }
 
-      let params = {
-        page: self.model.get('currentPage') + 1,
-        per_page: 12,
-        applicationId: self.app.getSession().get('user').application.id ,
-        organizationId: self.app.getSession().get('user').organization.id,
-      };
-
-      let moreElements = new OrganizationsModel();
       moreElements.fetch({
-        data: params,
+        data: this.params,
         success(response) {
           self.collection.add(response.get('list'));
-          self.model.set('currentPage', response.get('currentPage'));
+          self.collection.currentPage = response.get('currentPage');
         }
       });
     }

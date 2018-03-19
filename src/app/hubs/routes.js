@@ -1,5 +1,4 @@
 import ApplicationsView from './index/layout-view';
-import applicationsStorage from './storage';
 import NewApplicationView from './add/view';
 
 const applications = props => {
@@ -11,14 +10,7 @@ const applications = props => {
     },
     controller: {
       showApplications() {
-        applicationsStorage.find().then(model => {
-          app.showViewOnRoute(
-            new ApplicationsView({
-              model,
-              app
-            })
-          );
-        });
+        app.showViewOnRoute(new ApplicationsView({app}));
       },
       newApplication() {
         app.showViewOnRoute(new NewApplicationView({app}));
