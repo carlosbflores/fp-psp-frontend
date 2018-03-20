@@ -27,7 +27,6 @@ class DatetimeFormat extends React.Component {
     } else {
       value = props.formData;
     }
-
     this.state = {
       name: props.name,
       title: props.schema.title,
@@ -52,11 +51,13 @@ class DatetimeFormat extends React.Component {
     if (this.props.name !== this.state.name) {
       this.setInitialValues(this.props);
     }
+    let value=this.state.valueView
     return (
       <Datetime
         dateFormat="MM/DD/YYYY"
         inputProps={{ disabled: true }}
         timeFormat={false}
+        defaultValue={value}
         locale={session.get('locale')?session.get('locale'):'es'}
         disableOnClickOutside
         renderInput={this.renderInput}

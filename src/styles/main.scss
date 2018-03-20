@@ -1438,16 +1438,16 @@ div.fp-form-container {
     width: 50px;
     height: 50px;
   }
-  p {
-    font-size: 12px;
+  #indicator-name {
+    font-size: 11px;
   }
   .tableTitle {
     margin-top: 100px;
   }
-}
-@media print {
+
   @page {
     size: landscape;
+    margin: 0mm;
   }
 }
 
