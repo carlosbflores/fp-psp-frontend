@@ -9,6 +9,7 @@ import UnderConstrucionTemplate from '../../utils/under_construction_template.hb
 import storage from '../storage';
 import TermCondPolView from '../../termcondpol/view';
 import TermCondPolModel from '../../termcondpol/model';
+import session from "../../../common/session";
 
 export default Mn.View.extend({
   template: Template,
@@ -31,6 +32,10 @@ export default Mn.View.extend({
       $(`.sub-menu-tiem > a[href$="${this.entity}"]`)
         .parent()
         .addClass('subActive');
+    }
+
+    if (session.userHasRole('ROLE_SURVEY_USER')) {
+      this.$el.find('#newSurvey').show();
     }
   },
 

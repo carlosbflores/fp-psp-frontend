@@ -52,9 +52,10 @@ export default Mn.View.extend({
       $('.card-menu-edit').hide();
       $('.delete-survey-btn').hide();
       $('.floating-buttom').hide();
+    }else if (session.userHasRole('ROLE_ROOT')) {
+      $('.floating-buttom').show();
     }else{
       $('#add-new').show();
-      $('.floating-buttom').show();
     }
 
 
