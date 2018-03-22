@@ -24,6 +24,8 @@
   },
   "general": {
     "buttons": {
+      "search": "Search",
+      "ok": "OK",
       "accept": "Accept",
       "cancel": "Cancel"
     },

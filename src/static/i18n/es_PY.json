@@ -24,6 +24,8 @@
   },
   "general": {
     "buttons": {
+      "search": "Buscar",
+      "ok": "Aceptar",
       "accept": "Aceptar",
       "cancel": "Cancelar"
     },
