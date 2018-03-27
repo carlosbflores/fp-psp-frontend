@@ -50,9 +50,10 @@ export default Mn.View.extend({
     const section = utils.getLoadingSection(container);
     section.loading();
 
-    this.params = {};
-    this.params.filter = searchTerm;
-    this.params.page = 1;
+    this.params = {
+      filter: searchTerm,
+      page: 1
+    };
 
     this.collection.reset();
     this.collection.fetch({
