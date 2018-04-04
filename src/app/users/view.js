@@ -1,11 +1,11 @@
 import Mn from 'backbone.marionette';
-import Bn from 'backbone';
 import $ from 'jquery';
 import { debounce } from 'lodash';
 import utils from '../utils';
 import Template from './template.hbs';
 import CollectionView from './collection-view';
 import UsersModel from './model';
+import Collection from './collection';
 
 export default Mn.View.extend({
   template: Template,
@@ -14,7 +14,7 @@ export default Mn.View.extend({
     list: '#user-list'
   },
   events: {
-    'keyup #search': 'handleSearch'
+    'input #search': 'onSearchInput'
   },
   initialize(options) {
     this.app = options.app;
@@ -23,15 +23,14 @@ export default Mn.View.extend({
     // bind scroll event to window
     $(window).scroll(debounce(this.loadMore, 50));
 
-    this.collection = new Bn.Collection(this.model.get('list'));
-    this.collection.on('remove', this.render);
-    this.search = debounce(this.search, 300);
-  },
-  onRender() {
-    setTimeout(() => {
-      this.$el.find('#search').focus();
-    }, 0);
-    this.showList();
+    this.collection = new Collection();
+    this.collection.on('update', this.showList());
+    this.serverFetch();
+
+    this.debounceServerFetch = debounce(this.serverFetch, 500, {
+      leading: false,
+      trailing: true
+    });
   },
   onAttach() {
     const session = this.app.getSession();
@@ -48,40 +47,30 @@ export default Mn.View.extend({
       new CollectionView({ collection: this.collection })
     );
   },
-  handleSearch() {
-    var userName = this.$el.find('#search').val();
-    this.collection = new Bn.Collection(this.model.get('list'));
-    if (!userName) {
-      this.showList();
-      return;
-    }
+  onSearchInput() {
+    let searchTerm = this.$el.find('#search').val();
+    this.debounceServerFetch(searchTerm);
+  },
+  serverFetch(searchTerm) {
     const container = this.$el.find('.list-container').eq(0);
     const section = utils.getLoadingSection(container);
     section.loading();
-    this.getRegion('list').empty();
-    setTimeout(() => {
-      var filtered = this.collection.filter(user =>
-        user
-          .get('username')
-          .toLowerCase()
-          .includes(userName.toLowerCase())
-      );
-      this.collection = new Bn.Collection(filtered);
-      this.showList();
-      section.reset();
-    }, 1000);
-  },
-  search(term) {
-    if (!term) {
-      return null;
-    }
-    const filtered = this.collection.filterByValue(term);
 
-    if (filtered && filtered.length > 0) {
-      return filtered;
-    }
+    this.params = {
+      filter: searchTerm,
+      page: 1
+    };
 
-    return null;
+    this.collection.reset();
+    this.collection.fetch({
+      data: this.params,
+      success(collection, response) {
+        collection.reset(response.list);
+        collection.currentPage = response.currentPage;
+        collection.totalPages = response.totalPages;
+        section.reset();
+      }
+    });
   },
   loadMore(e) {
     e.preventDefault();
@@ -90,26 +79,21 @@ export default Mn.View.extend({
     let scrollPosition = $(window).height() + $(window).scrollTop();
     let margin = 150; // margin to scroll from the bottom
 
-    // if we are closer than 'margin' to the end of the content, load more books
     if (scrollPosition + margin >= scrollHeight) {
       this.searchMore();
     }
   },
   searchMore() {
     var self = this;
-    // if not all users have been loaded
-    if (self.model.get('currentPage') < self.model.get('totalPages')) {
-      let params = {
-        page: self.model.get('currentPage') + 1,
-        per_page: 12
-      };
+    if (this.collection.currentPage < this.collection.totalPages) {
+      this.params.page = this.collection.currentPage + 1;
 
       let moreElements = new UsersModel();
       moreElements.fetch({
-        data: params,
+        data: this.params,
         success(response) {
           self.collection.add(response.get('list'));
-          self.model.set('currentPage', response.get('currentPage'));
+          self.collection.currentPage = response.get('currentPage');
         }
       });
     }
