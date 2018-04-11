@@ -155,3 +155,7 @@ To internationalize it we should replace it with the following:
 ```
 <button type="button">{{$t 'family.buttons.add'}}</button>
 ```
+
+## What's next?
+
+- How to define a new Survey with the Survey Json Schema? [Read the SURVEY SCHEMA instructions.](SURVEY_SCHEMA.md)
