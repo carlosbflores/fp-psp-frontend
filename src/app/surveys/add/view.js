@@ -43,8 +43,8 @@ export default Mn.View.extend({
             if(!$.isEmptyObject(self.model.attributes.applications)){
               self.$el.find('#organization').val(self.getValuesIdArray()).trigger("change");
             }
-            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema, undefined, 3));
-            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema, undefined, 3));
+            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema, null, 3));
+            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema, null, 3));
         }
       }
     });
@@ -61,8 +61,8 @@ export default Mn.View.extend({
             if(!$.isEmptyObject(self.model.attributes.organizations)){
               self.$el.find('#organization').val(self.getValuesIdArray()).trigger("change");
             }
-            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema, undefined, 3));
-            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema, undefined, 3));
+            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema, null, 3));
+            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema, null, 3));
         }
       }
     });
@@ -142,19 +142,15 @@ export default Mn.View.extend({
       try {
         event.preventDefault();
 
-        if (this.app.getSession().userHasRole('ROLE_ROOT')) {
-          ModalService.request('confirm', {
-            title: t('survey.update.confirm-title'),
-            text: t('survey.update.confirm-text')
-          }).then(confirmed => {
-            if (!confirmed) {
-              return;
-            }
-            this.saveySurvey();
-          });
-        } else {
+        ModalService.request('confirm', {
+          title: t('survey.update.confirm-title'),
+          text: t('survey.update.confirm-text')
+        }).then(confirmed => {
+          if (!confirmed) {
+            return;
+          }
           this.saveySurvey();
-        }
+        });
       } catch (e) {
         FlashesService.request('add', {
           timeout: 2000,

@@ -186,7 +186,7 @@
       }
     },
     "update": {
-      "confirm-title": "Estás modificando la definición de esta Encuesta",
+      "confirm-title": "Estás modificando esta Encuesta",
       "confirm-text": "Está seguro que desea guardar estos cambios?"
     }
   },
