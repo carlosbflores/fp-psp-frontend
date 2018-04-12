@@ -184,6 +184,10 @@
         "save": "SAVE",
         "cancel": "Cancel"
       }
+    },
+    "update": {
+      "confirm-title": "You are modifying this Survey definition",
+      "confirm-text": "Are you sure you want to save this changes?"
     }
   },
   "termcondpol": {

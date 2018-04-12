@@ -15,6 +15,7 @@ import utils from '../../utils';
 import FlashesService from '../../flashes/service';
 import OrganizationsModel from '../../management/organizations/model';
 import ApplicationModel from '../../applications/model';
+import ModalService from "../../modal/service";
 
 export default Mn.View.extend({
   template: Template,
@@ -42,8 +43,8 @@ export default Mn.View.extend({
             if(!$.isEmptyObject(self.model.attributes.applications)){
               self.$el.find('#organization').val(self.getValuesIdArray()).trigger("change");
             }
-            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema));
-            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema));
+            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema, undefined, 3));
+            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema, undefined, 3));
         }
       }
     });
@@ -60,8 +61,8 @@ export default Mn.View.extend({
             if(!$.isEmptyObject(self.model.attributes.organizations)){
               self.$el.find('#organization').val(self.getValuesIdArray()).trigger("change");
             }
-            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema));
-            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema));
+            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema, undefined, 3));
+            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema, undefined, 3));
         }
       }
     });
@@ -94,9 +95,15 @@ export default Mn.View.extend({
        });
 
        if(!$.isEmptyObject(this.model.attributes)){
-        this.$el.find('.inputdisable').attr('disabled',true);
-        this.schema.setOption('readOnly', true);
-        this.schemaUI.setOption('readOnly', true);
+         if (this.app.getSession().userHasRole('ROLE_ROOT')) {
+           this.$el.find('.inputdisable').attr('disabled', false);
+           this.schema.setOption('readOnly', false);
+           this.schemaUI.setOption('readOnly', false);
+         } else {
+           this.$el.find('.inputdisable').attr('disabled',true);
+           this.schema.setOption('readOnly', true);
+           this.schemaUI.setOption('readOnly', true);
+         }
         this.$el.find('#organization').val(this.getValuesIdArray()).trigger('change');
        }
 
@@ -109,7 +116,7 @@ export default Mn.View.extend({
       autoCloseBrackets: true,
       mode: 'application/ld+json',
       lineNumbers: true,
-      lineWrapping: true,
+      lineWrapping: false,
       tabMode: 'indent'
     });
     this.schemaUI = CodeMirror.fromTextArea(
@@ -119,7 +126,7 @@ export default Mn.View.extend({
         autoCloseBrackets: true,
         mode: 'application/ld+json',
         lineNumbers: true,
-        lineWrapping: true,
+        lineWrapping: false,
         tabMode: 'indent'
       }
     );
@@ -134,8 +141,20 @@ export default Mn.View.extend({
   handleSubmit(event) {
       try {
         event.preventDefault();
-        this.saveySurvey();
 
+        if (this.app.getSession().userHasRole('ROLE_ROOT')) {
+          ModalService.request('confirm', {
+            title: t('survey.update.confirm-title'),
+            text: t('survey.update.confirm-text')
+          }).then(confirmed => {
+            if (!confirmed) {
+              return;
+            }
+            this.saveySurvey();
+          });
+        } else {
+          this.saveySurvey();
+        }
       } catch (e) {
         FlashesService.request('add', {
           timeout: 2000,
