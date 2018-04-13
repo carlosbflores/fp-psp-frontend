@@ -185,9 +185,17 @@
         "cancel": "Cancel"
       }
     },
-    "update": {
-      "confirm-title": "You are modifying this Survey",
-      "confirm-text": "Are you sure you want to save this changes?"
+    "save": {
+      "confirm-title": "Save Survey",
+      "confirm-text": "Are you sure you want to save this changes?",
+      "success": "Survey saved successfully"
+    },
+    "form": {
+      "title-required": "Missing Survey Title field",
+      "schema-required": "Missing JSON Schema field",
+      "schema-format-not-valid": "JSON Schema format is not valid",
+      "schema-ui-required": "Missing JSON UI Schema field",
+      "schema-ui-format-not-valid": "JSON UI Schema format is not valid"
     }
   },
   "termcondpol": {

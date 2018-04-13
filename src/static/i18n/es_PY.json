@@ -185,9 +185,17 @@
         "cancel": "Cancelar"
       }
     },
-    "update": {
-      "confirm-title": "Estás modificando esta Encuesta",
-      "confirm-text": "Está seguro que desea guardar estos cambios?"
+    "save": {
+      "confirm-title": "Guardar Encuesta",
+      "confirm-text": "Está seguro que desea guardar estos cambios?",
+      "success": "Encuesta guardada exitosamente"
+    },
+    "form": {
+      "title-required": "Título de la Encuesta es requerido",
+      "schema-required": "El JSON Esquema es requerido",
+      "schema-format-not-valid": "El formato del JSON Esquema no es válido",
+      "schema-ui-required": "El JSON Esquema Visual es requerido",
+      "schema-ui-format-not-valid": "El formato del JSON Esquema Visual no es válido"
     }
   },
   "termcondpol": {
