@@ -233,6 +233,7 @@
       "cell": "Celular",
       "email": "Correo electrónico",
       "place": "Lugar",
+      "edit": "Editar ficha de la familia",
       "no-priority": "Ningún indicador fue priorizado en este semáforo"
     },
     "manage": {
@@ -245,6 +246,18 @@
         "delete-confirm": "¿Seguro que quieres eliminar toda la información sobre tu familia?  Una vez que haya eliminado, no podrá volver atras.",
         "delete-confirm-title": "Confirmación de Eliminación",
         "delete-done": "La familia ha sido eliminada"
+      }
+    },
+    "form": {
+      "title": "Editar ficha de la familia",
+      "household": "Familia",
+      "survey-user": "Usuario Encuestador Asignado",
+      "select-user": "-- Selecciona un usuario --",
+      "save": {
+        "confirm-title": "Guardar Familia",
+        "confirm-text": "¿Está seguro que desea guardar estos cambios?",
+        "success": "Familia guardada exitosamente",
+        "failed": "La familia no pudo ser guardada"
       }
     }
   },

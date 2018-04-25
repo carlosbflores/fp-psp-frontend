@@ -233,6 +233,7 @@
       "cell": "Cell phone",
       "email": "Email",
       "place": "Place",
+      "edit": "Edit household file",
       "no-priority": "No indicator was prioritized in this stoplight"
     },
     "manage": {
@@ -245,6 +246,18 @@
         "delete-confirm": "¿Are sure you want to delete all the information about your household? Once you have deleted you will not able to go back.",
         "delete-confirm-title": "Confirm Deletion",
         "delete-done": "The household has been deleted!"
+      }
+    },
+    "form": {
+      "title": "Edit household file",
+      "household": "Household",
+      "survey-user": "Assigned Survey User",
+      "select-user": "-- Select a user --",
+      "save": {
+        "confirm-title": "Save Family",
+        "confirm-text": "Are you sure you want to save this changes?",
+        "success": "Family saved successfully",
+        "failed": "Family could not be saved"
       }
     }
   },

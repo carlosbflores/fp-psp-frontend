@@ -18,7 +18,7 @@ export default Mn.View.extend({
   initialize(options) {
     this.app = options.app;
     this.entity = options.entity;
-
+    this.model = options.model;
   },
   onRender() {
     const headerItems = storage.getSubHeaderItems(this.model);
@@ -36,6 +36,11 @@ export default Mn.View.extend({
       this.$el.find('#newSurvey').show();
     }
   },
+  onAttach() {
+    if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
+      this.$el.find('#edit-family').show();
+    }
+  },
   getTemplate() {
     if (this.entity === 'interventions') {
       // return InterventionsTemplate;
@@ -48,6 +53,10 @@ export default Mn.View.extend({
   },
 
   serializeData() {
+    if (this.model.get('city') || this.model.get('country')) {
+      this.model.set('place', `${this.model.get('city') ? this.model.get('city').city : ''} \
+        - ${this.model.get('country') ? this.model.get('country').country : ''}`);
+    }
     return {
       family: this.model.attributes,
       createdAt: this.getCreatedAt(),

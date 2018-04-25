@@ -5,12 +5,14 @@ import FamilySnapshotView from './show/snapshot/view';
 import familiesStorage from './storage';
 import SnapshotItemModel from '../snapshots/list/item/model';
 import FamilyUserView from './user/view';
+import FamilyForm from './edit/view';
 
 const families = props => {
   const { app } = props;
   const routes = {
     appRoutes: {
       'families(/)': 'showFamilies',
+      'families/:id/edit': 'editFamily',
       'families/:id(/:entity)': 'showFamily',
       'families/:id/snapshots(/:snapshotId)': 'showSnapshotFamily'
     },
@@ -63,6 +65,11 @@ const families = props => {
               );
             });
           });
+      },
+      editFamily(familyId) {
+        familiesStorage.find(familyId).then(model => {
+          app.showViewOnRoute(new FamilyForm({model}));
+        });
       }
     }
   };

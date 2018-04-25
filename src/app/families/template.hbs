@@ -12,21 +12,35 @@
         <div class="margin-tb-20px row">
           <div class="col-md-2 col-xs-12 col-sm-2">
             <img class="card-img-top img-responsive  img-card" src="/static/images/family-room.png">
+            <div class="text-center" style="padding-top: 15px">
+              <a id="edit-family" href="#families/{{family.id}}/edit" style="display: none">
+                {{$t 'family.map.edit'}}
+              </a>
+            </div>
           </div>
           <div class="col-md-7 col-xs-12 col-sm-7">
             <p>{{family.code}}</p>
             <p class="text-blue">{{$t 'family.map.contact'}}:
               <span class="text-gray">{{family.person.firstName}} {{family.person.lastName}}</span>
             </p>
-            <p class="text-blue">{{$t 'family.map.cell'}}:
-              <span class="text-gray">{{family.person.phoneNumber}}</span>
-            </p>
-            <p class="text-blue">{{$t 'family.map.email'}}:
-              <span class="text-gray">{{family.person.email}}</span>
-            </p>
-            <p class="text-blue">{{$t 'family.map.place'}}:
-              <span class="text-gray">{{family.city.city}}, {{family.country.country}}</span>
-            </p>
+
+            {{#if family.person.phoneNumber}}
+              <p class="text-blue">{{$t 'family.map.cell'}}:
+                <span class="text-gray">{{family.person.phoneNumber}}</span>
+              </p>
+            {{/if}}
+
+            {{#if family.person.email}}
+              <p class="text-blue">{{$t 'family.map.email'}}:
+                <span class="text-gray">{{family.person.email}}</span>
+              </p>
+            {{/if}}
+
+            {{#if family.place}}
+              <p class="text-blue">{{$t 'family.map.place'}}:
+                <span class="text-gray">{{family.place}}</span>
+              </p>
+            {{/if}}
           </div>
           <div class="col-md-3 col-xs-12 col-sm-3">
             <img class="img-responsive" src="static/images/dummy_ubication.png">
