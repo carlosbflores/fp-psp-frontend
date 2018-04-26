@@ -53,14 +53,11 @@ export default Mn.View.extend({
   },
 
   serializeData() {
-    if (this.model.get('city') || this.model.get('country')) {
-      this.model.set('place', `${this.model.get('city') ? this.model.get('city').city : ''} \
-        - ${this.model.get('country') ? this.model.get('country').country : ''}`);
-    }
     return {
       family: this.model.attributes,
       createdAt: this.getCreatedAt(),
-      className: this.isPrioritized()
+      className: this.isPrioritized(),
+      formattedPlace: this.getFormattedPlace()
     };
   },
   getCreatedAt() {
@@ -76,6 +73,13 @@ export default Mn.View.extend({
       return null;
     }
     return isPrioritized.length > 0 ? 'hidden' : '';
+  },
+  getFormattedPlace() {
+    if (this.model.get('city') || this.model.get('country')) {
+      return `${this.model.get('city') ? this.model.get('city').city : ''} \
+        - ${this.model.get('country') ? this.model.get('country').country : ''}`;
+    }
+    return null;
   },
   getJsonData() {
     let data = {};
