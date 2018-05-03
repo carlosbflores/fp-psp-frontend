@@ -293,9 +293,11 @@
         "add": "ADD HUB",
         "save": "SAVE HUB",
         "cancel": "Cancel"
-      },
-      "add-success": "Hub created successfully",
-      "add-failed": "Hub already exist"
+      }
+    },
+    "save": {
+      "success": "Hub saved successfully",
+      "failed": "Hub already exist"
     },
     "delete": {
       "confirm-title": "Confirm Deletion",
