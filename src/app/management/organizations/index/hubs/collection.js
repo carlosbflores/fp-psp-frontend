@@ -3,7 +3,7 @@ import { includes } from 'lodash';
 import env from '../../../../env';
 
 const Collection = Bn.Collection.extend({
-  url: `${env.API}/applications/hubs`,
+  url: `${env.API}/applications`,
   filterByValue(term) {
     const filtered = this.filter(m => this.includesAny(term, m));
 

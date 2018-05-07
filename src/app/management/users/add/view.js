@@ -56,7 +56,7 @@ export default Mn.View.extend({
     if (session.userHasRole('ROLE_ROOT')) {
       //  List all applications (Hubs and Partners)
       this.genericFetch(
-        '/applications/hubsandpartners',
+        '/applications/list',
         '#select-app',
         t('user.form.select-hub'),
         'application',
