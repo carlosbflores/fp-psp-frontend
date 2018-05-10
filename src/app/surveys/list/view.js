@@ -14,6 +14,7 @@ export default Mn.View.extend({
   },
   initialize(options) {
     const { add } = options;
+    this.app = options.app;
     this.collection = new Collection();
     this.collection.on('sync', this.render);
     this.collection.on('remove', this.render);
@@ -27,12 +28,13 @@ export default Mn.View.extend({
     element.empty();
 
     this.collection.forEach(item => {
-      
+
       item.bind('remove', function() {
         this.destroy();
       });
 
       let itemView = new ItemView({
+        app: this.app,
         model: item,
         addSurvey: this.props.add,
         deleteSurvey: this.deleteSurvey.bind(this)

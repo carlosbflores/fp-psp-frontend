@@ -10,7 +10,7 @@ export default Mn.View.extend({
     surveysContent: '#surveys-content'
   },
   initialize(app) {
-    this.app=app.app
+    this.app = app.app
   },
   onRender() {
     let headerItems;
@@ -24,6 +24,7 @@ export default Mn.View.extend({
   },
   list() {
     const listView = new ListView({
+      app: this.app,
       add: this.add.bind(this)
     });
     this.getRegion('surveysContent').show(listView);

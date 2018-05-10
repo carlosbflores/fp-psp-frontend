@@ -15,9 +15,15 @@ export default Mn.View.extend({
   },
   className: 'col-lg-2 col-md-4 col-sm-6 col-xs-12',
   initialize(options) {
+    this.app = options.app;
     this.deleteSurvey = options.deleteSurvey;
     this.model = options.model;
     this.model.attributes.created_at = this.formartterWithTime(this.model.attributes.created_at);
+  },
+  onRender() {
+    if (this.app.getSession().userHasRole('ROLE_ROOT')) {
+      this.$el.find('.card-menu-delete').show();
+    }
   },
 
   serializeData() {
