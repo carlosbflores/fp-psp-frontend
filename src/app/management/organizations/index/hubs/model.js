@@ -2,5 +2,5 @@ import Bn from 'backbone';
 import env from '../../../../env';
 
 export default Bn.Model.extend({
-  urlRoot: `${env.API}/applications/hubs`
+  urlRoot: `${env.API}/applications`
 });
