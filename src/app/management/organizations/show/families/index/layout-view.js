@@ -1,11 +1,10 @@
 import Mn from 'backbone.marionette';
 import $ from 'jquery';
 import Bn from 'backbone';
-
 import Template from '../../../../../families/index/layout-template.hbs';
 import CollectionView from '../../../../../families/index/collection-view';
 import utils from '../../../../../utils';
-import FamiliesColecction from '../../../../../families/collection';
+import FamiliesCollection from '../../../../../families/collection';
 import OrganizationsModel from '../../../../organizations/model';
 import CitiesModel from '../../../../../cities/model';
 import CountiesModel from '../../../../../countries/model';
@@ -20,14 +19,15 @@ export default Mn.View.extend({
     list: '#family-list'
   },
   events: {
-    'click #submit': 'handleSubmit'
+    'click #submit': 'handleSubmit',
+    'keypress #search': 'handleSubmit'
   },
   initialize(options) {
     this.collection = new Bn.Collection();
     this.organizationId = options.organizationId;
   },
   onRender() {
-    let { organizationId } = this;
+    let {organizationId} = this;
     setTimeout(() => {
       this.$el.find('#search').focus();
     }, 0);
@@ -83,34 +83,37 @@ export default Mn.View.extend({
   },
   showList() {
     this.getRegion('list').show(
-      new CollectionView({ collection: this.collection })
+      new CollectionView({collection: this.collection})
     );
   },
-  handleSubmit() {
-    var self = this;
-    let container = this.$el.find('.list-container').eq(0);
-    const section = utils.getLoadingSection(container);
+  handleSubmit(event) {
+    event.preventDefault();
+    if (event.which === 13 || event.which === 1) {
+      let self = this;
+      let container = this.$el.find('.list-container').eq(0);
+      const section = utils.getLoadingSection(container);
 
-    self.collection.reset();
-    this.getRegion('list').empty();
-    section.loading();
+      self.collection.reset();
+      this.getRegion('list').empty();
+      section.loading();
 
-    let params = {
-      organization_id: $('#organization').val(),
-      country_id: $('#country').val(),
-      city_id: $('#city').val(),
-      free_text: $('#search').val()
-    };
+      let params = {
+        organization_id: $('#organization').val(),
+        country_id: $('#country').val(),
+        city_id: $('#city').val(),
+        free_text: $('#search').val()
+      };
 
-    let elements = new FamiliesColecction();
-    elements.fetch({
-      data: params,
-      success(response) {
-        // setear al collection
-        self.collection = response;
-        self.showList();
-        section.reset();
-      }
-    });
+      let elements = new FamiliesCollection();
+      elements.fetch({
+        data: params,
+        success(response) {
+          // setear al collection
+          self.collection = response;
+          self.showList();
+          section.reset();
+        }
+      });
+    }
   }
 });

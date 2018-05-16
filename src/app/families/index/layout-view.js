@@ -1,11 +1,10 @@
 import Mn from 'backbone.marionette';
 import Bn from 'backbone';
 import $ from 'jquery';
-
 import Template from './layout-template.hbs';
 import CollectionView from './collection-view';
 import utils from '../../utils';
-import FamiliesColecction from '../collection';
+import FamiliesCollection from '../collection';
 import OrganizationsModel from '../../management/organizations/model';
 import CitiesModel from '../../cities/model';
 import CountiesModel from '../../countries/model';
@@ -33,6 +32,14 @@ export default Mn.View.extend({
     }, 0);
     this.showList();
 
+    this.loadSelects();
+  },
+  showList() {
+    this.getRegion('list').show(
+      new CollectionView({collection: this.collection})
+    );
+  },
+  loadSelects() {
     const self = this;
 
     this.citiesCollection.fetch({
@@ -71,20 +78,11 @@ export default Mn.View.extend({
               .text(element.name)
           );
         });
-
-        // if (!(session.userHasRole('ROLE_ROOT') || session.userHasRole('ROLE_HUB_ADMIN'))) {
-        //   $('#organization').attr('disabled', 'true');
-        //   $('#organization').val(session.get('user').organization.id);
-        // }
       }
     });
   },
-  showList() {
-    this.getRegion('list').show(
-      new CollectionView({ collection: this.collection })
-    );
-  },
   handleSubmit(event) {
+    event.preventDefault();
     if (event.which === 13 || event.which === 1) {
       const self = this;
       const container = this.$el.find('.list-container').eq(0);
@@ -101,7 +99,7 @@ export default Mn.View.extend({
         free_text: $('#search').val()
       };
 
-      const elements = new FamiliesColecction();
+      const elements = new FamiliesCollection();
       elements.fetch({
         data: params,
         success(response) {
