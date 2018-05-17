@@ -89,11 +89,10 @@ export default Mn.View.extend({
   handleSubmit(event) {
     event.preventDefault();
     if (event.which === 13 || event.which === 1) {
-      let self = this;
       let container = this.$el.find('.list-container').eq(0);
       const section = utils.getLoadingSection(container);
 
-      self.collection.reset();
+      this.collection.reset();
       this.getRegion('list').empty();
       section.loading();
 
@@ -104,6 +103,7 @@ export default Mn.View.extend({
         free_text: $('#search').val()
       };
 
+      let self = this;
       let elements = new FamiliesCollection();
       elements.fetch({
         data: params,
