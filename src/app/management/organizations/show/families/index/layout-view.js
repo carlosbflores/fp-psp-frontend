@@ -87,8 +87,8 @@ export default Mn.View.extend({
     );
   },
   handleSubmit(event) {
-    event.preventDefault();
     if (event.which === 13 || event.which === 1) {
+      event.preventDefault();
       let container = this.$el.find('.list-container').eq(0);
       const section = utils.getLoadingSection(container);
 
