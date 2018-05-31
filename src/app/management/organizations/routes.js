@@ -3,7 +3,6 @@ import HubView from './index/hubs/layout-view';
 import OrganizationView from './show/view';
 import OrganizationFormView from './add/view';
 import organizationsStorage from './storage';
-import hubsStorage from './index/hubs/storage';
 import OrganizationDashboard from './dashboard/model';
 import NewUserView from '../users/add/view';
 
@@ -24,9 +23,7 @@ const organizations = props => {
     controller: {
       // paginated organizations
       showHubs(entity) {
-        hubsStorage.find().then(model => {
-          app.showViewOnRoute(new HubView({model, app, entity}));
-        });
+        app.showViewOnRoute(new HubView({app, entity}));
       },
       showOrganizations() {
         app.showViewOnRoute(new OrganizationsView({app}));
