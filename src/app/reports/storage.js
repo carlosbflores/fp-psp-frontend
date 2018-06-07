@@ -11,6 +11,10 @@ var ReportsStorage = Storage.extend({
           {
             name: t('report.snapshot.title'),
             link: `/#reports/snapshots/organizations`
+          },
+          {
+            name: t('report.datatable.title'),
+            link: `/#reports/datatable`
           }
         ]
       };

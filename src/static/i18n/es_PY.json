@@ -405,6 +405,9 @@
           "required": "Debe especificar un valor para el campo '\"%{field}\"'"
         }
       }
+    },
+    "datatable": {
+      "title": "Reporte en Datatables"
     }
   }
 }

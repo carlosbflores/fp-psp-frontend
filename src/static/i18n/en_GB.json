@@ -405,6 +405,9 @@
           "required": "You must specify a value for the '\"%{field}\"' field"
         }
       }
+    },
+    "datatable": {
+      "title": "Datatable Report"
     }
   }
 }
