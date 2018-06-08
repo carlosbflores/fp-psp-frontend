@@ -96,59 +96,65 @@ export default Mn.View.extend({
           });
         });
       } else {
+        let self = this;
         let model = new Bn.Model();
         model.urlRoot = `${env.API}/reports/family/indicators/json`;
         model.fetch({
           data: this.filters,
           success(response) {
-            let $table = $('<table id="table" class="display" style="width:100%; font-size: 90%"></table>');
-            $('#datatable-container').html($table);
-
-            let $thead = $('<thead></thead>');
-            let $tr = $('<tr></tr>');
-            response.toJSON().headers.forEach((headerName) => {
-              $tr.append(`<th>${headerName}</th>`);
-            });
-            $thead.append($tr);
-            $table.append($thead);
-
-            let $tbody = $('<tbody></tbody>');
-            response.toJSON().rows.forEach((row) => {
-              $tr = $('<tr></tr>');
-              row.forEach((value) => {
-                let $td = $(`<td>${value}</td>`);
-                $td.addClass("text-center");
-                let color = {
-                  '0': '#e0504c',
-                  '1': '#f0cc39',
-                  '2': '#7cd071',
-                  'NONE': '#e7e7e7'
-                }
-                $td.css("background-color", color[value]);
-                $tr.append($td);
-              });
-              $tbody.append($tr);
-            });
-            $table.append($tbody);
-
-            $('#table thead th').each(function () {
-              $(this).append('<input type="text" placeholder="Search"/>');
-            });
-
-            let datatable = $('#table').DataTable({"dom": 'lrtip'});
-            datatable.columns().every(function () {
-              let that = this;
-              $('input', this.header()).on('keyup change', function () {
-                if (that.search() !== this.value) {
-                  that.search(this.value).draw();
-                }
-              });
-              return true;
-            });
+            self.buildDatatable(response.toJSON().headers, response.toJSON().rows);
           }
         });
       }
     }
+  },
+  buildDatatable(headers, rows) {
+    // Build table
+    let $table = $('<table id="table" class="display" style="width:100%; font-size: 90%"></table>');
+    $('#datatable-container').html($table);
+
+    let $thead = $('<thead></thead>');
+    let $tr = $('<tr></tr>');
+    headers.forEach((headerName) => {
+      $tr.append(`<th>${headerName}</th>`);
+    });
+    $thead.append($tr);
+    $table.append($thead);
+
+    let $tbody = $('<tbody></tbody>');
+    rows.forEach((row) => {
+      $tr = $('<tr></tr>');
+      row.forEach((value) => {
+        let $td = $(`<td>${value}</td>`);
+        $td.addClass("text-center");
+        let color = {
+          '0': '#e0504c',
+          '1': '#f0cc39',
+          '2': '#7cd071',
+          'NONE': '#e7e7e7'
+        };
+        $td.css("background-color", color[value]);
+        $tr.append($td);
+      });
+      $tbody.append($tr);
+    });
+    $table.append($tbody);
+
+    $('#table thead th').each(function () {
+      $(this).append('<input type="text" placeholder="Search"/>');
+    });
+
+    // Build Datatable
+    let datatable = $('#table').DataTable({"dom": 'lrtip'});
+    datatable.columns().every(function () {
+      let that = this;
+      $('input', this.header()).on('keyup change', function () {
+        if (that.search() !== this.value) {
+          that.search(this.value).draw();
+        }
+      });
+      return true;
+    });
   },
   validate(filters) {
     const errors = [];
