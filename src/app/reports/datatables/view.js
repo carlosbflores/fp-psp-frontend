@@ -118,21 +118,13 @@ export default Mn.View.extend({
               row.forEach((value) => {
                 let $td = $(`<td>${value}</td>`);
                 $td.addClass("text-center");
-                switch (value) {
-                  case '0':
-                    $td.css("background-color", "#e0504c");
-                    break;
-                  case '1':
-                    $td.css("background-color", "#f0cc39");
-                    break;
-                  case '2':
-                    $td.css("background-color", "#7cd071");
-                    break;
-                  case 'NONE':
-                    $td.css("background-color", "#e7e7e7");
-                    break;
-                  default:
+                let color = {
+                  '0': '#e0504c',
+                  '1': '#f0cc39',
+                  '2': '#7cd071',
+                  'NONE': '#e7e7e7'
                 }
+                $td.css("background-color", color[value]);
                 $tr.append($td);
               });
               $tbody.append($tr);
