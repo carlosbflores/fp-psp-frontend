@@ -5,7 +5,7 @@ const allMenuItems = {
   mainItem: { link: '#' },
   navigationItems: [
     { name: 'collaborators', link: '#collaborators/hubs' },
-    { name: 'reports', link: '#reports/snapshots' },
+    { name: 'reports', link: '#reports' },
     { name: 'families', link: '#families' },
     { name: 'surveys', link: '#surveys' },
     { name: 'faqs', link: '#faqs' },

@@ -1,10 +1,5 @@
 import React from 'react';
-
-const camelCasetoWords = str =>
-  str
-    .replace(/([A-Z])/g, match => ` ${match}`)
-    .toLowerCase()
-    .replace(/^./, match => match.toUpperCase());
+import camelCasetoWords from '../utils.js';
 
 const SurveyFilter = props => (
   <div>

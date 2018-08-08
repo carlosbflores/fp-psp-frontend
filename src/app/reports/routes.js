@@ -1,28 +1,18 @@
-import FamilyOrganizationView from './snapshots/by_organization/view';
-import DatatableReportView from './datatables/view';
-import SnapshotsReportView from './snapshots/view';
+import View from './view';
 
-const reports = props => {
-  const {app} = props;
+const reportForm = props => {
+  const { app } = props;
   const routes = {
     appRoutes: {
-      'reports/snapshots/organizations(/)': 'showFamiliesByOrganization',
-      'reports/datatable': 'datatableReport',
-      'reports/snapshots': 'snapshotsReport'
+      reports: 'showReportForm'
     },
     controller: {
-      showFamiliesByOrganization() {
-        app.showViewOnRoute(new FamilyOrganizationView({app}));
-      },
-      datatableReport() {
-        app.showViewOnRoute(new DatatableReportView({app}));
-      },
-      snapshotsReport() {
-        app.showViewOnRoute(new SnapshotsReportView({app}));
+      showReportForm() {
+        app.showViewOnRoute(new View({ app }));
       }
     }
   };
   return routes;
 };
 
-export default reports;
+export default reportForm;
