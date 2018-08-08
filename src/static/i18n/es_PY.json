@@ -67,6 +67,7 @@
     "economic-info": "Información Socioeconómica",
     "indicators": "Indicadores",
     "not-answer": "Omitir pregunta",
+    "select-an-option": "Selecciona una opción para este Indicador",
     "buttons": {
       "save-draft": "Guardar Borrador"
     },

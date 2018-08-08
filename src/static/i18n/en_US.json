@@ -67,6 +67,7 @@
     "economic-info": "Socio-economic Information",
     "indicators": "Indicators",
     "not-answer": "Skip question",
+    "select-an-option": "Select an option for this Indicator",
     "buttons": {
       "save-draft": "Save Draft"
     },
