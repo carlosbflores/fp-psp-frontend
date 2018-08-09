@@ -5,17 +5,17 @@ import _keys from 'lodash/fp/keys';
 const anonymousRoutes = ['', 'home', 'logout'];
 
 const adminCrudRoutes = {
-  collaborators: ['collaborators(/)', 'collaborators'],
-  organizationsInfo: ['organizations(/)', 'organizationsInfo'],
+  hubs: ['hubs(/)', 'hubs'],
   families: ['families(/)', 'families'],
   surveys: ['surveys(/)', 'surveys'],
   reports: ['reports(/)', 'reports'],
-  management: ['management(/)', 'management'],
-  manageFamilies: ['management/manage-families', 'manageFamilies'],
-  users: ['management/users(/)', 'users'],
-  applications: ['management/applications(/)', 'applications'],
-  organizations: ['management/organizations(/)', 'organizations'],
-  organizationsList: ['management/organizations', 'organizationsList']
+  users: ['users(/)', 'users'],
+  organizationReports: [
+    'reports/snapshots/organizations(/)',
+    'organizationReports'
+  ],
+  organizations: ['organizations(/)', 'organizations'],
+  organizationsList: ['organizations', 'organizationsList']
 };
 
 // Cached regular expressions for matching named param parts and splatted
@@ -46,17 +46,15 @@ class Authorizer {
     const routesKeys = _keys(this.appRoutes);
     if (this.session.userHasRole('ROLE_ROOT')) {
       return routesKeys
-        .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
         .filter(route => !_includes(adminCrudRoutes.reports, route))
+        .filter(route => !_includes(adminCrudRoutes.organizationReports, route))
         .filter(route => !_includes(adminCrudRoutes.organizations, route));
     }
 
     if (this.session.userHasRole('ROLE_HUB_ADMIN')) {
-      return routesKeys
-        .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
-        .filter(route => !_includes(adminCrudRoutes.collaborators, route))
-        .filter(route => !_includes(adminCrudRoutes.manageFamilies, route))
-        .filter(route => !_includes(adminCrudRoutes.applications, route));
+      return routesKeys.filter(
+        route => !_includes(adminCrudRoutes.hubs, route)
+      );
     }
 
     // APP_ADMIN is a member and admin
@@ -64,21 +62,15 @@ class Authorizer {
     // other organizations.
     if (this.session.userHasRole('ROLE_APP_ADMIN')) {
       return routesKeys
-        .filter(route => !_includes(adminCrudRoutes.collaborators, route))
+        .filter(route => !_includes(adminCrudRoutes.hubs, route))
         .filter(route => !_includes(adminCrudRoutes.organizations, route))
-        .filter(route => !_includes(adminCrudRoutes.organizationsList, route))
-        .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
-        .filter(route => !_includes(adminCrudRoutes.management, route))
-        .filter(route => !_includes(adminCrudRoutes.manageFamilies, route))
-        .filter(route => !_includes(adminCrudRoutes.families, route));
+        .filter(route => !_includes(adminCrudRoutes.organizationsList, route));
     }
 
     // regular user
     return routesKeys
-      .filter(route => !_includes(adminCrudRoutes.collaborators, route))
+      .filter(route => !_includes(adminCrudRoutes.hubs, route))
       .filter(route => !_includes(adminCrudRoutes.organizations, route))
-      .filter(route => !_includes(adminCrudRoutes.organizationsInfo, route))
-      .filter(route => !_includes(adminCrudRoutes.management, route))
       .filter(route => !_includes(adminCrudRoutes.users, route))
       .filter(route => !_includes(adminCrudRoutes.reports, route));
   }

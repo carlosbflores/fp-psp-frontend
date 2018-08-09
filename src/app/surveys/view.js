@@ -16,8 +16,6 @@ export default Mn.View.extend({
     let headerItems;
     if (this.app.getSession().userHasRole('ROLE_SURVEY_USER')) {
       headerItems = storage.getUserSubHeaderItems();
-    } else {
-      headerItems = storage.getSubHeaderItems();
     }
     this.app.updateSubHeader(headerItems);
     this.list();

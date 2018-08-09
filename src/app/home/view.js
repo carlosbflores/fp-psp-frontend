@@ -6,7 +6,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import Template from './template.hbs';
 import session from '../../common/session';
-import storage from '../management/hubs/storage';
+import storage from '../hubs/storage';
 import ActivityFeed from './activities/collection';
 import FeedItem from './activities/item/view';
 

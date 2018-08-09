@@ -13,10 +13,10 @@ import Template from './template.hbs';
 import Model from './model';
 import utils from '../../utils';
 import FlashesService from '../../flashes/service';
-import OrganizationsModel from '../../management/organizations/model';
+import OrganizationsModel from '../../organizations/model';
 import ApplicationModel from '../../applications/model';
-import ModalService from "../../modal/service";
-import env from "../../env";
+import ModalService from '../../modal/service';
+import env from '../../env';
 
 export default Mn.View.extend({
   template: Template,
@@ -30,88 +30,105 @@ export default Mn.View.extend({
     this.model = this.props.model || new Model();
     this.app = this.props.app;
 
-    this.app.getSession().userHasRole('ROLE_ROOT') ? this.getApplications() : this.getOrganizations();
+    this.app.getSession().userHasRole('ROLE_ROOT')
+      ? this.getApplications()
+      : this.getOrganizations();
   },
-  getApplications(){
+  getApplications() {
     let self = this;
     this.applicationsCollections.urlRoot = `${env.API}/applications/list`;
     self.applicationsCollections.fetch({
       success(response) {
         self.applicationsCollections = response.attributes;
-          $.each(self.applicationsCollections, (index, element) => {
-            self.buildOption(element);
-           });
-          if(!$.isEmptyObject(self.model.attributes)){
-            if(!$.isEmptyObject(self.model.attributes.applications)){
-              self.$el.find('#organization').val(self.getValuesIdArray()).trigger("change");
-            }
-            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema, null, 3));
-            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema, null, 3));
+        $.each(self.applicationsCollections, (index, element) => {
+          self.buildOption(element);
+        });
+        if (!$.isEmptyObject(self.model.attributes)) {
+          if (!$.isEmptyObject(self.model.attributes.applications)) {
+            self.$el
+              .find('#organization')
+              .val(self.getValuesIdArray())
+              .trigger('change');
+          }
+          self.schema.setValue(
+            JSON.stringify(self.model.attributes.survey_schema, null, 3)
+          );
+          self.schemaUI.setValue(
+            JSON.stringify(self.model.attributes.survey_ui_schema, null, 3)
+          );
         }
       }
     });
   },
-  getOrganizations(){
+  getOrganizations() {
     let self = this;
     this.organizationsCollection.urlRoot = `${env.API}/organizations/list`;
     self.organizationsCollection.fetch({
       success(response) {
         self.organizationsCollection = response.attributes;
-          $.each(self.organizationsCollection, (index, element) => {
-            self.buildOption(element);
-           });
-          if(!$.isEmptyObject(self.model.attributes)){
-            if(!$.isEmptyObject(self.model.attributes.organizations)){
-              self.$el.find('#organization').val(self.getValuesIdArray()).trigger("change");
-            }
-            self.schema.setValue(JSON.stringify(self.model.attributes.survey_schema, null, 3));
-            self.schemaUI.setValue(JSON.stringify(self.model.attributes.survey_ui_schema, null, 3));
+        $.each(self.organizationsCollection, (index, element) => {
+          self.buildOption(element);
+        });
+        if (!$.isEmptyObject(self.model.attributes)) {
+          if (!$.isEmptyObject(self.model.attributes.organizations)) {
+            self.$el
+              .find('#organization')
+              .val(self.getValuesIdArray())
+              .trigger('change');
+          }
+          self.schema.setValue(
+            JSON.stringify(self.model.attributes.survey_schema, null, 3)
+          );
+          self.schemaUI.setValue(
+            JSON.stringify(self.model.attributes.survey_ui_schema, null, 3)
+          );
         }
       }
     });
   },
-  buildOption(element){
+  buildOption(element) {
     $('#organization').append(
       $('<option></option>')
         .attr('value', element.id)
         .text(element.name)
     );
   },
-  getValuesIdArray(){
+  getValuesIdArray() {
     let array = [];
-    if(this.app.getSession().userHasRole('ROLE_ROOT')){
+    if (this.app.getSession().userHasRole('ROLE_ROOT')) {
       this.model.attributes.applications.forEach(element => {
-        array.push(element.id)
+        array.push(element.id);
       });
-    }else{
+    } else {
       this.model.attributes.organizations.forEach(element => {
-        array.push(element.id)
+        array.push(element.id);
       });
     }
     return array;
   },
   onRender() {
     this.startCodeMirror();
-     setTimeout(() => {
-       this.$el.find('#organization').select2({
-         placeholder: t('survey.add.assign-survey-placeholder')
-       });
+    setTimeout(() => {
+      this.$el.find('#organization').select2({
+        placeholder: t('survey.add.assign-survey-placeholder')
+      });
 
-       if(!$.isEmptyObject(this.model.attributes)){
-         if (this.app.getSession().userHasRole('ROLE_ROOT')) {
-           this.$el.find('.inputdisable').attr('disabled', false);
-           this.schema.setOption('readOnly', false);
-           this.schemaUI.setOption('readOnly', false);
-         } else {
-           this.$el.find('.inputdisable').attr('disabled',true);
-           this.schema.setOption('readOnly', true);
-           this.schemaUI.setOption('readOnly', true);
-         }
-        this.$el.find('#organization').val(this.getValuesIdArray()).trigger('change');
-       }
-
-     }, 0);
-
+      if (!$.isEmptyObject(this.model.attributes)) {
+        if (this.app.getSession().userHasRole('ROLE_ROOT')) {
+          this.$el.find('.inputdisable').attr('disabled', false);
+          this.schema.setOption('readOnly', false);
+          this.schemaUI.setOption('readOnly', false);
+        } else {
+          this.$el.find('.inputdisable').attr('disabled', true);
+          this.schema.setOption('readOnly', true);
+          this.schemaUI.setOption('readOnly', true);
+        }
+        this.$el
+          .find('#organization')
+          .val(this.getValuesIdArray())
+          .trigger('change');
+      }
+    }, 0);
   },
   startCodeMirror() {
     this.schema = CodeMirror.fromTextArea(this.$el.find('#schema-editor')[0], {
@@ -142,81 +159,91 @@ export default Mn.View.extend({
     };
   },
   handleSubmit(event) {
-      try {
-        event.preventDefault();
+    try {
+      event.preventDefault();
 
-        ModalService.request('confirm', {
-          title: t('survey.save.confirm-title'),
-          text: t('survey.save.confirm-text')
-        }).then(confirmed => {
-          if (!confirmed) {
-            return;
-          }
-          this.saveySurvey();
-        });
-      } catch (e) {
-        FlashesService.request('add', {
-          timeout: 2000,
-          type: 'warning',
-          title: e
-        });
-      }
-    },
+      ModalService.request('confirm', {
+        title: t('survey.save.confirm-title'),
+        text: t('survey.save.confirm-text')
+      }).then(confirmed => {
+        if (!confirmed) {
+          return;
+        }
+        this.saveySurvey();
+      });
+    } catch (e) {
+      FlashesService.request('add', {
+        timeout: 2000,
+        type: 'warning',
+        title: e
+      });
+    }
+  },
 
-    saveySurvey(){
-      const button = utils.getLoadingButton(this.$el.find('#submit'));
-      button.loading();
+  saveySurvey() {
+    const button = utils.getLoadingButton(this.$el.find('#submit'));
+    button.loading();
 
-      // We manually add form values to model,
-      // the form -> model binding should ideally
-      // be done automatically.
-      this.$el
+    // We manually add form values to model,
+    // the form -> model binding should ideally
+    // be done automatically.
+    this.$el
       .find('#form')
       .serializeArray()
       .forEach(element => {
         this.model.set(element.name, element.value);
       });
 
-      let organizationArray = [];
-      let applicationArray = [];
+    let organizationArray = [];
+    let applicationArray = [];
 
-      if(!this.app.getSession().userHasRole('ROLE_ROOT')){
-        $("#organization").val().forEach(element => {
-          organizationArray.push(
-            {id: element,
-               application:{id: this.app.getSession().get('user').application.id}
-          })
-        });
-      }else{
-        $("#organization").val().forEach(element => {
-          applicationArray.push({id: element})
-        });
-      }
-
-      this.model.set('organizations', organizationArray);
-      this.model.set('applications', applicationArray);
-      this.model.set('survey_schema', this.schema.getValue());
-      this.model.set('survey_ui_schema', this.schemaUI.getValue());
-
-      let errors = this.model.validate();
-
-      if (errors) {
-        errors.forEach(error => {
-           if (error.required)  this.$el.find(`#${error.field}`).parent().addClass('has-error');
-          FlashesService.request('add', {
-            timeout: 2000,
-            type: 'warning',
-            title: error.message
+    if (!this.app.getSession().userHasRole('ROLE_ROOT')) {
+      $('#organization')
+        .val()
+        .forEach(element => {
+          organizationArray.push({
+            id: element,
+            application: {
+              id: this.app.getSession().get('user').application.id
+            }
           });
         });
-        button.reset();
-        return;
-      }
+    } else {
+      $('#organization')
+        .val()
+        .forEach(element => {
+          applicationArray.push({ id: element });
+        });
+    }
 
-      this.model.set('survey_schema', JSON.parse(this.schema.getValue()));
-      this.model.set('survey_ui_schema', JSON.parse(this.schemaUI.getValue()));
+    this.model.set('organizations', organizationArray);
+    this.model.set('applications', applicationArray);
+    this.model.set('survey_schema', this.schema.getValue());
+    this.model.set('survey_ui_schema', this.schemaUI.getValue());
 
-      this.model
+    let errors = this.model.validate();
+
+    if (errors) {
+      errors.forEach(error => {
+        if (error.required)
+          this.$el
+            .find(`#${error.field}`)
+            .parent()
+            .addClass('has-error');
+        FlashesService.request('add', {
+          timeout: 2000,
+          type: 'warning',
+          title: error.message
+        });
+      });
+      button.reset();
+      return;
+    }
+
+    this.model.set('survey_schema', JSON.parse(this.schema.getValue()));
+    this.model.set('survey_ui_schema', JSON.parse(this.schemaUI.getValue()));
+
+    this.model
       .save()
       .then(
         () => {
@@ -225,10 +252,7 @@ export default Mn.View.extend({
             type: 'info',
             title: t('survey.save.success')
           });
-          Bn.history.navigate(
-            `/surveys`,
-            true
-          );
+          Bn.history.navigate(`/surveys`, true);
           this.model.fetch();
         },
         error => {
@@ -240,7 +264,5 @@ export default Mn.View.extend({
         }
       )
       .always(() => button.reset());
-
-    }
-
+  }
 });

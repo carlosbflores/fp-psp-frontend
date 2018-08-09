@@ -1,12 +1,12 @@
 import chai from 'chai';
-import UsersView from '../../src/app/management/users/view';
-import UserModel from '../../src/app/management/users/model';
+import UsersView from '../../src/app/users/view';
+import UserModel from '../../src/app/users/model';
 import App from '../../src/app/application/app';
 
 const app = new App();
 const expect = chai.expect;
 const model = new UserModel();
-const view = new UsersView({ model, app});
+const view = new UsersView({ model, app });
 
 describe('UsersView', () => {
   // Workaround to avoid PhantomJS error:

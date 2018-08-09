@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <article class="card">
+
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card-title">
+              <h4> {{#if isNew}}
+                {{$t 'user.form.add-title'}}
+              {{else}}
+                {{$t 'user.form.edit-title'}}
+              {{/if}}
+                <img class="pull-right" src="/static/images/icon_more.png">
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="margin-tb-35px" id="img-cam">
+              <img id="image-logo" class="card-img-top img-responsive center-block select-file"
+                   src="/static/images/icon_user_grey.png" alt=""/>
+              <p id="image-logo-text" class="text-center select-file">{{$t 'user.form.user-label'}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+
+            <div class="fp-form-container padding-b-30px" id="add-organization">
+              <form data-toggle="validator" role="form" class="form-vertical" id="form">
+                <div class="form-group">
+                  <input {{#unless isNew}} readonly {{/unless}} type="text" name="username" value="{{user.username}}" placeholder="* {{$t 'user.form.username'}}"
+                         class="input-bg-gray form-control" required>
+                </div>
+
+                <div class="form-group" {{#if isNew}} hidden {{/if}}>
+                  <input type="text" name="role" value="{{user.role}}" placeholder="* {{$t 'user.form.role'}}"
+                         class="input-bg-gray form-control" required  readonly >
+                </div>
+
+                <div class="form-group">
+                  <input type="email" name="email" value="{{user.email}}" placeholder="* {{$t 'user.form.email'}}"
+                         class="input-bg-gray form-control" required>
+                </div>
+
+                <div class="form-group" {{#if isNew}} hidden {{/if}}>
+                  <h6 class="card-text-sub-title text-blue">{{$t 'user.form.active'}}:</h6>
+                  <input type="checkbox" name="active" {{#if isChecked}} checked {{/if}}
+                  >
+                </div>
+
+                <div class="form-group" {{#unless isNew}} hidden {{/unless}}>
+                  <input type="password" name="pass" value="{{user.pass}}" placeholder="* {{$t 'user.form.password'}}"
+                         class="input-bg-gray form-control" required>
+                </div>
+                <div class="form-group" {{#unless isNew}} hidden {{/unless}}>
+                  <input type="password" name="password-confirm" value="" placeholder="* {{$t 'user.form.password-confirm'}}"
+                         class="input-bg-gray form-control" required>
+                </div>
+                <div class="form-group" {{#unless isNew}} hidden {{/unless}}>
+                  <select id="select-app" name="application" class="input-bg-gray form-control" style="display: none;">
+                    <option id="select-app-placeholder" selected disabled></option>
+                  </select>
+                  <select id="select-org" name="organization" class="input-bg-gray form-control" style="display: none;">
+                    <option id="select-org-placeholder" selected disabled></option>
+                  </select>
+                </div>
+                <div class="form-group" {{#unless isNew}} hidden {{/unless}}>
+                  <select id="select-role" name="role" class="form-control">
+                    <option id="select-role-placeholder" selected disabled></option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <button type="submit" name="register-submit" id="submit" class="btn" value="Save">{{$t 'general.buttons.ok'}}</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="text-center">
+                    <a href="#users" id="cancel" tabindex="5" class="">{{$t 'general.buttons.cancel'}}</a>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

@@ -4,7 +4,7 @@ import $ from 'jquery';
 import Template from './layout-template.hbs';
 import utils from '../../utils';
 import FamiliesCollection from '../collection';
-import OrganizationsModel from '../../management/organizations/model';
+import OrganizationsModel from '../../organizations/model';
 import env from '../../env';
 import ItemView from './item/view';
 import ModalService from '../../modal/service';

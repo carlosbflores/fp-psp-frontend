@@ -1,0 +1,32 @@
+
+  <!-- Card -->
+  <article class="row">
+  <div class="col-sm-2">
+    <div class="col-xs-2">
+       {{#if user.active}}
+        <div class="circle-user circle-user--active"></div>
+       {{else}}
+        <div class="circle-user circle-user--inactive"></div>
+       {{/if}}
+    </div>
+    <div class="col-xs-10">
+      <p class="text-left text-blue" title="{{{user.username}}}">{{user.username}}</p>
+      </div>
+  </div>
+  <div class="col-sm-2">
+    {{#if user.email}}
+      <p class="card-text" title={{{user.email}}}>{{user.email}}</p>
+    {{else}}
+      <p class="card-text">&nbsp</p>
+    {{/if}}
+  </div>
+  <div class="col-sm-2">
+    <p class="card-text" title={{{organization.name}}}>{{organization.name}}</p>
+  </div>
+  <div class="col-sm-5">
+    <p class="card-text" title={{{user.role}}}>{{user.role}}</p>
+  </div>
+  <div class="col-sm-1">
+    <a class="card-menu-item card-menu-edit" href="#"></a>
+  </div>
+  </article>

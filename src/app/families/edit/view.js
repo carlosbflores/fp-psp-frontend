@@ -1,13 +1,13 @@
 import Mn from 'backbone.marionette';
-import {history} from "backbone";
-import $ from "jquery";
-import env from "../../env";
+import { history } from 'backbone';
+import $ from 'jquery';
+import env from '../../env';
 import utils from '../../utils';
-import ModalService from "../../modal/service";
-import FlashesService from "../../flashes/service";
+import ModalService from '../../modal/service';
+import FlashesService from '../../flashes/service';
 import storage from '../storage';
 import Template from './template.hbs';
-import UserModel from '../../management/users/model';
+import UserModel from '../../users/model';
 
 export default Mn.View.extend({
   template: Template,
@@ -33,8 +33,10 @@ export default Mn.View.extend({
 
         if (!self.model.get('user')) {
           $('#select-user').append(
-            $('<option disabled selected value></option>')
-              .text(t('family.form.select-user')));
+            $('<option disabled selected value></option>').text(
+              t('family.form.select-user')
+            )
+          );
         }
 
         $.each(list, (index, element) => {
@@ -62,7 +64,7 @@ export default Mn.View.extend({
         const button = utils.getLoadingButton(this.$el.find('#submit'));
         button.loading();
 
-        let user = {userId: $('#select-user').val()};
+        let user = { userId: $('#select-user').val() };
         this.model.set('user', user);
         this.model.set('person', undefined);
 
@@ -70,7 +72,9 @@ export default Mn.View.extend({
           .save(this.model)
           .then(() => {
             button.reset();
-            history.navigate(`families/${this.model.get('id')}`, {trigger: true});
+            history.navigate(`families/${this.model.get('id')}`, {
+              trigger: true
+            });
             FlashesService.request('add', {
               timeout: 3000,
               type: 'info',

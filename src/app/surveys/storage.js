@@ -5,16 +5,7 @@ import Model from './add/model';
 var SurveysStorage = Storage.extend({
   model: Model,
   collection: Collection,
-  getSubHeaderItems() {
-    return {
-      navigationItems: [
-        {
-          name: t(`subheader.surveys.list-surveys`),
-          link: `/#surveys`
-        }
-      ]
-    };
-  },
+
   getUserSubHeaderItems() {
     return {
       navigationItems: [

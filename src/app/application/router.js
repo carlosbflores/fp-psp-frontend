@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import BaseRouter from './baserouter';
-import organizations from '../management/organizations/routes';
+import organizations from '../organizations/routes';
 import surveys from '../surveys/routes';
 import snapshots from '../snapshots/routes';
 import logout from '../logout/routes';
@@ -11,8 +11,10 @@ import termcondpol from '../termcondpol/routes';
 import faqs from '../faqs/routes';
 import snapshotsDraft from '../snapshots_drafts/routes';
 import reports from '../reports/routes';
-import management from '../management/routes';
+
 import map from '../map/routes';
+import users from '../users/routes';
+import hubs from '../hubs/routes';
 
 const initRouter = props => {
   const { app, before, onAccessDenied } = props;
@@ -28,8 +30,9 @@ const initRouter = props => {
     faqs(props),
     snapshotsDraft(props),
     reports(props),
-    management(props),
-    map(props)
+    map(props),
+    users(props),
+    hubs(props)
   );
   const authorizer = initAuthorizer({
     onAccessDenied,
