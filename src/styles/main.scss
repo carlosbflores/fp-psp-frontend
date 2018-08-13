@@ -1863,3 +1863,37 @@ img.current-language-flag {
 .color-picker-item--green:after {
   background: #409737;
 }
+
+//REPORTS
+.report-taglist,
+.report-dropdown {
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: 1px solid #efefef;
+  padding: 5px 10px;
+}
+
+.report-taglist {
+  height: 40px;
+  line-height: 25px;
+  display: flex;
+}
+
+.report-dropdown {
+  position: absolute;
+  margin-top: -1px;
+  width: 100%;
+  color: #788c9a;
+}
+
+.report-tag {
+  background-color: rgba(204, 204, 204, 1);
+  margin-right: 10px;
+  border-radius: 2px;
+  padding: 0 10px;
+}
+
+.report-tag-deselect {
+  color: #333333;
+  margin-left: 10px;
+}
