@@ -49,9 +49,7 @@ export default Mn.View.extend({
     ) {
       this.$el.find('#add-new').show();
       if (session.userHasRole('ROLE_APP_ADMIN') && this.orgModel) {
-        this.$el
-          .find('#add-new')
-          .attr('href', `#organizations/${this.orgModel.get('id')}/users/new`);
+        this.$el.find('#add-new').attr('href', `#users/new`);
       }
     }
   },

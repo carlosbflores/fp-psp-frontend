@@ -12,7 +12,8 @@ const organizations = props => {
       'organizations(/)': 'showOrganizations',
       'organizations/new': 'newOrganization',
       'organizations/edit/:id': 'editOrganization',
-      'organizations/:id(/:entity)': 'showOrganization'
+      'organizations/:id(/:entity)': 'showOrganization',
+      'hubs/organizations/:id': 'showOrganizationsByApplication'
     },
     controller: {
       // paginated organizations
@@ -20,7 +21,7 @@ const organizations = props => {
       showOrganizations() {
         app.showViewOnRoute(new OrganizationsView({ app }));
       },
-      showOrganizationsByApplication(entity, applicationId) {
+      showOrganizationsByApplication(applicationId) {
         app.showViewOnRoute(new OrganizationsView({ app, applicationId }));
       },
       showOrganization(organizationId, entity) {
