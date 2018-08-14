@@ -1,8 +1,9 @@
 import React from 'react';
 
 const colors = ['RED', 'YELLOW', 'GREEN'];
+
 const ColorPicker = props => (
-  <div className="color-picker">
+  <div className="color-picker report-color-picker">
     {colors.map(color => (
       <div
         key={color}
@@ -11,7 +12,9 @@ const ColorPicker = props => (
             ? 'color-picker-item--active'
             : ''
         }`}
-        onClick={() => props.toggleSelectedColors(color)}
+        onClick={() =>
+          props.toggleSelectedColors({ color, indicator: props.indicator })
+        }
       >
         {color}
       </div>

@@ -138,7 +138,7 @@ class MapContainer extends Component {
     }));
   }
 
-  toggleSelectedColors(color) {
+  toggleSelectedColors({ color }) {
     if (this.state.selectedColors.includes(color)) {
       this.setState({
         selectedColors: this.state.selectedColors.filter(item => item !== color)

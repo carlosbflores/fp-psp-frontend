@@ -7,23 +7,7 @@ import {
   InfoWindow
 } from 'react-google-maps';
 import moment from 'moment';
-
-import red from '../../../static/images/red-dot.svg';
-import green from '../../../static/images/green-dot.svg';
-import yellow from '../../../static/images/yellow-dot.svg';
-
-const selectColor = color => {
-  switch (color) {
-    case 'GREEN':
-      return green;
-    case 'YELLOW':
-      return yellow;
-    case 'RED':
-      return red;
-    default:
-      return '';
-  }
-};
+import { selectColor } from '../utils.js';
 
 class Map extends React.Component {
   constructor(props) {

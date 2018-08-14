@@ -1,6 +1,6 @@
 import React from 'react';
-import camelCasetoWords from '../utils.js';
 import SelectWithTags from './selectWithTags';
+import Indicators from './indicators';
 
 export default class FormContainer extends React.Component {
   constructor(props) {
@@ -8,6 +8,7 @@ export default class FormContainer extends React.Component {
     this.state = {
       selectedSurvey: '',
       indicators: [],
+      selectedIndicators: {},
       organizations: [],
       selectedOrganizations: []
     };
@@ -17,6 +18,9 @@ export default class FormContainer extends React.Component {
     this.selectSurvey = this.selectSurvey.bind(this);
     this.selectOrganization = this.selectOrganization.bind(this);
     this.deselectOrganization = this.deselectOrganization.bind(this);
+    this.selectIndicator = this.selectIndicator.bind(this);
+    this.deselectIndicator = this.deselectIndicator.bind(this);
+    this.toggleSelectedColors = this.toggleSelectedColors.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +49,32 @@ export default class FormContainer extends React.Component {
     this.getOrganizations(survey);
   }
 
+  getIndicators(survey) {
+    const indicators = this.props.surveyData
+      ? this.props.surveyData.filter(item => item.title === survey)[0]
+          .survey_ui_schema['ui:group:indicators']
+      : [];
+    this.setState({
+      indicators
+    });
+  }
+
+  selectIndicator(indicator) {
+    const selectedIndicators = this.state.selectedIndicators;
+    selectedIndicators[indicator] = ['RED', 'YELLOW', 'GREEN'];
+    this.setState({
+      selectedIndicators
+    });
+  }
+
+  deselectIndicator(indicator) {
+    const selectedIndicators = this.state.selectedIndicators;
+    delete selectedIndicators[indicator];
+    this.setState({
+      selectedIndicators
+    });
+  }
+
   selectOrganization(organization) {
     this.setState({
       selectedOrganizations: [
@@ -52,6 +82,24 @@ export default class FormContainer extends React.Component {
         this.state.organizations.filter(item => item.name === organization)[0]
       ]
     });
+  }
+
+  toggleSelectedColors({ color, indicator }) {
+    if (this.state.selectedIndicators[indicator].includes(color)) {
+      let selectedIndicators = this.state.selectedIndicators;
+      selectedIndicators[indicator] = selectedIndicators[indicator].filter(
+        item => item !== color
+      );
+      this.setState({
+        selectedIndicators
+      });
+    } else {
+      let selectedIndicators = this.state.selectedIndicators;
+      selectedIndicators[indicator].push(color);
+      this.setState({
+        selectedIndicators
+      });
+    }
   }
 
   deselectOrganization(organization) {
@@ -68,16 +116,6 @@ export default class FormContainer extends React.Component {
       : [];
     this.setState({
       organizations
-    });
-  }
-
-  getIndicators(survey) {
-    const indicators = this.props.surveyData
-      ? this.props.surveyData.filter(item => item.title === survey)[0]
-          .survey_ui_schema['ui:group:indicators']
-      : [];
-    this.setState({
-      indicators
     });
   }
 
@@ -104,14 +142,15 @@ export default class FormContainer extends React.Component {
         </select>
         <hr />
         <label>Indicators</label>
-        {this.state.indicators.map(item => (
-          <div key={item}>
-            <input type="checkbox" id={item} name={item} value={item} />
-            <label>{camelCasetoWords(item)}</label>
-          </div>
-        ))}
+        <Indicators
+          indicators={this.state.indicators}
+          selectedIndicators={this.state.selectedIndicators}
+          selectIndicator={this.selectIndicator}
+          deselectIndicator={this.deselectIndicator}
+          toggleSelectedColors={this.toggleSelectedColors}
+        />
         <hr />
-        <button className="btn btn-primary">Download Reports</button>
+        <button className="btn btn-primary">Download CVS Report</button>
       </div>
     );
   }

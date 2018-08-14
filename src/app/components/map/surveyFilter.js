@@ -1,5 +1,5 @@
 import React from 'react';
-import camelCasetoWords from '../utils.js';
+import { camelCasetoWords } from '../utils.js';
 
 const SurveyFilter = props => (
   <div>

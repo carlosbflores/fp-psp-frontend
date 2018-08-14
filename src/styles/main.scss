@@ -1880,7 +1880,6 @@ img.current-language-flag {
 }
 
 .report-dropdown {
-  position: absolute;
   margin-top: -1px;
   width: 100%;
   color: #788c9a;
@@ -1896,4 +1895,8 @@ img.current-language-flag {
 .report-tag-deselect {
   color: #333333;
   margin-left: 10px;
+}
+
+.report-color-picker {
+  margin: 0px;
 }
