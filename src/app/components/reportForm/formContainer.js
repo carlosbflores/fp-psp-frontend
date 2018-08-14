@@ -1,6 +1,9 @@
+/* eslint react/no-unused-state: 0 */
+
 import React from 'react';
 import SelectWithTags from './selectWithTags';
 import Indicators from './indicators';
+import TimePeriod from './timePeriod';
 
 export default class FormContainer extends React.Component {
   constructor(props) {
@@ -10,17 +13,19 @@ export default class FormContainer extends React.Component {
       indicators: [],
       selectedIndicators: {},
       organizations: [],
-      selectedOrganizations: []
+      selectedOrganizations: [],
+      selectedPeriod: [],
+      multipleSnapshots: false
     };
 
-    this.getIndicators = this.getIndicators.bind(this);
-    this.getOrganizations = this.getOrganizations.bind(this);
     this.selectSurvey = this.selectSurvey.bind(this);
     this.selectOrganization = this.selectOrganization.bind(this);
     this.deselectOrganization = this.deselectOrganization.bind(this);
     this.selectIndicator = this.selectIndicator.bind(this);
     this.deselectIndicator = this.deselectIndicator.bind(this);
     this.toggleSelectedColors = this.toggleSelectedColors.bind(this);
+    this.selectPeriod = this.selectPeriod.bind(this);
+    this.toggleMultipleSnapshots = this.toggleMultipleSnapshots.bind(this);
   }
 
   componentDidMount() {
@@ -75,12 +80,30 @@ export default class FormContainer extends React.Component {
     });
   }
 
+  getOrganizations(survey) {
+    const organizations = this.props.surveyData
+      ? this.props.surveyData.filter(item => item.title === survey)[0]
+          .organizations
+      : [];
+    this.setState({
+      organizations
+    });
+  }
+
   selectOrganization(organization) {
     this.setState({
       selectedOrganizations: [
         ...this.state.selectedOrganizations,
         this.state.organizations.filter(item => item.name === organization)[0]
       ]
+    });
+  }
+
+  deselectOrganization(organization) {
+    this.setState({
+      selectedOrganizations: this.state.selectedOrganizations.filter(
+        item => item.name !== organization
+      )
     });
   }
 
@@ -102,24 +125,18 @@ export default class FormContainer extends React.Component {
     }
   }
 
-  deselectOrganization(organization) {
-    this.setState({
-      selectedOrganizations: this.state.selectedOrganizations.filter(
-        item => item.name !== organization
-      )
-    });
+  selectPeriod(from, to) {
+    if (from && to) {
+      this.setState({ selectedPeriod: [from, to] });
+    }
   }
-  getOrganizations(survey) {
-    const organizations = this.props.surveyData
-      ? this.props.surveyData.filter(item => item.title === survey)[0]
-          .organizations
-      : [];
-    this.setState({
-      organizations
-    });
+
+  toggleMultipleSnapshots() {
+    this.setState({ multipleSnapshots: !this.state.multipleSnapshots });
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <label>Organization</label>
@@ -131,6 +148,13 @@ export default class FormContainer extends React.Component {
           selectMethod={this.selectOrganization}
           deselectMethod={this.deselectOrganization}
         />
+        <hr />
+        <label>Time Period</label>
+        <TimePeriod
+          selectPeriod={this.selectPeriod}
+          toggleMultipleSnapshots={this.toggleMultipleSnapshots}
+        />
+        <hr />
         <label>Survey</label>
         <select
           className="map-select"
