@@ -1900,3 +1900,14 @@ img.current-language-flag {
 .report-color-picker {
   margin: 0px;
 }
+.report-custom-timeperiod {
+  display: flex;
+}
+.report-form-date {
+  input {
+    width: 150px;
+    height: 30px;
+    margin: 0;
+    font-size: 15px !important;
+  }
+}

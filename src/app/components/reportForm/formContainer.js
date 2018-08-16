@@ -128,7 +128,7 @@ export default class FormContainer extends React.Component {
   selectPeriod(from, to) {
     if (from && to) {
       this.setState({ selectedPeriod: [from, to] });
-    }
+    } else this.setState({ selectedPeriod: [] });
   }
 
   toggleMultipleSnapshots() {
@@ -136,7 +136,6 @@ export default class FormContainer extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <label>Organization</label>
