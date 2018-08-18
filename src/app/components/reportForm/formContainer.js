@@ -1,9 +1,10 @@
-/* eslint react/no-unused-state: 0 */
+/* eslint {"no-prototype-builtins": 0, "react/no-unused-state": 0} */
 
 import React from 'react';
 import SelectWithTags from './selectWithTags';
 import Indicators from './indicators';
 import TimePeriod from './timePeriod';
+import SocialIndicators from './socialIndicators';
 
 export default class FormContainer extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class FormContainer extends React.Component {
     this.state = {
       selectedSurvey: '',
       indicators: [],
+      displayedSocialIndicators: {},
       selectedIndicators: {},
       organizations: [],
       selectedOrganizations: [],
@@ -42,6 +44,7 @@ export default class FormContainer extends React.Component {
         selectedSurvey: this.props.surveyData[0].title
       });
       this.getIndicators(this.props.surveyData[0].title);
+      this.getSocialIndicators(this.props.surveyData[0].title);
       this.getOrganizations(this.props.surveyData[0].title);
     }
   }
@@ -51,6 +54,7 @@ export default class FormContainer extends React.Component {
       selectedSurvey: survey
     });
     this.getIndicators(survey);
+    this.getSocialIndicators(survey);
     this.getOrganizations(survey);
   }
 
@@ -61,6 +65,31 @@ export default class FormContainer extends React.Component {
       : [];
     this.setState({
       indicators
+    });
+  }
+
+  getSocialIndicators(survey) {
+    const socialIndicatorsTargetKeys = this.props.surveyData
+      ? this.props.surveyData.filter(item => item.title === survey)[0]
+          .survey_ui_schema['ui:group:economics']
+      : [];
+    const socialIndicators = this.props.surveyData
+      ? this.props.surveyData.filter(item => item.title === survey)[0]
+          .survey_schema.properties
+      : {};
+    const displayedSocialIndicators = {};
+    const socialIndicatorsInitalKeys = Object.keys(socialIndicators);
+    socialIndicatorsInitalKeys.forEach(key => {
+      if (
+        socialIndicatorsTargetKeys.includes(key) &&
+        (socialIndicators[key].hasOwnProperty('enum') ||
+          socialIndicators[key].type === 'number')
+      ) {
+        displayedSocialIndicators[key] = socialIndicators[key];
+      }
+    });
+    this.setState({
+      displayedSocialIndicators
     });
   }
 
@@ -136,14 +165,21 @@ export default class FormContainer extends React.Component {
   }
 
   render() {
+    const {
+      organizations,
+      selectedOrganizations,
+      displayedSocialIndicators,
+      indicators,
+      selectedIndicators
+    } = this.state;
     return (
       <div>
         <label>Organization</label>
         <SelectWithTags
-          items={this.state.organizations.filter(
-            item => !this.state.selectedOrganizations.includes(item)
+          items={organizations.filter(
+            item => !selectedOrganizations.includes(item)
           )}
-          selectedItems={this.state.selectedOrganizations}
+          selectedItems={selectedOrganizations}
           selectMethod={this.selectOrganization}
           deselectMethod={this.deselectOrganization}
         />
@@ -164,10 +200,14 @@ export default class FormContainer extends React.Component {
           ))}
         </select>
         <hr />
+        <label>Displayed Social Indicators</label>
+        <SocialIndicators
+          displayedSocialIndicators={displayedSocialIndicators}
+        />
         <label>Indicators</label>
         <Indicators
-          indicators={this.state.indicators}
-          selectedIndicators={this.state.selectedIndicators}
+          indicators={indicators}
+          selectedIndicators={selectedIndicators}
           selectIndicator={this.selectIndicator}
           deselectIndicator={this.deselectIndicator}
           toggleSelectedColors={this.toggleSelectedColors}
