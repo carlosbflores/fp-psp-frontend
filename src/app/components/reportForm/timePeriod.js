@@ -36,62 +36,70 @@ export default class TimePeriod extends React.Component {
   render() {
     return (
       <div>
-        <input
-          type="radio"
-          value="all"
-          name="period"
-          defaultChecked
-          onChange={() => {
-            this.props.selectPeriod();
-            this.hideTimeSelect();
-          }}
-        />
-        <label>All</label>
-        <br />
-        <input
-          type="radio"
-          value="one-month"
-          name="period"
-          onChange={() => {
-            this.props.selectPeriod(
-              Number(
-                moment()
-                  .subtract(1, 'months')
-                  .format('x')
-              ),
-              Date.now()
-            );
-            this.hideTimeSelect();
-          }}
-        />
-        <label>Last month</label>
-        <br />
-        <input
-          type="radio"
-          value="six-months"
-          name="period"
-          onChange={() => {
-            this.props.selectPeriod(
-              Number(
-                moment()
-                  .subtract(6, 'months')
-                  .format('x')
-              ),
-              Date.now()
-            );
-            this.hideTimeSelect();
-          }}
-        />
-        <label>Last six months</label>
+        <label>
+          <input
+            type="radio"
+            value="all"
+            name="period"
+            defaultChecked
+            onChange={() => {
+              this.props.selectPeriod();
+              this.hideTimeSelect();
+            }}
+          />
+          All
+        </label>
         <br />
 
-        <input
-          type="radio"
-          value="custom"
-          name="period"
-          onChange={this.showTimeSelect}
-        />
-        <label>Custom</label>
+        <label>
+          <input
+            type="radio"
+            value="one-month"
+            name="period"
+            onChange={() => {
+              this.props.selectPeriod(
+                Number(
+                  moment()
+                  .subtract(1, 'months')
+                  .format('x')
+                ),
+                Date.now()
+              );
+              this.hideTimeSelect();
+            }}
+          />Last month
+        </label>
+        <br />
+        <label>
+          <input
+            type="radio"
+            value="six-months"
+            name="period"
+            onChange={() => {
+              this.props.selectPeriod(
+                Number(
+                  moment()
+                  .subtract(6, 'months')
+                  .format('x')
+                ),
+                Date.now()
+              );
+              this.hideTimeSelect();
+            }}
+          />
+          Last six months
+        </label>
+        <br />
+
+        <label>
+          <input
+            type="radio"
+            value="custom"
+            name="period"
+            onChange={this.showTimeSelect}
+          />
+          Custom
+        </label>
         {this.state.showCustomTimeSelect && (
           <div className="report-custom-timeperiod">
             <label>From</label>
@@ -118,13 +126,15 @@ export default class TimePeriod extends React.Component {
         )}
 
         <br />
-        <input
-          type="checkbox"
-          value="multipleSnapshots"
-          name="multipleSnapshots"
-          onChange={this.props.toggleMultipleSnapshots}
-        />
-        <label>Include multiple snapshots per family</label>
+        <label>
+          <input
+            type="checkbox"
+            value="multipleSnapshots"
+            name="multipleSnapshots"
+            onChange={this.props.toggleMultipleSnapshots}
+          />
+          Include multiple snapshots per family
+        </label>
       </div>
     );
   }

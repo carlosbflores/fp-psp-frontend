@@ -11,15 +11,16 @@ export default class SelectWithTags extends React.Component {
     this.setState({ isDropdownOpen: !this.state.isDropdownOpen });
   }
   render() {
+    const { items, selectedItems, selectMethod, deselectMethod } = this.props
     return (
       <div>
         <div className="report-taglist" onClick={this.toggleDropdown}>
-          {this.props.selectedItems.map(item => (
+          {selectedItems.map(item => (
             <div className="report-tag" key={item.id}>
               {item.name}
               <span
                 onClick={e => {
-                  this.props.deselectMethod(item.name);
+                  deselectMethod(item.name);
                   e.stopPropagation();
                 }}
                 className="report-tag-deselect"
@@ -31,11 +32,11 @@ export default class SelectWithTags extends React.Component {
         </div>
         {this.state.isDropdownOpen && (
           <div className="report-dropdown">
-            {this.props.items.map(item => (
+            {items.map(item => (
               <div
                 key={item.id}
                 onClick={() => {
-                  this.props.selectMethod(item.name);
+                  selectMethod(item.name);
                   this.toggleDropdown();
                 }}
               >

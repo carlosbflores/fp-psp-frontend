@@ -44,6 +44,13 @@ select {
   color: #788c9a;
   border: 1px solid #efefef !important;
 }
+input[type='radio'],
+input[type='checkbox'] {
+  margin-right: 5px;
+}
+label {
+  cursor: pointer;
+}
 button {
   background: #7cd071;
   border-radius: 2px;

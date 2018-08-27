@@ -2,7 +2,7 @@
 
 import React from 'react';
 import SelectWithTags from './selectWithTags';
-import Indicators from './indicators';
+import Indicators from './Indicators';
 import TimePeriod from './timePeriod';
 
 export default class FormContainer extends React.Component {
@@ -13,7 +13,9 @@ export default class FormContainer extends React.Component {
       indicators: [],
       selectedIndicators: {},
       organizations: [],
+      applications: [],
       selectedOrganizations: [],
+      selectedApplications: [],
       selectedPeriod: [],
       multipleSnapshots: false
     };
@@ -42,7 +44,7 @@ export default class FormContainer extends React.Component {
         selectedSurvey: this.props.surveyData[0].title
       });
       this.getIndicators(this.props.surveyData[0].title);
-      this.getOrganizations(this.props.surveyData[0].title);
+      this.getOrganizationsAndApps(this.props.surveyData[0].title);
     }
   }
 
@@ -51,7 +53,7 @@ export default class FormContainer extends React.Component {
       selectedSurvey: survey
     });
     this.getIndicators(survey);
-    this.getOrganizations(survey);
+    this.getOrganizationsAndApps(survey);
   }
 
   getIndicators(survey) {
@@ -80,13 +82,13 @@ export default class FormContainer extends React.Component {
     });
   }
 
-  getOrganizations(survey) {
-    const organizations = this.props.surveyData
-      ? this.props.surveyData.filter(item => item.title === survey)[0]
-          .organizations
-      : [];
+  getOrganizationsAndApps(survey) {
+    const data = this.props.surveyData
+      && this.props.surveyData.filter(item => item.title === survey)[0]
+
     this.setState({
-      organizations
+      organizations: data ? data.organizations : [],
+      applications: data && data.applications ? data.applications : []
     });
   }
 
@@ -103,6 +105,23 @@ export default class FormContainer extends React.Component {
     this.setState({
       selectedOrganizations: this.state.selectedOrganizations.filter(
         item => item.name !== organization
+      )
+    });
+  }
+
+  selectApplication(application) {
+    this.setState({
+      selectedApplications: [
+        ...this.state.selectedApplications,
+        this.state.applications.filter(item => item.name === application)[0]
+      ]
+    });
+  }
+
+  deselectApplication(application) {
+    this.setState({
+      selectedApplications: this.state.selectedApplications.filter(
+        item => item.name !== application
       )
     });
   }
@@ -146,6 +165,16 @@ export default class FormContainer extends React.Component {
           selectedItems={this.state.selectedOrganizations}
           selectMethod={this.selectOrganization}
           deselectMethod={this.deselectOrganization}
+        />
+        <hr />
+        <label>Hubs</label>
+        <SelectWithTags
+          items={this.state.applications.filter(
+            item => !this.state.selectedApplications.includes(item)
+          )}
+          selectedItems={this.state.selectedApplications}
+          selectMethod={this.selectApplication}
+          deselectMethod={this.deselectApplication}
         />
         <hr />
         <label>Time Period</label>
