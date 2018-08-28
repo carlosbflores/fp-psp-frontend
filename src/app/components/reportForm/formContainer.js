@@ -3,6 +3,7 @@
 import React from 'react';
 import SelectWithTags from './selectWithTags';
 import Indicators from './Indicators';
+import Economics from './Economics';
 import TimePeriod from './timePeriod';
 
 export default class FormContainer extends React.Component {
@@ -11,7 +12,9 @@ export default class FormContainer extends React.Component {
     this.state = {
       selectedSurvey: '',
       indicators: [],
+      economics: [],
       selectedIndicators: {},
+      selectedEconomics: {},
       organizations: [],
       applications: [],
       selectedOrganizations: [],
@@ -25,9 +28,15 @@ export default class FormContainer extends React.Component {
     this.deselectOrganization = this.deselectOrganization.bind(this);
     this.selectIndicator = this.selectIndicator.bind(this);
     this.deselectIndicator = this.deselectIndicator.bind(this);
+    this.selectEconomic = this.selectEconomic.bind(this);
+    this.deselectEconomic = this.deselectEconomic.bind(this);
+    this.changeNumberEconomic = this.changeNumberEconomic.bind(this);
+    this.selectFilter = this.selectFilter.bind(this);
+    this.deselectFilter = this.deselectFilter.bind(this);
     this.toggleSelectedColors = this.toggleSelectedColors.bind(this);
     this.selectPeriod = this.selectPeriod.bind(this);
     this.toggleMultipleSnapshots = this.toggleMultipleSnapshots.bind(this);
+    this.getFilteredEconomics = this.getFilteredEconomics.bind(this);
   }
 
   componentDidMount() {
@@ -45,24 +54,27 @@ export default class FormContainer extends React.Component {
       });
       this.getIndicators(this.props.surveyData[0].title);
       this.getOrganizationsAndApps(this.props.surveyData[0].title);
+      this.getFilteredEconomics(this.props.surveyData[0].title);
     }
   }
 
   selectSurvey(survey) {
     this.setState({
-      selectedSurvey: survey
+      selectedSurvey: survey,
+      selectedIndicators: {},
+      selectedEconomics: {}
     });
     this.getIndicators(survey);
     this.getOrganizationsAndApps(survey);
+    this.getFilteredEconomics(survey);
   }
 
   getIndicators(survey) {
-    const indicators = this.props.surveyData
-      ? this.props.surveyData.filter(item => item.title === survey)[0]
-          .survey_ui_schema['ui:group:indicators']
-      : [];
+    const data = this.props.surveyData
+      && this.props.surveyData.filter(item => item.title === survey)[0]
+
     this.setState({
-      indicators
+      indicators: data ? data.survey_ui_schema['ui:group:indicators'] : []
     });
   }
 
@@ -80,6 +92,77 @@ export default class FormContainer extends React.Component {
     this.setState({
       selectedIndicators
     });
+  }
+
+  selectEconomic(economic) {
+    const selectedEconomics = this.state.selectedEconomics;
+    selectedEconomics[economic.name] = economic;
+    this.setState({
+      selectedEconomics
+    });
+  }
+
+  deselectEconomic(economic) {
+    const selectedEconomics = this.state.selectedEconomics;
+    delete selectedEconomics[economic.name];
+    this.setState({
+      selectedEconomics
+    });
+  }
+
+  changeNumberEconomic(economicName, type, value) {
+    const selectedEconomics = this.state.selectedEconomics;
+    selectedEconomics[economicName][type] = value;
+    this.setState({
+      selectedEconomics
+    });
+  }
+
+  selectFilter(economicName, filter) {
+    const selectedEconomics = this.state.selectedEconomics;
+    selectedEconomics[economicName].selectedFilters.push(filter);
+    this.setState({
+      selectedEconomics
+    });
+  }
+
+  deselectFilter(economicName, filter) {
+    const selectedEconomics = this.state.selectedEconomics;
+
+
+    selectedEconomics[economicName].selectedFilters = selectedEconomics[economicName].selectedFilters.filter(
+      item => item !== filter
+    )
+
+    this.setState({
+      selectedEconomics
+    });
+  }
+
+  getFilteredEconomics(survey) {
+
+    const data = this.props.surveyData
+      && this.props.surveyData.filter(item => item.title === survey)[0]
+
+
+      if (data) {
+        const tmp = []
+        data.survey_ui_schema['ui:group:economics'].forEach(item => {
+          const factor = data.survey_ui_schema['ui:custom:fields'][item] || data.survey_schema.properties[item]
+
+          if (factor && factor["ui:field"] === 'numberFormat' ) {
+            tmp.push({name: item})
+          }
+
+          if (factor && factor.enum ) {
+            tmp.push({name: item, enum: factor.enum, selectedFilters: []})
+          }
+        })
+
+        this.setState({
+          economics: tmp
+        });
+      }
   }
 
   getOrganizationsAndApps(survey) {
@@ -192,6 +275,17 @@ export default class FormContainer extends React.Component {
             <option key={item}>{item}</option>
           ))}
         </select>
+        <hr />
+        <label>Socioeconomic status</label>
+        <Economics
+          economics={this.state.economics}
+          selectedEconomics={this.state.selectedEconomics}
+          selectEconomic={this.selectEconomic}
+          deselectEconomic={this.deselectEconomic}
+          changeNumberEconomic={this.changeNumberEconomic}
+          selectFilter={this.selectFilter}
+          deselectFilter={this.deselectFilter}
+        />
         <hr />
         <label>Indicators</label>
         <Indicators
