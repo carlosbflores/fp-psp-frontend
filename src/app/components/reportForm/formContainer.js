@@ -10,7 +10,7 @@ export default class FormContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedSurvey: '',
+      selectedSurvey: null,
       indicators: [],
       economics: [],
       selectedIndicators: {},
@@ -37,30 +37,22 @@ export default class FormContainer extends React.Component {
     this.selectPeriod = this.selectPeriod.bind(this);
     this.toggleMultipleSnapshots = this.toggleMultipleSnapshots.bind(this);
     this.getFilteredEconomics = this.getFilteredEconomics.bind(this);
+    this.showReport = this.showReport.bind(this);
   }
 
   componentDidMount() {
-    this.selectDefaultSurvey();
+    if (this.props.surveyData && this.state.selectedSurvey === null) {
+      this.selectSurvey(this.props.surveyData[0].title);
+    }
   }
 
   getSurveys(data) {
     return data.map(item => item.title);
   }
 
-  selectDefaultSurvey() {
-    if (this.props.surveyData && this.state.selectedSurvey === '') {
-      this.setState({
-        selectedSurvey: this.props.surveyData[0].title
-      });
-      this.getIndicators(this.props.surveyData[0].title);
-      this.getOrganizationsAndApps(this.props.surveyData[0].title);
-      this.getFilteredEconomics(this.props.surveyData[0].title);
-    }
-  }
-
   selectSurvey(survey) {
     this.setState({
-      selectedSurvey: survey,
+      selectedSurvey: this.props.surveyData.filter(item => item.title === survey)[0],
       selectedIndicators: {},
       selectedEconomics: {}
     });
@@ -237,6 +229,37 @@ export default class FormContainer extends React.Component {
     this.setState({ multipleSnapshots: !this.state.multipleSnapshots });
   }
 
+  showReport (){
+    const {selectedApplications, selectedOrganizations, selectedSurvey, selectedPeriod, multipleSnapshots, selectedIndicators, selectedEconomics} = this.state
+
+    const socioeconomicFilters = {}
+
+
+    Object.values(selectedEconomics).forEach(item => {
+      if (item.min && item.max) {
+        socioeconomicFilters[item.name] = [item.min, item.max]
+      }
+
+      if (item.enum) {
+        socioeconomicFilters[item.name] = item.selectedFilters
+      }
+    })
+
+
+    const send = {
+      applications: selectedApplications,
+      organizations: selectedOrganizations,
+      survey_id: selectedSurvey.id,
+      fromDate: selectedPeriod[0],
+      toDate: selectedPeriod[1],
+      multipleSnapshots,
+      indicatorsFilters: selectedIndicators,
+      socioeconomicFilters
+    }
+
+    return send
+  }
+
   render() {
     return (
       <div>
@@ -296,6 +319,8 @@ export default class FormContainer extends React.Component {
           toggleSelectedColors={this.toggleSelectedColors}
         />
         <hr />
+        <button className="btn btn-primary" onClick={this.showReport}>Show Report</button>
+        <div />
         <button className="btn btn-primary">Download CVS Report</button>
       </div>
     );
