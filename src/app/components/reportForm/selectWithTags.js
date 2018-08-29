@@ -19,7 +19,7 @@ export default class SelectWithTags extends React.Component {
               {item.name}
               <span
                 onClick={e => {
-                  this.props.deselectMethod(item.name);
+                  this.props.deselectMethod(item.id);
                   e.stopPropagation();
                 }}
                 className="report-tag-deselect"
@@ -35,7 +35,7 @@ export default class SelectWithTags extends React.Component {
               <div
                 key={item.id}
                 onClick={() => {
-                  this.props.selectMethod(item.name);
+                  this.props.selectMethod(item.id);
                   this.toggleDropdown();
                 }}
               >

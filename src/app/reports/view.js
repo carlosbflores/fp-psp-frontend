@@ -14,10 +14,11 @@ export default Mn.View.extend({
   onRender() {
     this.getSurveys();
   },
-  renderForm(surveyData) {
+  renderForm(surveys) {
     const reportForm = this.$el.find('#report-form')[0];
     this.reactView = React.createElement(FormContainer, {
-      surveyData
+      surveys,
+      token: this.app.getSession().attributes.access_token
     });
     ReactDOM.unmountComponentAtNode(reportForm);
     ReactDOM.render(this.reactView, reportForm);
@@ -27,10 +28,10 @@ export default Mn.View.extend({
     this.collection
       .fetch({
         success(response) {
-          self.surveyData = response.models.map(item => item.attributes);
-          return self.surveyData;
+          self.surveys = response.models.map(item => item.attributes);
+          return self.surveys;
         }
       })
-      .then(surveyData => self.renderForm(surveyData));
+      .then(surveys => self.renderForm(surveys));
   }
 });

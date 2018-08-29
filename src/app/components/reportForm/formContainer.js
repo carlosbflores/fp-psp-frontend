@@ -2,30 +2,35 @@
 
 import React from 'react';
 import SelectWithTags from './selectWithTags';
-import Indicators from './indicators';
+import Indicators from './Indicators';
 import TimePeriod from './timePeriod';
+import env from "../../env";
 
 export default class FormContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedSurvey: '',
-      indicators: [],
-      selectedIndicators: {},
+      selectedSurveyId: null,
+      applications: [],
+      selectedApplications: [],
       organizations: [],
       selectedOrganizations: [],
       selectedPeriod: [],
-      multipleSnapshots: false
+      multipleSnapshots: false,
+      indicators: [],
+      selectedIndicators: {},
     };
 
     this.selectSurvey = this.selectSurvey.bind(this);
+    this.selectApplication = this.selectApplication.bind(this);
+    this.deselectApplication = this.deselectApplication.bind(this);
     this.selectOrganization = this.selectOrganization.bind(this);
     this.deselectOrganization = this.deselectOrganization.bind(this);
+    this.selectPeriod = this.selectPeriod.bind(this);
+    this.toggleMultipleSnapshots = this.toggleMultipleSnapshots.bind(this);
     this.selectIndicator = this.selectIndicator.bind(this);
     this.deselectIndicator = this.deselectIndicator.bind(this);
     this.toggleSelectedColors = this.toggleSelectedColors.bind(this);
-    this.selectPeriod = this.selectPeriod.bind(this);
-    this.toggleMultipleSnapshots = this.toggleMultipleSnapshots.bind(this);
   }
 
   componentDidMount() {
@@ -33,30 +38,94 @@ export default class FormContainer extends React.Component {
   }
 
   getSurveys(data) {
-    return data.map(item => item.title);
+    return data.map(item => item);
   }
 
   selectDefaultSurvey() {
-    if (this.props.surveyData && this.state.selectedSurvey === '') {
+    if (this.props.surveys && this.state.selectedSurveyId === null) {
+      let surveyId = this.props.surveys[0].id;
       this.setState({
-        selectedSurvey: this.props.surveyData[0].title
+        selectedSurveyId : surveyId
       });
-      this.getIndicators(this.props.surveyData[0].title);
-      this.getOrganizations(this.props.surveyData[0].title);
+      this.getApplications(surveyId);
+      this.getOrganizations(surveyId);
+      this.getIndicators(surveyId);
     }
   }
 
-  selectSurvey(survey) {
+  selectSurvey(surveyId) {
     this.setState({
-      selectedSurvey: survey
+      selectedSurveyId: surveyId
     });
-    this.getIndicators(survey);
-    this.getOrganizations(survey);
+    this.getApplications(surveyId);
+    this.getOrganizations(surveyId);
+    this.getIndicators(surveyId);
   }
 
-  getIndicators(survey) {
-    const indicators = this.props.surveyData
-      ? this.props.surveyData.filter(item => item.title === survey)[0]
+  getApplications(surveyId) {
+    const applications = this.props.surveys
+      ? this.props.surveys.filter(item => item.id === surveyId)[0].applications
+      : [];
+    this.setState({
+      applications
+    });
+  }
+
+  getOrganizations(surveyId) {
+    const organizations = this.props.surveys
+      ? this.props.surveys.filter(item => item.id === surveyId)[0].organizations
+      : [];
+    this.setState({
+      organizations
+    });
+  }
+
+  selectApplication(applicationId) {
+    this.setState({
+      selectedApplications: [...this.state.selectedApplications,
+        this.state.applications.filter(item => item.id === applicationId)[0]
+      ]
+    });
+  }
+
+  deselectApplication(applicationId) {
+    this.setState({
+      selectedApplications: this.state.selectedApplications.filter(
+        item => item.id !== applicationId
+      )
+    });
+  }
+
+  selectOrganization(organizationId) {
+    this.setState({
+      selectedOrganizations: [
+        ...this.state.selectedOrganizations,
+        this.state.organizations.filter(item => item.id === organizationId)[0]
+      ]
+    });
+  }
+
+  deselectOrganization(organizationId) {
+    this.setState({
+      selectedOrganizations: this.state.selectedOrganizations.filter(
+        item => item.id !== organizationId
+      )
+    });
+  }
+
+  selectPeriod(from, to) {
+    if (from && to) {
+      this.setState({ selectedPeriod: [from, to] });
+    } else this.setState({ selectedPeriod: [] });
+  }
+
+  toggleMultipleSnapshots() {
+    this.setState({ multipleSnapshots: !this.state.multipleSnapshots });
+  }
+
+  getIndicators(surveyId) {
+    const indicators = this.props.surveys
+      ? this.props.surveys.filter(item => item.id === surveyId)[0]
           .survey_ui_schema['ui:group:indicators']
       : [];
     this.setState({
@@ -80,33 +149,6 @@ export default class FormContainer extends React.Component {
     });
   }
 
-  getOrganizations(survey) {
-    const organizations = this.props.surveyData
-      ? this.props.surveyData.filter(item => item.title === survey)[0]
-          .organizations
-      : [];
-    this.setState({
-      organizations
-    });
-  }
-
-  selectOrganization(organization) {
-    this.setState({
-      selectedOrganizations: [
-        ...this.state.selectedOrganizations,
-        this.state.organizations.filter(item => item.name === organization)[0]
-      ]
-    });
-  }
-
-  deselectOrganization(organization) {
-    this.setState({
-      selectedOrganizations: this.state.selectedOrganizations.filter(
-        item => item.name !== organization
-      )
-    });
-  }
-
   toggleSelectedColors({ color, indicator }) {
     if (this.state.selectedIndicators[indicator].includes(color)) {
       let selectedIndicators = this.state.selectedIndicators;
@@ -125,19 +167,82 @@ export default class FormContainer extends React.Component {
     }
   }
 
-  selectPeriod(from, to) {
-    if (from && to) {
-      this.setState({ selectedPeriod: [from, to] });
-    } else this.setState({ selectedPeriod: [] });
+  showReportPreview() {
+    let filters = this.getFilters();
+    fetch(`${env.API}/reports/snapshots/json`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.props.token}`,
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify(filters)
+    })
+    .then(response => response.json())
+    .then(json => {
+      console.log('json', json);
+    });
   }
 
-  toggleMultipleSnapshots() {
-    this.setState({ multipleSnapshots: !this.state.multipleSnapshots });
+  downloadCVSReport() {
+    let filters = this.getFilters();
+    fetch(`${env.API}/reports/snapshots/csv`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.props.token}`,
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify(filters)
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const a = window.document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = "snapshots.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  getFilters() {
+    return {
+      "survey_id": this.state.selectedSurveyId,
+      "applications": this.state.selectedApplications.map(item => item.id),
+      "organizations": this.state.selectedOrganizations.map(item => item.id),
+      "fromDate": this.state.selectedPeriod[0],
+      "toDate": this.state.selectedPeriod[1],
+      "multipleSnapshots": this.state.multipleSnapshots,
+      "matchQuantifier": "ALL",
+      "indicatorsFilters": this.state.selectedIndicators
+    };
   }
 
   render() {
     return (
       <div>
+
+        <label>Survey</label>
+        <select
+          className="map-select"
+          onChange={e => this.selectSurvey(Number(e.target.value))}
+        >
+          {this.getSurveys(this.props.surveys).map(item => (
+            <option value={item.id}>{item.title}</option>
+          ))}
+        </select>
+        <hr />
+
+        <label>Hubs</label>
+        <SelectWithTags
+          items={this.state.applications.filter(
+            item => !this.state.selectedApplications.includes(item)
+          )}
+          selectedItems={this.state.selectedApplications}
+          selectMethod={this.selectApplication}
+          deselectMethod={this.deselectApplication}
+        />
+        <hr />
+
         <label>Organization</label>
         <SelectWithTags
           items={this.state.organizations.filter(
@@ -148,22 +253,14 @@ export default class FormContainer extends React.Component {
           deselectMethod={this.deselectOrganization}
         />
         <hr />
+
         <label>Time Period</label>
         <TimePeriod
           selectPeriod={this.selectPeriod}
           toggleMultipleSnapshots={this.toggleMultipleSnapshots}
         />
         <hr />
-        <label>Survey</label>
-        <select
-          className="map-select"
-          onChange={e => this.selectSurvey(e.target.value)}
-        >
-          {this.getSurveys(this.props.surveyData).map(item => (
-            <option key={item}>{item}</option>
-          ))}
-        </select>
-        <hr />
+
         <label>Indicators</label>
         <Indicators
           indicators={this.state.indicators}
@@ -173,7 +270,22 @@ export default class FormContainer extends React.Component {
           toggleSelectedColors={this.toggleSelectedColors}
         />
         <hr />
-        <button className="btn btn-primary">Download CVS Report</button>
+
+        <button
+          className="btn btn-primary"
+          onClick={this.showReportPreview()}
+        >
+          Show Report Preview
+        </button>
+        <hr />
+
+        <button
+          className="btn btn-primary"
+          onClick={this.downloadCVSReport()}
+        >
+          Download Report
+        </button>
+
       </div>
     );
   }
