@@ -50,14 +50,14 @@ export default Mn.View.extend({
     }, 0);
   },
   entryEmail() {
-    $('.login').hide();
-    $('.recovery').show();
-    this.$el.find('#login-email').focus();
+    $('#loginform').hide();
+    $('#recoveryform').show();
+    this.$el.find('#recovery-username').focus();
   },
 
   backLogin() {
-    $('.login').show();
-    $('.recovery').hide();
+    $('#loginform').show();
+    $('#recoveryform').hide();
     this.$el.find('#login-username').focus();
   },
 
@@ -126,9 +126,10 @@ export default Mn.View.extend({
     const rcoveryBtn = this.$el.find('#btn-recovery');
     const button = getLoadingButton(rcoveryBtn);
 
-    let email = $('#login-email').val();
+    let username = $('#recovery-username').val();
+    let email = $('#recovery-email').val();
 
-    let url = `${env.API_PUBLIC}/password/resetPassword?email=${email}`;
+    let url = `${env.API_PUBLIC}/password/resetPassword?username=${username}&email=${email}`;
 
     button.loading();
     $.ajax({
@@ -153,7 +154,8 @@ export default Mn.View.extend({
         }
       },
       complete: () => {
-        $('#login-email').val('');
+        $('#recovery-username').val('');
+        $('#recovery-email').val('');
         button.reset();
       }
     });
