@@ -27,6 +27,7 @@ export default View.extend({
   },
 
   animateIn() {
+    this.onShow();
     return new Promise(resolve => {
       this.once('modal:show', resolve);
       this.$el.modal('show');

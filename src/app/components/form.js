@@ -75,26 +75,14 @@ class Form extends Component {
   }
 
   updateState(stepsSchema, stepsUISchema) {
-
-    // Case 1: one o more fields were removed.
-
-    const formDataCopy = this.props.stateDraft.formData;
-    const arrayDependenciesKeys = this.getAllDependenciesKeys(formDataCopy.dependencies);
-
-    Object.keys(formDataCopy).forEach(field => {
-      if (!this.existInSchemaGroup(field) && !arrayDependenciesKeys.includes(field)){
-        delete this.props.stateDraft.formData[field];
-        this.props.stateDraft.step = this.props.stateDraft.step - 1;
-      }
-    });
-
     stepsSchema.forEach(item => {
       if (item.dependencies && item.dependencies !== null){
         let formData = this.props.stateDraft.formData;
         let selected = formData[item.key];
         if (item.dependencies[item.key]) {
           let dependency = item.dependencies[item.key];
-          // se pueden dar otro tipos de dependency, por ahora cubierto t0do lo que sea enum
+          // There can be other types of dependency, for now everithing related
+          // to enum is covered
           if (dependency.oneOf) {
             this.manageDependencyForEnums(dependency,selected,formData, item);
           }
@@ -120,7 +108,7 @@ class Form extends Component {
 
     for (let i = 0; i < stepsSchema.length; i++) {
       if (stepsSchema[i].key === stepKey) {
-        indexActualKey = i + 1;
+        indexActualKey = i;
       }
 
       // Case 3: the field wasn't answered (for example, changed from optional to required).
@@ -179,7 +167,7 @@ class Form extends Component {
       uischema['ui:group:personal'] &&
       uischema['ui:group:personal'].includes(key)
     ) {
-      if (this.props.reAnswer) uischemaToRet[key] = {"ui:readonly": true};
+      if (this.props.reAnswer || (this.props.stateDraft && this.props.stateDraft.reAnswer)) uischemaToRet[key] = {"ui:readonly": true};
     }
 
     return uischemaToRet;
@@ -315,13 +303,8 @@ class Form extends Component {
 
       newData[currentStep.key] = this.state.lastValue[currentStep.key];
 
-      /* if (this.state.lastValue !== this.state.formData) {
-        newData[currentStep.key] = this.state.lastValue[currentStep.key];
-      } else if (currentStep.properties[currentStep.key].default) {
-        newData[currentStep.key] = currentStep.properties[currentStep.key].default;
-      } */
-
       this.state.formData = newData;
+      this.state.reAnswer = ((this.props.stateDraft && this.props.stateDraft.reAnswer) || this.props.reAnswer);
       this.props.handleSaveDraft(this.state);
 
     } else {
@@ -338,7 +321,7 @@ class Form extends Component {
       show = false;
     } else {
       for (let i = 0; i < this.props.uiSchema['ui:group:personal'].length; i++) {
-        if (!state.formData[this.props.uiSchema['ui:group:personal'][i]]) {
+        if (this.props.uiSchema['ui:order'][state.step] === this.props.uiSchema['ui:group:personal'][i]) {
           show = false;
         }
       }
@@ -452,21 +435,16 @@ class Form extends Component {
 
 
   render() {
-
-    // TODO draft-feature, the following snippet if set after the first Div
-    // returned will show the Save Draft Button, this feature is being removed
-    // till its reworked and fixed.
-    /*
-            {this.checkShowSaveDraft(this.state) ?
-              <button
-                className="btn btn-primary pull-right marginDraft"
-                hidden
-                onClick={() => this.onSaveDraft()}
-              > {t('schemaForm.buttons.save-draft')}
-              </button> : ''}
-    */
+    // TODO draft-feature
     return (
       <div className="col-md-12">
+        {this.checkShowSaveDraft(this.state) ?
+          <button
+            className="btn btn-primary pull-right marginDraft"
+            onClick={() => this.onSaveDraft()}
+          > {t('schemaForm.buttons.save-draft')}
+          </button> : ''}
+
         <article className="card">
           <div className="card-block">
             <div id="new-survey-2" className="row">

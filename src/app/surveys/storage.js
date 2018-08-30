@@ -13,13 +13,10 @@ var SurveysStorage = Storage.extend({
           name: t(`subheader.surveys.list-surveys`),
           link: `/#surveys`
         },
-        /* TODO draft-feature, removing Draft Sub-Header Tab till the feature is
-        reworked and brought back
         {
           name: t(`subheader.surveys.list-drafts`),
           link: `/#surveys/drafts`
         }
-        */
       ]
     };
   }

@@ -25,12 +25,9 @@ export default Mn.View.extend({
     const headerItems = storage.getUserSubHeaderItems();
     this.app.updateSubHeader(headerItems);
 
-    /* TODO draft-feature, removing Draft Sub-Header Tab till the feature is
-    reworked and brought back
     $('a.sub-menu-item[href$="/#surveys/drafts"]')
       .parent()
       .addClass('subActive');
-    */
 
     setTimeout(() => {
       this.$el.find('#search').focus();
