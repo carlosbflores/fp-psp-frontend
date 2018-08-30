@@ -5,6 +5,7 @@ import SelectWithTags from './selectWithTags';
 import Indicators from './Indicators';
 import Economics from './Economics';
 import TimePeriod from './timePeriod';
+import env from "../../env";
 
 export default class FormContainer extends React.Component {
   constructor(props) {
@@ -20,7 +21,8 @@ export default class FormContainer extends React.Component {
       selectedOrganizations: [],
       selectedApplications: [],
       selectedPeriod: [],
-      multipleSnapshots: false
+      multipleSnapshots: false,
+      reportPreview: []
     };
 
     this.selectSurvey = this.selectSurvey.bind(this);
@@ -38,6 +40,7 @@ export default class FormContainer extends React.Component {
     this.toggleMultipleSnapshots = this.toggleMultipleSnapshots.bind(this);
     this.getFilteredEconomics = this.getFilteredEconomics.bind(this);
     this.showReport = this.showReport.bind(this);
+    this.downloadCVSReport = this.downloadCVSReport.bind(this);
   }
 
   componentDidMount() {
@@ -229,7 +232,44 @@ export default class FormContainer extends React.Component {
     this.setState({ multipleSnapshots: !this.state.multipleSnapshots });
   }
 
-  showReport (){
+  showReport() {
+    let filters = this.getFilters();
+    fetch(`${env.API}/reports/snapshots/json`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.props.token}`,
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify(filters)
+    })
+    .then(response => response.json())
+    .then(json => {
+      console.log('json', json);
+    });
+  }
+
+  downloadCVSReport() {
+    let filters = this.getFilters();
+    fetch(`${env.API}/reports/snapshots/csv`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.props.token}`,
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify(filters)
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const a = window.document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = "snapshots.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  getFilters (){
     const {selectedApplications, selectedOrganizations, selectedSurvey, selectedPeriod, multipleSnapshots, selectedIndicators, selectedEconomics} = this.state
 
     const socioeconomicFilters = {}
@@ -247,17 +287,18 @@ export default class FormContainer extends React.Component {
 
 
     const send = {
-      applications: selectedApplications,
-      organizations: selectedOrganizations,
+      applications: selectedApplications.map(applications => applications.id),
+      organizations: selectedOrganizations.map(organization => organization.id),
       survey_id: selectedSurvey.id,
       fromDate: selectedPeriod[0],
       toDate: selectedPeriod[1],
       multipleSnapshots,
+      "matchQuantifier": "ALL",
       indicatorsFilters: selectedIndicators,
       socioeconomicFilters
     }
 
-    return send
+    return send;
   }
 
   render() {
@@ -320,8 +361,19 @@ export default class FormContainer extends React.Component {
         />
         <hr />
         <button className="btn btn-primary" onClick={this.showReport}>Show Report</button>
-        <div />
-        <button className="btn btn-primary">Download CVS Report</button>
+        <div>
+          {this.state.reportPreview.length && (
+            <ul>
+              {this.state.reportPreview.map(household => <li><a href={`/#families/${household.user.userId}`}>{household.personal_survey_data.firstName} {household.personal_survey_data.lastName}</a></li>)}
+            </ul>
+          )}
+        </div>
+        <button
+          className="btn btn-primary"
+          onClick={this.downloadCVSReport}
+        >
+          Download Report
+        </button>
       </div>
     );
   }

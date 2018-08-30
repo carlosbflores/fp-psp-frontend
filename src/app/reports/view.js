@@ -17,7 +17,9 @@ export default Mn.View.extend({
   renderForm(surveyData) {
     const reportForm = this.$el.find('#report-form')[0];
     this.reactView = React.createElement(FormContainer, {
-      surveyData
+      surveyData,
+      token: this.app.getSession().attributes.access_token,
+      user: this.app.getSession().attributes.user.authorities[0].authority
     });
     ReactDOM.unmountComponentAtNode(reportForm);
     ReactDOM.render(this.reactView, reportForm);
