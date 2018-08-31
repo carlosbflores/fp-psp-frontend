@@ -314,13 +314,32 @@ export default class FormContainer extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          <label>Match Filters</label>
-          <select value={this.state.match} onChange={this.changeMatch}>
-            <option value="ALL">All</option>
-            <option value="ANY">Any</option>
-          </select>
-        </div>
+        <label>Survey</label>
+        <select
+          className="map-select"
+          onChange={e => this.selectSurvey(e.target.value)}
+        >
+          {this.getSurveys(this.props.surveyData).map(item => (
+            <option key={item}>{item}</option>
+          ))}
+        </select>
+        <hr />
+
+        {this.props.user === 'ROLE_ROOT' && (
+          <div>
+            <label>Hubs</label>
+            <SelectWithTags
+              items={this.state.applications.filter(
+                item => !this.state.selectedApplications.includes(item)
+              )}
+              selectedItems={this.state.selectedApplications}
+              selectMethod={this.selectApplication}
+              deselectMethod={this.deselectApplication}
+            />
+            <hr />
+          </div>
+        )}
+
         {(this.props.user === 'ROLE_ROOT' || this.props.user === 'ROLE_HUB_ADMIN') && (
           <div>
             <label>Organizations</label>
@@ -335,36 +354,14 @@ export default class FormContainer extends React.Component {
             <hr />
           </div>
         )}
-        {this.props.user === 'ROLE_ROOT' && (
-          <div>
-            <label>Applications</label>
-            <SelectWithTags
-              items={this.state.applications.filter(
-                item => !this.state.selectedApplications.includes(item)
-              )}
-              selectedItems={this.state.selectedApplications}
-              selectMethod={this.selectApplication}
-              deselectMethod={this.deselectApplication}
-            />
-            <hr />
-          </div>
-        )}
+
         <label>Time Period</label>
         <TimePeriod
           selectPeriod={this.selectPeriod}
           toggleMultipleSnapshots={this.toggleMultipleSnapshots}
         />
         <hr />
-        <label>Survey</label>
-        <select
-          className="map-select"
-          onChange={e => this.selectSurvey(e.target.value)}
-        >
-          {this.getSurveys(this.props.surveyData).map(item => (
-            <option key={item}>{item}</option>
-          ))}
-        </select>
-        <hr />
+
         <label>Socioeconomic status</label>
         <Economics
           economics={this.state.economics}
@@ -376,6 +373,15 @@ export default class FormContainer extends React.Component {
           deselectFilter={this.deselectFilter}
         />
         <hr />
+
+        <div>
+          <label>Match Filters</label>
+          <select value={this.state.match} onChange={this.changeMatch}>
+            <option value="ALL">All</option>
+            <option value="ANY">Any</option>
+          </select>
+        </div>
+
         <label>Indicators</label>
         <Indicators
           indicators={this.state.indicators}
@@ -385,6 +391,7 @@ export default class FormContainer extends React.Component {
           toggleSelectedColors={this.toggleSelectedColors}
         />
         <hr />
+
         <button className="btn btn-primary" onClick={this.showPreview}>
           Show Preview
         </button>
