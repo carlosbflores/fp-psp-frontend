@@ -22,12 +22,15 @@ export default class FormContainer extends React.Component {
       selectedApplications: [],
       selectedPeriod: [],
       multipleSnapshots: false,
-      reportPreview: []
+      reportPreview: [],
+      match: "All",
     };
 
     this.selectSurvey = this.selectSurvey.bind(this);
     this.selectOrganization = this.selectOrganization.bind(this);
     this.deselectOrganization = this.deselectOrganization.bind(this);
+    this.selectApplication = this.selectApplication.bind(this);
+    this.deselectApplication = this.deselectApplication.bind(this);
     this.selectIndicator = this.selectIndicator.bind(this);
     this.deselectIndicator = this.deselectIndicator.bind(this);
     this.selectEconomic = this.selectEconomic.bind(this);
@@ -41,6 +44,7 @@ export default class FormContainer extends React.Component {
     this.getFilteredEconomics = this.getFilteredEconomics.bind(this);
     this.showReport = this.showReport.bind(this);
     this.downloadCVSReport = this.downloadCVSReport.bind(this);
+    this.changeMatch = this.changeMatch.bind(this);
   }
 
   componentDidMount() {
@@ -244,7 +248,9 @@ export default class FormContainer extends React.Component {
     })
     .then(response => response.json())
     .then(json => {
-      console.log('json', json);
+      this.setState({
+        reportPreview: json
+      });
     });
   }
 
@@ -270,7 +276,7 @@ export default class FormContainer extends React.Component {
   }
 
   getFilters (){
-    const {selectedApplications, selectedOrganizations, selectedSurvey, selectedPeriod, multipleSnapshots, selectedIndicators, selectedEconomics} = this.state
+    const {selectedApplications, selectedOrganizations, selectedSurvey, selectedPeriod, multipleSnapshots, selectedIndicators, selectedEconomics, match} = this.state
 
     const socioeconomicFilters = {}
 
@@ -293,7 +299,7 @@ export default class FormContainer extends React.Component {
       fromDate: selectedPeriod[0],
       toDate: selectedPeriod[1],
       multipleSnapshots,
-      "matchQuantifier": "ALL",
+      "matchQuantifier": match,
       indicatorsFilters: selectedIndicators,
       socioeconomicFilters
     }
@@ -301,10 +307,21 @@ export default class FormContainer extends React.Component {
     return send;
   }
 
+  changeMatch(e) {
+    this.setState({match: e.target.value});
+  }
+
   render() {
     return (
       <div>
-        <label>Organization</label>
+        <div>
+          <label>Match Filters</label>
+          <select value={this.state.match} onChange={this.changeMatch}>
+            <option value="ALL">All</option>
+            <option value="ANY">Any</option>
+          </select>
+        </div>
+        <label>Organizations</label>
         <SelectWithTags
           items={this.state.organizations.filter(
             item => !this.state.selectedOrganizations.includes(item)
@@ -314,7 +331,7 @@ export default class FormContainer extends React.Component {
           deselectMethod={this.deselectOrganization}
         />
         <hr />
-        <label>Hubs</label>
+        <label>Applications</label>
         <SelectWithTags
           items={this.state.applications.filter(
             item => !this.state.selectedApplications.includes(item)
@@ -362,9 +379,9 @@ export default class FormContainer extends React.Component {
         <hr />
         <button className="btn btn-primary" onClick={this.showReport}>Show Report</button>
         <div>
-          {this.state.reportPreview.length && (
+          {!!this.state.reportPreview.length && (
             <ul>
-              {this.state.reportPreview.map(household => <li><a href={`/#families/${household.user.userId}`}>{household.personal_survey_data.firstName} {household.personal_survey_data.lastName}</a></li>)}
+              {this.state.reportPreview.map(household => <li key={household.snapshot_economic_id}><a href={`/#families/${household.snapshot_economic_id}`}>{household.personal_survey_data.firstName} {household.personal_survey_data.lastName}</a></li>)}
             </ul>
           )}
         </div>
