@@ -23,7 +23,7 @@ export default class FormContainer extends React.Component {
       selectedPeriod: [],
       multipleSnapshots: false,
       reportPreview: [],
-      match: "All",
+      match: "ALL",
     };
 
     this.selectSurvey = this.selectSurvey.bind(this);
@@ -42,8 +42,8 @@ export default class FormContainer extends React.Component {
     this.selectPeriod = this.selectPeriod.bind(this);
     this.toggleMultipleSnapshots = this.toggleMultipleSnapshots.bind(this);
     this.getFilteredEconomics = this.getFilteredEconomics.bind(this);
-    this.showReport = this.showReport.bind(this);
-    this.downloadCVSReport = this.downloadCVSReport.bind(this);
+    this.showPreview = this.showPreview.bind(this);
+    this.downloadCSVReport = this.downloadCSVReport.bind(this);
     this.changeMatch = this.changeMatch.bind(this);
   }
 
@@ -129,9 +129,10 @@ export default class FormContainer extends React.Component {
     const selectedEconomics = this.state.selectedEconomics;
 
 
-    selectedEconomics[economicName].selectedFilters = selectedEconomics[economicName].selectedFilters.filter(
-      item => item !== filter
-    )
+    selectedEconomics[economicName].selectedFilters =
+      selectedEconomics[economicName].selectedFilters.filter(
+        item => item !== filter
+      );
 
     this.setState({
       selectedEconomics
@@ -141,13 +142,13 @@ export default class FormContainer extends React.Component {
   getFilteredEconomics(survey) {
 
     const data = this.props.surveyData
-      && this.props.surveyData.filter(item => item.title === survey)[0]
-
+      && this.props.surveyData.filter(item => item.title === survey)[0];
 
       if (data) {
         const tmp = []
         data.survey_ui_schema['ui:group:economics'].forEach(item => {
-          const factor = data.survey_ui_schema['ui:custom:fields'][item] || data.survey_schema.properties[item]
+          const factor = data.survey_ui_schema['ui:custom:fields'][item]
+                          || data.survey_schema.properties[item];
 
           if (factor && factor["ui:field"] === 'numberFormat' ) {
             tmp.push({name: item})
@@ -156,7 +157,7 @@ export default class FormContainer extends React.Component {
           if (factor && factor.enum ) {
             tmp.push({name: item, enum: factor.enum, selectedFilters: []})
           }
-        })
+        });
 
         this.setState({
           economics: tmp
@@ -166,7 +167,7 @@ export default class FormContainer extends React.Component {
 
   getOrganizationsAndApps(survey) {
     const data = this.props.surveyData
-      && this.props.surveyData.filter(item => item.title === survey)[0]
+      && this.props.surveyData.filter(item => item.title === survey)[0];
 
     this.setState({
       organizations: data ? data.organizations : [],
@@ -236,7 +237,7 @@ export default class FormContainer extends React.Component {
     this.setState({ multipleSnapshots: !this.state.multipleSnapshots });
   }
 
-  showReport() {
+  showPreview() {
     let filters = this.getFilters();
     fetch(`${env.API}/reports/snapshots/json`, {
       method: 'POST',
@@ -254,7 +255,7 @@ export default class FormContainer extends React.Component {
     });
   }
 
-  downloadCVSReport() {
+  downloadCSVReport() {
     let filters = this.getFilters();
     fetch(`${env.API}/reports/snapshots/csv`, {
       method: 'POST',
@@ -276,10 +277,10 @@ export default class FormContainer extends React.Component {
   }
 
   getFilters (){
-    const {selectedApplications, selectedOrganizations, selectedSurvey, selectedPeriod, multipleSnapshots, selectedIndicators, selectedEconomics, match} = this.state
+    const {selectedApplications, selectedOrganizations, selectedSurvey, selectedPeriod,
+      multipleSnapshots, selectedIndicators, selectedEconomics, match} = this.state;
 
-    const socioeconomicFilters = {}
-
+    const socioeconomicFilters = {};
 
     Object.values(selectedEconomics).forEach(item => {
       if (item.min && item.max) {
@@ -289,8 +290,7 @@ export default class FormContainer extends React.Component {
       if (item.enum) {
         socioeconomicFilters[item.name] = item.selectedFilters
       }
-    })
-
+    });
 
     const send = {
       applications: selectedApplications.map(applications => applications.id),
@@ -302,7 +302,7 @@ export default class FormContainer extends React.Component {
       "matchQuantifier": match,
       indicatorsFilters: selectedIndicators,
       socioeconomicFilters
-    }
+    };
 
     return send;
   }
@@ -385,17 +385,25 @@ export default class FormContainer extends React.Component {
           toggleSelectedColors={this.toggleSelectedColors}
         />
         <hr />
-        <button className="btn btn-primary" onClick={this.showReport}>Show Report</button>
+        <button className="btn btn-primary" onClick={this.showPreview}>
+          Show Preview
+        </button>
         <div>
           {!!this.state.reportPreview.length && (
             <ul>
-              {this.state.reportPreview.map(household => <li key={household.snapshot_economic_id}><a href={`/#families/${household.snapshot_economic_id}`}>{household.personal_survey_data.firstName} {household.personal_survey_data.lastName}</a></li>)}
+              {this.state.reportPreview.map(household => (
+                <li key={household.snapshot_economic_id}>
+                  <a href={`/#families/${household.snapshot_economic_id}`}>
+                    {household.personal_survey_data.firstName} {household.personal_survey_data.lastName}
+                  </a>
+                </li>
+              ))}
             </ul>
           )}
         </div>
         <button
           className="btn btn-primary"
-          onClick={this.downloadCVSReport}
+          onClick={this.downloadCSVReport}
         >
           Download Report
         </button>
