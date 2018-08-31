@@ -26,7 +26,7 @@ var HeaderStorage = Storage.extend({
         navigationItems: allMenuItems.navigationItems
           .filter(
             item =>
-              !(item.link === '#organizations') && !(item.link === '#reports')
+              !(item.link === '#organizations')
           )
           .map(item => {
             item.name = t(`header.${item.name}`);

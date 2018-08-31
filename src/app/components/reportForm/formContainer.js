@@ -321,26 +321,34 @@ export default class FormContainer extends React.Component {
             <option value="ANY">Any</option>
           </select>
         </div>
-        <label>Organizations</label>
-        <SelectWithTags
-          items={this.state.organizations.filter(
-            item => !this.state.selectedOrganizations.includes(item)
-          )}
-          selectedItems={this.state.selectedOrganizations}
-          selectMethod={this.selectOrganization}
-          deselectMethod={this.deselectOrganization}
-        />
-        <hr />
-        <label>Applications</label>
-        <SelectWithTags
-          items={this.state.applications.filter(
-            item => !this.state.selectedApplications.includes(item)
-          )}
-          selectedItems={this.state.selectedApplications}
-          selectMethod={this.selectApplication}
-          deselectMethod={this.deselectApplication}
-        />
-        <hr />
+        {(this.props.user === 'ROLE_ROOT' || this.props.user === 'ROLE_HUB_ADMIN') && (
+          <div>
+            <label>Organizations</label>
+            <SelectWithTags
+              items={this.state.organizations.filter(
+                item => !this.state.selectedOrganizations.includes(item)
+              )}
+              selectedItems={this.state.selectedOrganizations}
+              selectMethod={this.selectOrganization}
+              deselectMethod={this.deselectOrganization}
+            />
+            <hr />
+          </div>
+        )}
+        {this.props.user === 'ROLE_ROOT' && (
+          <div>
+            <label>Applications</label>
+            <SelectWithTags
+              items={this.state.applications.filter(
+                item => !this.state.selectedApplications.includes(item)
+              )}
+              selectedItems={this.state.selectedApplications}
+              selectMethod={this.selectApplication}
+              deselectMethod={this.deselectApplication}
+            />
+            <hr />
+          </div>
+        )}
         <label>Time Period</label>
         <TimePeriod
           selectPeriod={this.selectPeriod}

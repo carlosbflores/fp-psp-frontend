@@ -46,7 +46,6 @@ class Authorizer {
     const routesKeys = _keys(this.appRoutes);
     if (this.session.userHasRole('ROLE_ROOT')) {
       return routesKeys
-        .filter(route => !_includes(adminCrudRoutes.reports, route))
         .filter(route => !_includes(adminCrudRoutes.organizationReports, route))
         .filter(route => !_includes(adminCrudRoutes.organizations, route));
     }
