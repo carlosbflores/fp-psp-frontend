@@ -62,6 +62,8 @@ export default class FormContainer extends React.Component {
       selectedSurvey: this.props.surveyData.filter(
         item => item.title === survey
       )[0],
+      selectedApplications: [],
+      selectedOrganizations: [],
       selectedIndicators: {},
       selectedEconomics: {}
     });
