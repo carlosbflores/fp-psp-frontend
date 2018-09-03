@@ -7,18 +7,20 @@ export default props => (
     {props.indicators.map(item => (
       <div key={item} className="row">
         <div className="col-xs-6">
-          <input
-            type="checkbox"
-            id={item}
-            name={item}
-            value={item}
-            onChange={() =>
-              Object.keys(props.selectedIndicators).includes(item)
-                ? props.deselectIndicator(item)
-                : props.selectIndicator(item)
-            }
-          />
-          <label>{camelCasetoWords(item)}</label>
+          <label>
+            <input
+              type="checkbox"
+              id={item}
+              name={item}
+              value={item}
+              onChange={() =>
+                Object.keys(props.selectedIndicators).includes(item)
+                  ? props.deselectIndicator(item)
+                  : props.selectIndicator(item)
+              }
+            />
+            {camelCasetoWords(item)}
+          </label>
         </div>
         <div className="col-xs-6">
           {Object.keys(props.selectedIndicators).includes(item) && (

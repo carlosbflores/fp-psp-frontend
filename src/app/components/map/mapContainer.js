@@ -199,6 +199,7 @@ class MapContainer extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { surveyData } = this.props;
     const {
       indicators,

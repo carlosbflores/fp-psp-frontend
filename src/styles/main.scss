@@ -44,6 +44,13 @@ select {
   color: #788c9a;
   border: 1px solid #efefef !important;
 }
+input[type='radio'],
+input[type='checkbox'] {
+  margin-right: 5px;
+}
+label {
+  cursor: pointer;
+}
 button {
   background: #7cd071;
   border-radius: 2px;
@@ -1162,6 +1169,8 @@ div.fp-form-container {
 .btn-primary {
   background: #7cd071 !important;
   border-color: #7cd071;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 .btn-primary:hover {
   border-color: #7cd071;
@@ -1865,6 +1874,22 @@ img.current-language-flag {
 }
 
 //REPORTS
+
+.report-form {
+  label {
+    padding: 10px 0;
+  }
+
+  ul {
+    padding: 10px 5px;
+  }
+
+  li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+}
 .report-taglist,
 .report-dropdown {
   border-radius: 2px;
