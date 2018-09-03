@@ -10,6 +10,7 @@ import env from '../../env';
 export default class FormContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.session = props.session;
     this.state = {
       selectedSurvey: null,
       indicators: [],
@@ -247,8 +248,9 @@ export default class FormContainer extends React.Component {
     fetch(`${env.API}/reports/snapshots/json`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${this.props.token}`,
-        'Content-Type': 'application/json; charset=utf-8'
+        'Authorization': `Bearer ${this.session.getAccessToken()}`,
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-Locale': this.session.getLocale()
       },
       body: JSON.stringify(filters)
     })
@@ -265,8 +267,9 @@ export default class FormContainer extends React.Component {
     fetch(`${env.API}/reports/snapshots/csv`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${this.props.token}`,
-        'Content-Type': 'application/json; charset=utf-8'
+        'Authorization': `Bearer ${this.session.getAccessToken()}`,
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-Locale': this.session.getLocale()
       },
       body: JSON.stringify(filters)
     })
@@ -350,7 +353,7 @@ export default class FormContainer extends React.Component {
         </select>
         <hr />
 
-        {this.props.user === 'ROLE_ROOT' && (
+        {this.session.getUserRole() === 'ROLE_ROOT' && (
           <div>
             <label>Hubs</label>
             <SelectWithTags
@@ -365,8 +368,8 @@ export default class FormContainer extends React.Component {
           </div>
         )}
 
-        {(this.props.user === 'ROLE_ROOT' ||
-          this.props.user === 'ROLE_HUB_ADMIN') && (
+        {(this.session.getUserRole() === 'ROLE_ROOT' ||
+          this.session.getUserRole() === 'ROLE_HUB_ADMIN') && (
           <div>
             <label>Organizations</label>
             <SelectWithTags
