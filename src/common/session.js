@@ -26,6 +26,9 @@ var SessionModel = Bb.Model.extend({
     }
     return this.get('access_token') && this.get('access_token').length > 0;
   },
+  getAccessToken() {
+    return this.get('access_token');
+  },
   getLoggedUserHomeRoute() {
     // Se if there are any previously stored
     // route.
@@ -45,6 +48,9 @@ var SessionModel = Bb.Model.extend({
     }
     const auths = this.get('user').authorities.map(auth => auth.authority);
     return _includes(auths, roleName);
+  },
+  getUserRole() {
+    return this.get('user').authorities[0].authority;
   },
   userIsOrganizationAdmin() {
     if (!this.isAuthenticationEnabled()) {
