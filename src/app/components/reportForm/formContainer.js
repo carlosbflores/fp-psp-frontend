@@ -335,6 +335,7 @@ export default class FormContainer extends React.Component {
       match,
       reportPreview
     } = this.state;
+
     return (
       <div className="report-form">
         <label>Survey</label>
@@ -368,9 +369,16 @@ export default class FormContainer extends React.Component {
           <div>
             <label>Organizations</label>
             <SelectWithTags
-              items={organizations.filter(
-                item => !selectedOrganizations.includes(item)
-              )}
+              items={organizations
+                .filter(
+                  item =>
+                    selectedApplications.length
+                      ? selectedApplications
+                          .map(app => app.name)
+                          .includes(item.application.name)
+                      : item
+                )
+                .filter(item => !selectedOrganizations.includes(item))}
               selectedItems={selectedOrganizations}
               selectMethod={this.selectOrganization}
               deselectMethod={this.deselectOrganization}
