@@ -61,6 +61,7 @@ export default Mn.View.extend({
         classNames: this.getClassNames(value.value),
         value: value.value,
         name: value.name,
+        key: value.key,
         priority: this.getPriorityClass(value.name, value.value)
 
       })),
@@ -140,10 +141,11 @@ export default Mn.View.extend({
       e.target.parentNode.children['indicator-name'].innerHTML;
     const indicatorSelectedValue =
       e.target.parentNode.children['indicator-value'].innerHTML;
+    const indicatorSelectedKey =
+      e.target.parentNode.children['indicator-key'].innerHTML;
 
     let success = false;
     var exists = [];
-
 
     exists = this.props.model.attributes.indicators_priorities.filter(
       priority => priority.indicator === indicatorSelected
@@ -168,7 +170,7 @@ export default Mn.View.extend({
 
     success = indicatorSelectedValue.toUpperCase() === 'GREEN' ;
 
-    this.showDialogPriority(indicatorSelected, success );
+    this.showDialogPriority(indicatorSelected, indicatorSelectedKey, success);
     this.priorityDialog.open();
     this.priorityDialog.on('change', data => {
       this.props.model.attributes.indicators_priorities.push(data);
@@ -181,7 +183,7 @@ export default Mn.View.extend({
     });
   },
 
-  showDialogPriority(indicator, success) {
+  showDialogPriority(indicator, indicatorKey, success) {
     const dataIdConfirmOperacion = Math.random();
 
     this.priorityDialog = new PriorityView({
@@ -190,6 +192,7 @@ export default Mn.View.extend({
       indicatorName: indicator,
       isAttainment: success,
       snapshotIndicatorId: this.model.attributes.snapshot_indicator_id,
+      indicatorKey,
       obj: this
     });
 

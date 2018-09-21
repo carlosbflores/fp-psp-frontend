@@ -64,7 +64,7 @@ export default Mn.View.extend({
       self.file = reader.result;
       logoImage.attr('src', self.file);
     };
-    reader.readAsText(this.$el.find('#input-image-file').prop('files')[0]);
+    reader.readAsDataURL(this.$el.find('#input-image-file').prop('files')[0]);
   },
   handleTermsCondFile() {
     var termCond = this.$el.find('#input-terms-file').prop('files')[0];

@@ -28,7 +28,6 @@ export default Mn.View.extend({
 
   onRender() {
     this.$el.find('#text').append(this.model.attributes.html);
-
     if (this.reAnswer) {
       this.app.getSession().save({
         reAnswer: this.reAnswer,
@@ -107,14 +106,8 @@ export default Mn.View.extend({
           `/survey/${this.surveyId}/termcondpol/PRIV/${this.currentApplicationId}/${this.locale}`,
           true
         );
-      } else if (
-        checked === 'Yes' &&
-        this.model.attributes.type_cod === 'PRIV'
-      ) {
-        if (
-          this.app.getSession().get('termCond') &&
-          this.app.getSession().get('termCond') > 0
-        ) {
+      } else if (checked === 'Yes' && this.model.attributes.type_cod === 'PRIV') {
+        if (this.app.getSession().get('termCond') && this.app.getSession().get('termCond') > 0) {
           this.app.getSession().save({ priv: this.model.attributes.id });
           if (this.reAnswer) {
             this.reAnswerSurvey();

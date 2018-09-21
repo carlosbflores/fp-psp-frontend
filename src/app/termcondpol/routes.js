@@ -21,6 +21,7 @@ const termcondpol = props => {
         const surveyId = parseInt(hashSurvey, 10);
         const formData = app.getSession().get('formData');
         const reAnswer = app.getSession().get('reAnswer');
+
         model
           .fetch({
             data: {

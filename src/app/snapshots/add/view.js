@@ -59,7 +59,6 @@ export default Mn.View.extend({
   },
 
   renderForm() {
-
     const parameters = {};
     parameters.survey_id = this.surveyModel.id;
     parameters.survey_name = this.surveyModel.attributes.title;
@@ -134,7 +133,6 @@ export default Mn.View.extend({
   hadleSubmit(formResult, draftId) {
     // Convert from array to string, using property "value"
     this.fixedGalleryFieldValue(formResult);
-
     const snapshot = {
       survey_id: this.props.surveyId,
       organization_id: this.props.organizationId,

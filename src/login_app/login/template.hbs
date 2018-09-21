@@ -4,31 +4,45 @@
   <div id="loginbox" class="col-lg-4 col-sm-8 col-xs-10">
     <img src="/static/images/icon_logo_PSL.png" class="center-block login-logo" alt="PS" />
     <hr />
+    <div style="display:none;" id="login-alert"></div>
     <form role="form" id="loginform">
-      <div style="display:none;" id="login-alert"></div>
+      <label for="">{{$t 'login.go-form'}}</label>
       <div class="form-group login">
         <input id="login-username" type="text" class="form-control " name="username" value="" placeholder="{{$t 'login.username'}}">
-      </div><div class="form-group login">
-        <input id="login-password" type="password" class="form-control " name="password" placeholder="{{$t 'login.password'}}">
       </div>
-      <div class="form-group recovery" style="display:none;">
-        <label for="">{{$t 'login.reset-title'}}</label>
-        <input id="login-email" type="email" class="form-control" name="email" placeholder="{{$t 'login.email'}}">
+      <div class="form-group login">
+        <input id="login-password" type="password" class="form-control " name="password" placeholder="{{$t 'login.password'}}">
       </div>
       <div class="has-spinner">
         <button id="btn-login" href="#" class="btn btn-login login">{{$t 'login.login'}} </button>
-        <button id="btn-recovery" href="#" class="btn btn-login recovery" style="display:none;">{{$t 'login.reset-pass'}}</button>
       </div>
+      <br/>
+      <a id="link-email">
+         <div class="link-email login">{{$t 'login.forgot-pass'}}</div>
+      </a>​
     </form>
-    <br>
-    <a id="link-email">
-       <div class=" link-email login" >{{$t 'login.forgot-pass'}}</div>
-    </a>​
+
+    <form role="form" id="recoveryform" style="display:none;">
+      <label for="">{{$t 'login.reset-title'}}</label>
+      <div class="form-group recovery">
+        <input id="recovery-username" type="text" class="form-control " name="username" value="" placeholder="{{$t 'login.username'}}">
+      </div>
+      <div class="form-group recovery">
+        <input id="recovery-email" type="email" class="form-control" name="email" placeholder="{{$t 'login.email'}}">
+      </div>
+      <div class="has-spinner">
+        <button id="btn-recovery" href="#" class="btn btn-login recovery">{{$t 'login.reset-pass'}}</button>
+      </div>
+      <br/>
+      <a id="back-login" >
+          <div class="link-email recovery">{{$t 'login.back-login'}}</div>
+      </a>
+      <br/>
+    </form>
+    <br/>
+
     <a id="link-form" class="hidden" href="https://www.surveymonkey.com/r/CheckOutPovertyStoplightPlatform">
        <div class="link-email login"  style="margin-right: 71px;text-decoration: none;cursor: pointer;">{{$t 'login.go-form'}}</div>
-    </a>​
-    <a id="back-login" >
-        <div class="pull-right link-email recovery" style="display:none;margin-top: -21px;margin-right: 71px;text-decoration: none;cursor: pointer;">{{$t 'login.back-login'}}</div>
     </a>
     <div class="pull-right" id="platform-name" style="color: #788c9a !important; font-size: 14px !important;">
       <span>{{{appPlatform}}}</span>

@@ -7,6 +7,7 @@ import SnapshotsTemplate from '../show/snapshot/template.hbs';
 import storage from '../storage';
 import session from '../../../common/session';
 import ParameterModel from '../../parameter/model';
+import TermCondPolLanguageView from '../../termcondpol/language/view';
 
 export default Mn.View.extend({
   template: Template,
@@ -103,18 +104,24 @@ export default Mn.View.extend({
     return data;
   },
   newSurvey(event) {
-    var surveyId = this.model.attributes.snapshot_indicators.survey_id;
-    var currentApplicationId = this.currentApplicationId;
     event.preventDefault();
+    
+    let self = this;
+    this.app.getSession().save({termCond: 0, priv: 0});
+    this.app.getSession().save({reAnswer: false, formData: null});
+    const app = this.app;
+    const surveyId = this.model.attributes.snapshot_indicators.survey_id;
+    const currentApplicationId = this.currentApplicationId;
+    
+    this.app.showViewOnRoute(new TermCondPolLanguageView({
+               app,
+               applicationId: currentApplicationId,
+               surveyId,
+               reAnswer: true,
+               formData: self.getJsonData()
+    }));
 
-    this.app.getSession().save({ termCond: 0, priv: 0 });
-    this.app.getSession().save({ reAnswer: false, formData: null });
-    if (surveyId) {
-      Bn.history.navigate(
-        `/survey/${surveyId}/termcondpol/${currentApplicationId}`,
-        true
-      );
-    }
+    Bn.history.navigate(`/survey/${surveyId}/termcondpol/${this.currentApplicationId}`);
   },
   getParameter() {
     const self = this;

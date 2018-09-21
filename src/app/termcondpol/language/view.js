@@ -4,6 +4,7 @@ import $ from 'jquery';
 import Template from './template.hbs';
 import TermCondPolModel from '../model';
 import TermCondPolLanguagesModel from './model';
+import TermCondPolView from '../view';
 import FlashesService from '../../flashes/service';
 
 export default Mn.View.extend({
@@ -15,6 +16,8 @@ export default Mn.View.extend({
   initialize(options){
     this.app = options.app;
     this.surveyId = options.surveyId;
+    this.reAnswer = options.reAnswer;
+    this.formData = options.formData;
     this.applicationId = options.applicationId;
   },
 
@@ -49,8 +52,6 @@ export default Mn.View.extend({
         for(i = 0; i<keyArrayLangs.length; i++){
           key = keyArrayLangs[i];
           if (possibleLangs[key].length === 2){
-            console.log(key);
-            console.log(keyLangPairs[key]);
             $('#select-language').append(
               $(`<button type="button" type="submit" id="${key}"
               class="language-button btn" style="margin: 8px">
@@ -75,7 +76,16 @@ export default Mn.View.extend({
         }
       })
       .then(() => {
-        Bn.history.navigate(`/survey/${this.surveyId}/termcondpol/TC/${this.applicationId}/${locale}`, true);
+        this.app.showViewOnRoute(new TermCondPolView({
+             app: self.app,
+             model: termCondPolModel,
+             surveyId: this.surveyId,
+             reAnswer: this.reAnswer,
+             formData: this.formData,
+             locale
+        }));
+
+        Bn.history.navigate(`/survey/${this.surveyId}/termcondpol/TC/${this.applicationId}/${locale}`);
       })
       .catch(() => {
         FlashesService.request('add', {

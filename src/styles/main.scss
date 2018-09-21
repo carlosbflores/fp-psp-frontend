@@ -933,16 +933,54 @@ table.dataTable.no-footer {
 
 .gallery-image > figure > img {
   max-height: 360px;
-  opacity: 0.5;
   display: block;
   margin: 0 auto;
 }
 
+div.gallery-col-flex-helper.not-transparent {
+  opacity: 1;
+  transition: opacity 0.2s ease-out;
+  -moz-transition: opacity 0.2s ease-out;
+  -webkit-transition: opacity 0.2s ease-out;
+  -o-transition: opacity 0.2s ease-out;
+}
+
+div.gallery-col-flex-helper:not(.not-transparent) {
+  opacity: 0.5;
+  transition: opacity 0.2s ease-out;
+  -moz-transition: opacity 0.2s ease-out;
+  -webkit-transition: opacity 0.2s ease-out;
+  -o-transition: opacity 0.2s ease-out;
+}
+
 .gallery-image > figure {
-  float: left;
   cursor: pointer;
   //  margin: 10px;
   //  min-height: 300px;
+}
+
+.gallery-row-flex-helper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.gallery-row-flex-helper > [class*='col-'] {
+  margin: 15px;
+}
+
+div.gallery-col-flex-helper.RED {
+  border: 10px solid #ee6062;
+  border-radius: 15px;
+}
+div.gallery-col-flex-helper.YELLOW {
+  border: 10px solid #fee060;
+  border-radius: 15px;
+}
+div.gallery-col-flex-helper.GREEN {
+  border: 10px solid #81c56d;
+  border-radius: 15px;
 }
 
 .gallery-image > figure > figcaption {
@@ -958,23 +996,9 @@ table.dataTable.no-footer {
 .gallery-image.gallery-selected {
   > figure {
     > img {
-      opacity: 1;
       //min-height: 250px;
       //max-width: 370px;
     }
-  }
-
-  > .RED {
-    border: 10px solid #ee6062;
-    border-radius: 15px;
-  }
-  > .YELLOW {
-    border: 10px solid #fee060;
-    border-radius: 15px;
-  }
-  > .GREEN {
-    border: 10px solid #81c56d;
-    border-radius: 15px;
   }
 }
 

@@ -76,7 +76,6 @@ export default Mn.View.extend({
     } else if (session.userHasRole('ROLE_HUB_ADMIN')) {
       roles.push({ role: 'ROLE_APP_ADMIN' });
     } else if (session.userHasRole('ROLE_APP_ADMIN')) {
-      roles.push({ role: 'ROLE_USER' });
       roles.push({ role: 'ROLE_SURVEY_USER' });
     }
 

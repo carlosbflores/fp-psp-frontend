@@ -1,8 +1,8 @@
-<img src="/static/images/BG_login.jpg" class="login-img" alt="PS" />
+<img src="/static/images/BG_login.jpg" class="bg-login" alt="PS" />
 <div class="bg-login"></div>
 <div class="container">
-  <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-
+  <div id="loginbox" class="mainbox col-lg-4 col-sm-8 col-xs-10">
+    <div id="flashes"></div>
     <img src="/static/images/icon_logo_PSL.png" class="center-block login-logo" alt="PS" />
 
     <div class="panel">
@@ -12,24 +12,25 @@
         </div>
         <div class="panel-body">
           <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-          <!-- <form role="form" id="loginform" class="col-sm-8 col-sm-offset-2"> -->
+          <form role="form" id="newpasswordform">
+            <label style="white-space: normal;">Nueva Contraseña / New Password</label>
             <div class="form-group">
-              <input id="password" type="password" class="form-control" name="password" placeholder="New Password">
+              <input id="password" type="password" class="form-control" name="password">
             </div>
+            <label style="white-space: normal;">Confirmar Nueva Contraseña / Confirm New Password</label>
             <div class="form-group">
-              <input id="repeatPassword" type="password" class="form-control" name="password" placeholder="Confirm New Password">
+              <input id="repeatPassword" type="password" class="form-control" name="password">
             </div>
 
             <div class="has-spinner">
-              <button id="btn-login"  class="btn btn-login login">Reset Password </button>
+              <button id="btn-login" class="btn login" style="white-space: normal; width:100%;">CAMBIAR CONTRASEÑA / RESET PASSWORD</button>
             </div>
-          <!-- </form> -->
+          </form>
         </div>
         <a id="back-login" href='/login.html'>
-           <div class="pull-right link-email recovery" style="margin-right: 16px;">Back to login</div>
+           <div class="pull-right link-email recovery" style="margin-right: 16px;">Volver al inicio de sesión / Back to Login</div>
         </a>​
       </div>
     </div>
   </div>
-  <div id="flashes"></div>
 </div>
