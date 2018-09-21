@@ -398,11 +398,30 @@
         "not-found": "No se encontraron resultados"
       },
       "buttons": {
-        "export": "Descargar Reporte",
-        "download-csv": "Descargar Reporte CSV"
+        "Show-Preview": "Mostrar Previsualizacion",
+        "Download-Report": "Descargar Reporte"
       },
       "status": "Estado",
-      "survey": "Encuesta",
+      "Survey": "Encuesta",
+      "Hubs": "Hubs",
+      "Organizations": "Organizaciones",
+      "time-period": {
+        "Title": "Periodo de Tiempo",
+        "All": "Todo",
+        "Last-Month": "Ultimo Mes",
+        "Last-6-Months": "Ultimos 6 Meses",
+        "Custom": "Personalizado",
+        "From-date": "Desde",
+        "To-date": "Hasta"
+      },
+      "include-multiple-snapshots": "Incluir multiples snapshots por familia",
+      "Socioeconomic-Status": "Informacion Socioeconomica",
+      "Indicators": "Indicadores",
+      "match-filters": {
+        "Title": "Filtrar por",
+        "All": "Todos",
+        "Any": "Cualquiera"
+      },
       "messages": {
         "validation": {
           "required": "Debe especificar un valor para el campo '\"%{field}\"'"

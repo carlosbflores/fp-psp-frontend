@@ -47,7 +47,7 @@ export default class TimePeriod extends React.Component {
               this.hideTimeSelect();
             }}
           />
-          All
+          {t('report.snapshot.time-period.All')}
         </label>
         <br />
 
@@ -67,7 +67,7 @@ export default class TimePeriod extends React.Component {
               );
               this.hideTimeSelect();
             }}
-          />Last month
+          />{t('report.snapshot.time-period.Last-Month')}
         </label>
         <br />
         <label>
@@ -87,7 +87,7 @@ export default class TimePeriod extends React.Component {
               this.hideTimeSelect();
             }}
           />
-          Last six months
+          {t('report.snapshot.time-period.Last-6-Months')}
         </label>
         <br />
 
@@ -98,11 +98,11 @@ export default class TimePeriod extends React.Component {
             name="period"
             onChange={this.showTimeSelect}
           />
-          Custom
+          {t('report.snapshot.time-period.Custom')}
         </label>
         {this.state.showCustomTimeSelect && (
           <div className="report-custom-timeperiod">
-            <label>From</label>
+            <label>{t('report.snapshot.time-period.From-date')}</label>
             <Datetime
               dateFormat="MM/DD/YYYY"
               timeFormat={false}
@@ -112,7 +112,7 @@ export default class TimePeriod extends React.Component {
               }
               className="report-form-date"
             />
-            <label>To</label>
+            <label>{t('report.snapshot.time-period.To-date')}</label>
             <Datetime
               dateFormat="MM/DD/YYYY"
               timeFormat={false}
@@ -133,7 +133,7 @@ export default class TimePeriod extends React.Component {
             name="multipleSnapshots"
             onChange={this.props.toggleMultipleSnapshots}
           />
-          Include multiple snapshots per family
+          {t('report.snapshot.include-multiple-snapshots')}
         </label>
       </div>
     );

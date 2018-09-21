@@ -336,14 +336,14 @@
       "title": "Find a user"
     },
     "card": {
+      "name": "Name",
       "email": "Email",
       "organization": "Organization",
       "hub": "Hub",
       "role": "Role",
       "true": "True",
       "false": "False",
-      "active": "Active",
-      "name": "Name"
+      "active": "Active"
     },
     "form": {
       "edit-title": "Edit user",
@@ -398,11 +398,30 @@
         "not-found": "No results found"
       },
       "buttons": {
-        "export": "Download Report",
-        "download-csv": "Download CSV Report"
+        "Show-Preview": "Show Preview",
+        "Download-Report": "Download Report"
       },
       "status": "Status",
-      "survey": "Survey",
+      "Survey": "Survey",
+      "Hubs": "Hubs",
+      "Organizations": "Organizations",
+      "time-period": {
+        "Title": "Time Period",
+        "All": "All",
+        "Last-Month": "Last month",
+        "Last-6-Months": "Last six months",
+        "Custom": "Custom",
+        "From-date": "From",
+        "To-date": "To"
+      },
+      "include-multiple-snapshots": "Include multiple snapshots per family",
+      "Socioeconomic-Status": "Socioeconomic status",
+      "Indicators": "Indicators",
+      "match-filters": {
+        "Title": "Match Filters",
+        "All": "All",
+        "Any": "Any"
+      },
       "messages": {
         "validation": {
           "required": "You must specify a value for the '\"%{field}\"' field"

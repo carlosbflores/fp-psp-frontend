@@ -343,7 +343,7 @@ export default class FormContainer extends React.Component {
 
     return (
       <div className="report-form">
-        <label>Survey</label>
+        <label>{t('report.snapshot.Survey')}</label>
         <select
           className="map-select"
           onChange={e => this.selectSurvey(e.target.value)}
@@ -356,7 +356,7 @@ export default class FormContainer extends React.Component {
 
         {this.session.getUserRole() === 'ROLE_ROOT' && (
           <div>
-            <label>Hubs</label>
+            <label>{t('report.snapshot.Hubs')}</label>
             <SelectWithTags
               items={applications.filter(
                 item => !selectedApplications.includes(item)
@@ -372,7 +372,7 @@ export default class FormContainer extends React.Component {
         {(this.session.getUserRole() === 'ROLE_ROOT' ||
           this.session.getUserRole() === 'ROLE_HUB_ADMIN') && (
           <div>
-            <label>Organizations</label>
+            <label>{t('report.snapshot.Organizations')}</label>
             <SelectWithTags
               items={organizations
                 .filter(
@@ -392,14 +392,14 @@ export default class FormContainer extends React.Component {
           </div>
         )}
 
-        <label>Time Period</label>
+        <label>{t('report.snapshot.time-period.Title')}</label>
         <TimePeriod
           selectPeriod={this.selectPeriod}
           toggleMultipleSnapshots={this.toggleMultipleSnapshots}
         />
         <hr />
 
-        <label>Socioeconomic status</label>
+        <label>{t('report.snapshot.Socioeconomic-Status')}</label>
         <Economics
           economics={economics}
           selectedEconomics={selectedEconomics}
@@ -412,14 +412,14 @@ export default class FormContainer extends React.Component {
         <hr />
 
         <div>
-          <label>Match Filters</label>
+          <label>{t('report.snapshot.match-filters.Title')}</label>
           <select value={match} onChange={this.changeMatch}>
-            <option value="ALL">All</option>
-            <option value="ANY">Any</option>
+            <option value="ALL">{t('report.snapshot.match-filters.All')}</option>
+            <option value="ANY">{t('report.snapshot.match-filters.Any')}</option>
           </select>
         </div>
         <hr />
-        <label>Indicators</label>
+        <label>{t('report.snapshot.Indicators')}</label>
         <Indicators
           indicators={indicators}
           selectedIndicators={selectedIndicators}
@@ -430,7 +430,7 @@ export default class FormContainer extends React.Component {
         <hr />
 
         <button className="btn btn-primary" onClick={this.showPreview}>
-          Show Preview
+          {t('report.snapshot.buttons.Show-Preview')}
         </button>
         <div>
           {!!reportPreview.length && (
@@ -447,7 +447,7 @@ export default class FormContainer extends React.Component {
           )}
         </div>
         <button className="btn btn-primary" onClick={this.downloadCSVReport}>
-          Download Report
+          {t('report.snapshot.buttons.Download-Report')}
         </button>
       </div>
     );
