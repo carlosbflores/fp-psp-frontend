@@ -435,11 +435,10 @@ export default class FormContainer extends React.Component {
         <div>
           {!!reportPreview.length && (
             <ul>
-              {reportPreview.map(household => (
-                <li key={household.snapshot_economic_id}>
-                  <a href={`/#families/${household.snapshot_economic_id}`}>
-                    {household.personal_survey_data.firstName}{' '}
-                    {household.personal_survey_data.lastName}
+              {reportPreview.map(snapshot => (
+                <li key={snapshot.snapshot_economic_id}>
+                  <a href={`/#families/${snapshot.family.familyId}`}>
+                    {snapshot.family.name}
                   </a>
                 </li>
               ))}
