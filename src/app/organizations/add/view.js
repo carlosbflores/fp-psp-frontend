@@ -1,9 +1,12 @@
 import Mn from 'backbone.marionette';
 import { history } from 'backbone';
+import $ from 'jquery';
+import 'select2';
 import Template from './template.hbs';
 import Model from '../model';
 import storage from '../storage';
 import utils from '../../utils';
+import Collection from '../collection';
 import FlashesService from '../../flashes/service';
 import LabelSelectorView from '../../management/labels/label-selector-view';
 import OrganizationLabelModel from '../../management/labels/organization-label-model';
@@ -18,6 +21,27 @@ export default Mn.View.extend({
   initialize(options) {
     this.app = options.app;
     this.model = options.model || new Model();
+    this.collection = new Collection();
+
+    let self = this;
+
+    this.collection.fetch({
+      data: {
+        filter: '',
+        page: 1
+      },
+      success(collection, response) {
+        $.each(response.list, (index, element) => {
+          self.buildOption(element);
+        });
+
+        self.$el
+          .find('#organization')
+          .val(self.model.attributes.subOrganizations.map(org => org.id))
+          .trigger('change');
+      }
+    });
+
     this.organizationLabelModel = new OrganizationLabelModel({
       organizationId: this.model.get('id') || null
     });
@@ -25,6 +49,14 @@ export default Mn.View.extend({
       app: this.app,
       toFilter: false
     });
+  },
+
+  buildOption(element) {
+    $('#organization').append(
+      $('<option></option>')
+        .attr('value', element.id)
+        .text(element.name)
+    );
   },
 
   serializeData() {
@@ -78,6 +110,18 @@ export default Mn.View.extend({
 
     button.loading();
 
+    let organizationArray = [];
+
+    $('#organization')
+      .val()
+      .forEach(element => {
+        organizationArray.push({
+          id: element
+        });
+      });
+
+    this.model.set('subOrganizations', organizationArray);
+
     storage
       .save(this.model)
       .then(() => {
@@ -116,5 +160,10 @@ export default Mn.View.extend({
       this.labelSelectorView.getLabelsSelected()
     );
     this.organizationLabelModel.save();
+  },
+  onRender() {
+    this.$el.find('#organization').select2({
+      placeholder: t('organization.form.data-access')
+    });
   }
 });
