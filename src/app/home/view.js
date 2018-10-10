@@ -46,8 +46,6 @@ export default Mn.View.extend({
       success: () => {
         const activityFeed = this.$el.find('#activity-feed-admin');
         activityFeed.empty();
-        console.log(this.activities)
-        console.log(this.activities.models.splice(0,10))
         this.activities.first(feedLimit).forEach(model => {
           const item = new FeedItem({ model });
           activityFeed.append(item.render().el);
