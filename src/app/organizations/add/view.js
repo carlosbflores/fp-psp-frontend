@@ -31,9 +31,9 @@ export default Mn.View.extend({
         page: 1
       },
       success(collection, response) {
-        $.each(response.list, (index, element) => {
-          self.buildOption(element);
-        });
+        response.list.filter(item => item.id !== self.model.attributes.id).forEach(
+          element => self.buildOption(element)
+        )
 
         self.$el
           .find('#organization')
