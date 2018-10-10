@@ -16,9 +16,11 @@ export default Mn.View.extend({
     this.model = this.props.model;
     this.app = this.props.app;
     this.model.on('sync', this.render);
+    console.log(this.model.attributes)
   },
 
   serializeData() {
+    this.model.attributes.message = this.model.attributes.message.replace(/ [e|i]n xx$/g,"")
     return {
       activity: this.model.attributes,
       fromNow: moment(this.model.attributes.createdAt, "YYYYMMDD h:mm:ss a")
