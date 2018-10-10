@@ -66,7 +66,7 @@ urlParam(name){
           password: $('#password').val(),
           repeatPassword: $('#repeatPassword').val()
         };
-        console.log(params);
+
         let url = `${
           env.API_PUBLIC}/password/changePassword `;
 

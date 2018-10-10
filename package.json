@@ -59,7 +59,7 @@
     "karma-webpack": "^2.0.13",
     "lint-staged": "^6.1.1",
     "merge-stream": "^1.0.1",
-    "mocha": "^3.2.0",
+    "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "node-sass": "^4.9.3",
     "prettier": "^1.14.3",
