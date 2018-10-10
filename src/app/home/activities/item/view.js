@@ -16,7 +16,6 @@ export default Mn.View.extend({
     this.model = this.props.model;
     this.app = this.props.app;
     this.model.on('sync', this.render);
-    console.log(this.model.attributes)
   },
 
   serializeData() {
