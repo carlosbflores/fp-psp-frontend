@@ -105,6 +105,11 @@ export default Mn.View.extend({
         });
     } else if (this.app.getSession().userHasRole('ROLE_APP_ADMIN')) {
       organizationArray.push(this.app.getSession().get('user').organization.id);
+      $('#organization')
+        .val()
+        .forEach(element => {
+          organizationArray.push(parseInt(element, 10));
+        });
     }
 
     this.filters.organizations = organizationArray;
