@@ -27,9 +27,11 @@ class Gallery extends React.Component {
     };
   }
 
-  renderImage(imageUrl, imageDescription, imageValue, index, className) {
+  renderImage(imageUrl, imageDescription, imageValue, index, className, notTransparent) {
+    let colClassName = `col-md-4 col-sm-4 gallery-col-flex-helper ${  imageValue  }${notTransparent}`;
+
     return (
-      <div className="col-md-4 col-sm-4" key={index}>
+      <div className={colClassName} key={index}>
         <div
           onClick={this._handleClickOnImage(
             index,
@@ -71,9 +73,10 @@ class Gallery extends React.Component {
       let url = this.state.images[i].url;
       let description = this.state.images[i].description;
       let value = this.state.images[i].value;
-      let clazz = url === this.state.selected ? 'gallery-selected' : '';
+      let clazz = url === this.state.selected ? ' gallery-selected ' : '';
+      let notTransparent = clazz === ' gallery-selected ' ? ' not-transparent ' : '';
       clazz += ' gallery-image gallery-image-div ';
-      images.push(this.renderImage(url, description, value, i, clazz));
+      images.push(this.renderImage(url, description, value, i, clazz, notTransparent));
     }
     return images;
   }
@@ -93,7 +96,8 @@ class Gallery extends React.Component {
             t('schemaForm.loading'),
             'NONE',
             i,
-            'gallery-image gallery-image-div'
+            ' gallery-image gallery-image-div ',
+            ''
           )
         );
       }
@@ -108,7 +112,7 @@ class Gallery extends React.Component {
         </label>
 
         <div className="images col-md-10 col-md-offset-1">
-          <div className="row">{images}</div>
+          <div className="row gallery-row-flex-helper">{images}</div>
         </div>
         <div className="gallery-no-answer pull-left">
           <input

@@ -80,7 +80,7 @@ export default Marionette.View.extend({
     this.indicatorPriority.estimated_date = this.$el.find('#fecha').val() === '' ? null : this.$el.find('#fecha').val();
     this.indicatorPriority.snapshot_indicator_id = this.options.snapshotIndicatorId;
     this.indicatorPriority.is_attainment = this.options.isAttainment;
-
+    this.indicatorPriority.json_key = this.options.indicatorKey;
 
     let errors = this.model.validate(this.indicatorPriority);
 
