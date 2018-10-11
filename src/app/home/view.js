@@ -40,12 +40,13 @@ export default Mn.View.extend({
   },
 
   renderFeed() {
+    let feedLimit = 10
     this.activities = new ActivityFeed();
     this.activities.fetch({
       success: () => {
         const activityFeed = this.$el.find('#activity-feed-admin');
         activityFeed.empty();
-        this.activities.each(model => {
+        this.activities.first(feedLimit).forEach(model => {
           const item = new FeedItem({ model });
           activityFeed.append(item.render().el);
         });
